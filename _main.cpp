@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "./include/CheckButton.hpp"
+#include "./include/System.hpp"
+#include "./include/Graphics.hpp"
 
 int main(void) {
   sf::ContextSettings settings(0, 0, 1);
@@ -9,37 +10,36 @@ int main(void) {
   sf::Font Font;
   Font.loadFromFile("../MiSansVF.ttf");
   
-  gy::Context::setRenderer(window);
+  sf::Renderer::set(window);
   
-  sf::Text Text(L"Gypro© sf::RenderWindow(aka. _Renderer) for test: " + gy::Format::toString(window.getSize()), Font);
-  Text.setFillColor(sf::Color::Black);
+  sf::PushButton Btn({{}, {300, 200}}, 20);
+  Btn.setPosition(sf::getPosition(Btn.getSize()) + sf::Vector2f(0, 300));
+  Btn.setText(L"按钮", Font, 50);
+  Btn.setTextAlign(sf::Align::C);
   
-  gy::CButton Div({{}, {300, 200}}, 20);
-  Div.Position = gy::Pos::getPoint(Div.Size);
-  Div.setText(L"文字", Font, 50);
-  Div.TextAlign = gy::Align::C;
+  sf::ProgressBar Div({{}, {1000, 20}}, 20, true);
+  Div.setPosition(sf::getPosition(Div.getSize()));
+  Div.setText(L"测试", Font, 15);
   
-  sf::Event event;
-  while(window.isOpen()) {
+  sf::Text Text(L"FPS: UNDEFINED", Font, 100);
+  Text.setFillColor(sf::Color_Black);
+  
+  sf::Clock Clock;
+  sf::Event event; unsigned tick = 0;
+  while(window.isOpen() && ++tick) {
+    Clock.restart();
     while(window.pollEvent(event)) {
       if(event.type == sf::Event::Closed)
         window.close();
-      else if(event.type == sf::Event::TextEntered)
-        Div.Text.setString(sf::String(event.text.unicode));
-      if(Div.pollEvent_if(event)) {
-        if(Div.Checked)
-          sf::Keyboard::setVirtualKeyboardVisible(true);
-        else
-          sf::Keyboard::setVirtualKeyboardVisible(false);
-      }
+      Btn.pollEvent_if(event);
     }
+    _Renderer.clear(sf::InitColor.Background[sf::DisplayMode]);
     
-    _Renderer.clear(sf::Color::White);
-    
-    _Renderer.draw(Text);
+    _Renderer.draw(Btn);
     _Renderer.draw(Div);
+    _Renderer.draw(Text);
     
     _Renderer.display();
-    
+    if(!(tick % 10) || (tick > 1e5 && (tick = 0))) Text.setString(L"FPS: " + sf::Format::getFPS(Clock));
   } return 0;
 }
