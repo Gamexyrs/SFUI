@@ -1,44 +1,46 @@
 //>>> 2021~2022 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  func TextDiv::update(void) const -> void { this->Div::update();
-    if(!this->_Text.getString().isEmpty()) {
-      this->_Text.setPosition(sf::getPosition(this->getRect(), this->getTextSize(true), this->TextAlign));
-      if(this->Border.Radius) {
-        switch(this->TextAlign) {
-        case(Align::T ^ Align::L):
-        case(Align::B ^ Align::L):
-          this->_Text.move( this->Border.Radius, 0); break;
-        case(Align::T ^ Align::R):
-        case(Align::B ^ Align::R):
-          this->_Text.move(-this->Border.Radius, 0); break;
+  TextDiv::TextDiv(const Vector2f& size, const Object& builder, unsigned radius,
+                   const Vector2f& buildPosition, const Vector2b& buildAddSize)
+    : Div(size, builder, radius, buildPosition, buildAddSize), Textable(this) {
+    this->__Text.setFillColor(Color::Black);
+  }
+  TextDiv::TextDiv(const Frame& frame, unsigned radius)
+    : Div(frame, radius), Textable(this) {
+    this->__Text.setFillColor(Color::Black);
+  }
+  
+  inline func TextDiv::draw(RenderTarget& target, RenderStates states) const -> void { this->__rendererCheck();
+    if(this->__NeedUpdate) {
+      this->update();
+    }
+    if(this->__Visible) {
+      if(this->__BaseVisible) {
+        target.draw(this->__Base, states);
+      }
+      if(this->__TextVisible && !this->__Text.getString().isEmpty()) {
+        target.draw(this->__Text, states);
+      }
+    }
+  }
+  
+  inline func TextDiv::update(void) const -> void { this->Div::update();
+    if(!this->__Text.getString().isEmpty()) {
+      this->__Text.setPosition(Obj::align(this->getTextSize(true), this->getRect(), this->__TextAlign));
+      if(this->__Border.__Radius) {
+        switch(this->__TextAlign) {
+        case(Align::TL): case(Align::BL):
+          this->__Text.move(      this->__Border.__Radius,  0); break;
+        case(Align::TR): case(Align::BR):
+          this->__Text.move(-fabs(this->__Border.__Radius), 0); break;
         }
-      } this->_Text.move(this->TextDeviat);
+      } this->__Text.move(this->__TextDeviat);
     }
   }
   
-  inline func TextDiv::draw(RenderTarget& target, RenderStates states) const -> void {
-    if(this->NeedUpdate) this->update(); target.draw(this->_Base, states);
-    if((!this->_Text.getString().isEmpty())) {
-      target.draw(this->_Text, states);
-    }
-  }
-  
-  inline func TextDiv::setText(const String& str, const Font& font, unsigned size) -> void {
-    this->_Text.setFont(font);
-    this->_Text.setString(str);
-    this->_Text.setCharacterSize(size);
-  }
-  
-  inline func TextDiv::getTextSize(bool Adapted) const -> Vector2f {
-    return Format::getSize(this->_Text.getGlobalBounds()) * (Adapted ? this->TextAdapt : Vector2f(1, 1));
-  }
-  
-  inline func TextDiv::reSize(void) -> void {
+  inline func TextDiv::resize(void) -> void {
     this->setSize(this->getTextSize(true));
+    this->needUpdate(true);
   }
-  
-  TextDiv::TextDiv(const BuildFrame& frame, unsigned radius) : Div(frame, radius) {
-    this->_Text.setFillColor(InitColor.Text[DisplayMode]);
-  }
-};
+}

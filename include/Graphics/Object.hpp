@@ -6,45 +6,54 @@
 #include "Buildable.hpp"
 
 namespace sf::ui {
-  typedef Vector2<Vector2f> BuildFrame;
+  typedef Vector2<Vector2f> Frame;
 
-  typedef class Object : public Drawable, public Buildable {
-  protected: Object(const BuildFrame& frame = {});
+  typedef class Object : public Renderable, public Buildable {
+  protected: Object(const Vector2f& size, const Object& builder,
+                    const Vector2f& buildPosition = {},
+                    const Vector2b& buildAddSize  = {});
+    explicit Object(const Frame& frame = {{}, {}});
     virtual ~Object(void) = default;
     
-    mutable ConvexShape _Base;
-    
-    mutable Vector2f Size = {};
-    
-    mutable bool NeedUpdate = true;
-            bool Active = true;
-            
-    String Tag = L"";
+    mutable ConvexShape __Base;
+    mutable Vector2f    __Size = {};
+
+    bool       __Visible = true;
+    bool   __BaseVisible = true;
+
+    String __Tag = L"";
     
   _data_public:
-    inline func getBase(void) const -> ConvexShape& {this->needUpdate(true); return this->_Base;}
-  
-    inline func setPosition(const Vector2f& value) const -> void {this->_Base.setPosition(value); this->needUpdate(true);}
-    inline func getPosition(void) const -> const Vector2f& __GET__(this->_Base.getPosition());
-  
-    inline func setSize(const Vector2f& value) const -> void {this->Size = value; this->needUpdate(true);}
-    inline func getSize(void) const -> const Vector2f& __GET__(this->Size);
-  
-    inline func setActive(bool value) -> void __SET__(this->Active, __NF);
-    inline func getActive(void) const -> bool __GET__(this->Active);
+    func getBase(void) const -> ConvexShape&;
+
+    func setPosition(const Vector2f& value) const -> void;
+    func getPosition(void) const _____ -> const Vector2f&;
+
+    func setSize(const Vector2f& value) const -> void;
+    func getSize(void) const _____ -> const Vector2f&;
+
+    func setVisible(bool value) -> void;
+    func getVisible(void) const -> bool;
+
+    func setBaseVisible(bool value) -> void;
+    func getBaseVisible(void) const -> bool;
+
+    func setTag(const String& value) -> void;
+    func getTag(void) const -> const String&;
     
   _func_public:
+    static func align(const Vector2f size,             const FloatRect& rect, short align = Align::Center) -> const Vector2f;
+           func align(const std::optional<FloatRect>& optRect = std::nullopt, short align = Align::Center) -> const Vector2f&;
+
     func move(const Vector2f& value) const -> void;
-    
+
     func getRect(void) const -> FloatRect;
     func getRoot(void) const -> Vector2f;
-    
-    func needUpdate(bool subobj = false) const -> void;
-    
-    func isTouchDown(void) const -> unsigned;
-    
+
   }Obj;
-};
+}
 
 #include "../../src/Graphics/Object.cpp"
 #include "../../src/Graphics/Buildable.cpp"
+
+#define __SFUI_OBJECT__ 

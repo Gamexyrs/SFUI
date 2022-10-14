@@ -2,21 +2,22 @@
 
 #pragma once
 
-#include "Context.hpp"
 #include <codecvt>
 #include <string>
 #include <cmath>
 
 namespace sf::ui {
-  typedef class Formatter final {
-  protected: Formatter(void) = default;
-    virtual ~Formatter(void) = default;
+  typedef class Format {
+  protected: Format(void) = default;
+    virtual ~Format(void) = default;
     
   _func_public:
     template<typename Type>
     static func getPosition(const Rect<Type>& rect) -> Vector2<Type>;
     template<typename Type>
     static func getSize    (const Rect<Type>& rect) -> Vector2<Type>;
+    template<typename Type>
+    static func getRoot    (const Rect<Type>& rect) -> Vector2<Type>;
     
     static func getSize(const Sprite& target) -> Vector2f;
     static func getSize(const Shape&  target) -> Vector2f;
@@ -39,11 +40,11 @@ namespace sf::ui {
   
   template<typename Type>
   func operator* (const Vector2<Type>& left, const Vector2<Type>& right) -> Vector2<Type>;
-};
+}
 
 namespace std {
-  inline func to_wstring(const  string&  str) -> wstring;
-  inline func to_string (const wstring& wstr) ->  string;
-};
+  func to_wstring(const  string&  str) -> wstring;
+  func to_string (const wstring& wstr) ->  string;
+}
 
 #include "../../src/System/Format.cpp"

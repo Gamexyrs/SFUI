@@ -9,6 +9,10 @@ namespace sf::ui {
   inline func Format::getSize(const Rect<Type>& rect) -> Vector2<Type> {
     return{rect.width, rect.height};
   }
+  template<typename Type>
+  inline func Format::getRoot(const Rect<Type>& rect) -> Vector2<Type> {
+    return{rect.left + rect.width, rect.top + rect.height};
+  }
   
   inline func Format::getSize(const Sprite& target) -> Vector2f {
     return Format::getSize(target.getGlobalBounds());
@@ -52,7 +56,7 @@ namespace sf::ui {
   inline func operator* (const Vector2<Type>& left, const Vector2<Type>& right) -> Vector2<Type> {
     return{left.x * right.x, left.y * right.y};
   }
-};
+}
 
 namespace std {
   inline func to_wstring(const string& str) -> wstring {
@@ -63,4 +67,4 @@ namespace std {
   	wstring_convert<codecvt_utf8<wchar_t>> converter;
   	return converter.to_bytes(wstr);
   }
-};
+}

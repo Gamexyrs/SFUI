@@ -1,35 +1,49 @@
 //>>> 2021~2022 Gamexyrs© & SFML®
 
 #pragma once
+
 #include <deque>
 
 namespace sf::ui {
+  typedef Vector2f Vector2b;
+
   class Object;
-  
   typedef class Buildable {
-    Object* Self = nullptr;
+  private:
+    Object* __Self = nullptr;
   
-  protected: Buildable(Object* self) : Self(self) {}
+  protected: Buildable(Object* self) : __Self(self) {}
     virtual ~Buildable(void) = default;
     
-    func followerNeedUpdate(void) const -> void;
+    std::deque<Object*> __Subobject;
     
-    Object* Builder = nullptr;
-    bool BuildWidth  = false;
-    bool BuildHeight = false;
-    Vector2f BuildDeviat = {};
+    mutable Vector2f __BuildPosition = {};
+    mutable Vector2b __BuildAddSize  = {};
+             Object* __Builder = nullptr;
     
-    std::deque<Object*> Follower;
+    mutable bool __NeedUpdate = true;
     
   _data_public:
+    func setBuildPosition(const Vector2f& value) const -> void;
+    func getBuildPosition(void) const _____ -> const Vector2f&;
     
-  _func_public:
-    inline func getFollowerList(void) -> const std::deque<Object*>& __GET__(this->Follower);
-  
-    func setBuilder(  Object& builder,  const Vector2f& deviat, bool cW = false, bool cH = false) -> void;
-    func setBuilder(/*without builder*/ const Vector2f& deviat, bool cW = false, bool cH = false) -> void;
-    func getBuilder(void) const -> Object&;
+    func setBuildAddSize(const Vector2b& value) const -> void;
+    func getBuildAddSize(void) const _____ -> const Vector2b&;
+    
+    func setBuilder(const Object& value, const std::optional<Vector2f>& buildPosition = std::nullopt,
+                                         const std::optional<Vector2b>& buildAddSize  = std::nullopt) -> void;
+    func getBuilder(void) const noexcept(false) -> const Object&;
     func delBuilder(void) -> void;
     
+  _func_public:
+    func needUpdate(bool subobject_needUpdate = false) const -> void;
+    
+    func build(void) const -> Vector2f;
+    
   }Buildable;
-};
+}
+
+#ifdef __SFUI_OBJECT__
+  #include "../../src/Graphics/Buildable.cpp"
+#endif
+

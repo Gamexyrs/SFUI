@@ -2,43 +2,47 @@
 
 #pragma once
 
-#include <cmath>
 #include "Object.hpp"
-#include "Buildable.hpp"
+#include <cmath>
+
+#define __MIN_POINTCOUNT__ 16
 
 namespace sf::ui {
-  typedef class Div : public Obj {
+  typedef class Div : public Obj, public Drawable {
+  public:    Div(const Vector2f& size, const Object& builder, unsigned radius = 0,
+                 const Vector2f& buildPosition = {},
+                 const Vector2b& buildAddSize  = {});
+             Div(const Frame& frame = {{}, {}}, unsigned radius = 0);
+    virtual ~Div(void) = default;
+    
   protected:
     virtual func draw(RenderTarget& target, RenderStates states) const -> void;
     virtual func update(void) const -> void;
     
     mutable struct {
-      mutable unsigned PointCount = 40;
-      mutable unsigned Radius     = 0;
+      unsigned __PointCount = 40;
+      unsigned __Radius     = 0;
       
-      mutable bool R_LT = true,
-                   R_LB = true,
-                   R_RT = true,
-                   R_RB = true;
-    }Border;
+      bool __Rounded_LT = true,
+           __Rounded_LB = true,
+           __Rounded_RT = true,
+           __Rounded_RB = true;
+    }__Border;
     
   _data_public:
-    inline func setBorderPointCount(unsigned value) const -> void {range(this->Border.PointCount, value, 20U, UINT_MAX, {4U}); this->needUpdate();}
-    inline func getBorderPointCount(void) const -> unsigned __GET__(this->Border.PointCount);
+    func setRounded(bool value, const std::optional<Align>& corner = std::nullopt) const -> void;
+    func getRounded(const Align& corner) const -> bool;
     
-    inline func setBorderRadius(unsigned value) const -> void {range(this->Border.Radius, value, 0U, this->getMaxRadius()); this->needUpdate();}
-    inline func getBorderRadius(void) const -> unsigned __GET__(this->Border.Radius);
+    func setPointCount(unsigned value) -> void;
+    func getPointCount(void) const -> unsigned;
+    
+    func setRadius(unsigned value) const -> void;
+    func getRadius(void) const _____ -> unsigned;
     
   _func_public:
     func getMaxRadius(void) const -> unsigned;
-  
-    // Radius_LT / Radius_LB / Radius_RT / Radius_RB
-    func operator[] (const String& name) -> bool&;
-  
-             Div(const BuildFrame& frame = {{}, {}}, unsigned radius = 0);
-    virtual ~Div(void) = default;
     
   }Div;
-};
+}
 
 #include "../../src/Graphics/Div.cpp"
