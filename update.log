@@ -1,0 +1,55 @@
+# 2022/10/02
+
+## SFUI 0.3.6
+
+### General
+
+  Added h:`c:TouchEvent in p:System split-from h:Touchable in p:Graphics
+
+  Used d:__ACTIV_EXIT__ to d:__ANDROID_ACTIVITY_CLOSED__
+  Used d:__PREDEF_ENABLE_UNITYDRAW__ def-is true
+  
+### System
+
+  Added f:unityAdd(*)
+       `f:unityDraw(*)
+       `f:setFont(*)
+       `f:getFont(*) in c:Renderable
+  
+! Added c:Messagable in h:Messagable.
+  
+### Graphics
+  
+  Fixed-warning
+! Fixed-crash as runtime-nullptr in f:... in c:Buildable
+
+! Added c:MsgDiv as c:MessageDiv with f:... in h:MessageDiv.
+
+  Added f:flash(*)
+       `f:getSubobject(*)
+       `f:delSubobject(*) in c:Buildable
+  Added s:Attribute in h:Object.
+  Added s:Attribute as __ATTRIBUTE__ in c:Object
+  Added f:joinUnity(*) in c:Object
+  
+  Used c:Fm as c:Format
+  Used t:Vector2f& to t:const_Vector2f& in f:align(*) in c:Object
+
+### Doc
+
+doc: s:Attribute
+  ->        __PROTECTED__ as bool def-is false
+    "是否被保护, true 时不能被 Builder 主动解除绑定"
+  -> __IGNORE_PROTECTED__ as bool def-is false
+    "是否无视保护, true 时可以主动解除所有绑定子类"
+  -> __ALWAYS_TOUCHABLE__ as bool def-is false
+    "是否总是可以触控, true 时即使消息推送也可被触控"
+
+doc: "document"
+c: "class"
+d: "define"
+f: "func-n"
+h: "header"
+p: "partof"
+s: "struct"
+t: "type"
