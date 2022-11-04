@@ -37,6 +37,11 @@ namespace sf::ui {
     return String(L"[w:" + std::to_wstring(videoMode.width) + L", h:" + std::to_wstring(videoMode.height) +
       L", bpp:" + std::to_wstring(videoMode.bitsPerPixel) + L"]");
   }
+  inline func Fm::toString(const Time& time) -> String {
+    return String(L"[s:" + std::to_wstring(static_cast<unsigned>(time.asSeconds())) +
+      L", ms:" + std::to_wstring(time.asMilliseconds() % 1000) +
+      L", us:" + std::to_wstring(time.asMicroseconds() % 1000) + L"]");
+  }
   template<typename Type>
   inline func Fm::toString(const Rect<Type>& rect) -> String {
     return String(L"[x:" + std::to_wstring(rect.left) + L", y:" + std::to_wstring(rect.top)

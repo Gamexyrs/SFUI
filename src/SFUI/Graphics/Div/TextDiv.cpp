@@ -12,6 +12,7 @@ namespace sf::ui {
   }
   
   inline func TextDiv::draw(RenderTarget& target, RenderStates states) const -> void { this->__rendererCheck();
+    String tmp_originStr = this->__Text.getString(); 
     if(this->__NeedUpdate) {
       this->update();
     }
@@ -21,13 +22,16 @@ namespace sf::ui {
       }
       if(this->__TextVisible && !this->__Text.getString().isEmpty()) {
         target.draw(this->__Text, states);
+        if(this->__Enable_AutoLineBreak) {
+          this->__Text.setString(tmp_originStr); // 保护原文本字符串
+        }
       }
     }
   }
   
   inline func TextDiv::update(void) const -> void { this->Div::update();
     if(!this->__Text.getString().isEmpty()) {
-      this->__Text.setPosition(Obj::align(this->getTextSize(true), this->getRect(), this->__TextAlign));
+      this->__Text.setPosition(ui::align(this->getTextSize(true), this->getRect(), this->__TextAlign));
       if(this->__Border.__Radius) {
         switch(this->__TextAlign) {
         case(Align::TL): case(Align::BL):
@@ -37,7 +41,25 @@ namespace sf::ui {
         default: break;
         }
       } this->__Text.move(this->__TextDeviat);
+      if(this->__Enable_AutoLineBreak) {
+        this->__Text.setString(this->lineBreak());
+      }
     }
+  }
+  
+  inline func TextDiv::setTextVisible(bool value) -> void {
+    this->__TextVisible = value;
+  }
+  inline func TextDiv::getTextVisible(void) const -> bool {
+    return this->__TextVisible;
+  }
+  
+  inline func TextDiv::setAutoLineBreakEnable(bool value) -> void {
+    this->__Enable_AutoLineBreak = value;
+    this->needUpdate();
+  }
+  inline func TextDiv::getAutoLineBreakEnable(void) const -> bool {
+    return this->__Enable_AutoLineBreak;
   }
   
   inline func TextDiv::resize(void) -> void {

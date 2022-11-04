@@ -1,6 +1,24 @@
 //>>> 2021~2022 Gamexyrs© & SFML®
 
 namespace sf::ui {
+  inline func Textable::lineBreak(void) const -> String {
+    if(!this->__Text.getString().isEmpty()) {
+      String ori_str = this->__Text.getString();
+      String tmp_str = this->__Text.getString();
+      for(size_t i = 0; i < tmp_str.getSize(); ++i) {
+        if(this->__Text.getFont()->getGlyph(this->__Text.getString()[i],
+                                            this->__Text.getCharacterSize(),
+        /*                               */ this->__Text.getStyle() & Text::Bold,
+                                            this->__Text.getOutlineThickness())
+        .advance + this->__Text.findCharacterPos(i).x - this->__Text.getPosition().x
+        >= this->__Self->getSize().x) {
+           tmp_str.insert(i, L"\n"); this->__Text.setString(tmp_str);
+        }
+      } this->__Text.setString(ori_str); return tmp_str;
+    }                                    return L"";
+  }
+  
+  
   inline func Textable::setText(const String& str, const Font& font, unsigned size) -> void {
     this->setFont(font);
     this->setTextString(str);
@@ -36,19 +54,20 @@ namespace sf::ui {
     return this->__TextAlign;
   }
   
-  inline func Textable::setTextVisible(bool value) -> void {
-    this->__TextVisible = value;
-  }
-  inline func Textable::getTextVisible(void) const -> bool {
-    return this->__TextVisible;
-  }
-  
   inline func Textable::setFont(const Font& font) -> void {
     this->__Text.setFont(font);
     this->__Self->needUpdate();
   }
   inline func Textable::getFont(void) const ->const Font* {
     return this->__Text.getFont();
+  }
+  
+  inline func Textable::setTextColor(const Color& value) -> void {
+    this->__Text.setFillColor(value);
+    this->__Self->needUpdate();
+  }
+  inline func Textable::getTextColor(void) const -> const Color& {
+    return this->__Text.getFillColor();
   }
   
   inline func Textable::setTextString(const String& value) -> void {

@@ -16,15 +16,20 @@ namespace sf::ui {
     return *Renderable::Renderer;
   }
   
-  inline func Renderable::setFont(const Font& value) -> void {
+  inline func Renderable::setDefaultFont(const Font& value) -> void {
     Renderable::__DefaultFont = const_cast<Font*>(&value);
   }
-  inline func Renderable::getFont(void) _____ -> _____ Font& {
+  inline func Renderable::getDefaultFont(void) _____ -> _____ Font& {
     if(Renderable::__DefaultFont == nullptr) {
       err() << "Undefined to defaultFont [= nullptr]" << std::endl;
-      //return  Renderable::getSystemFont();
       throw nullptr;
     } return *Renderable::__DefaultFont;
+  }
+  
+  inline func Renderable::draw(std::initializer_list<Drawable*> value) -> void {
+    for(auto& i : value) {
+      if(i != nullptr) Renderable::Renderer->draw(*i);
+    }
   }
   
 #if __PREDEF_ENABLE_UNITYDRAW__

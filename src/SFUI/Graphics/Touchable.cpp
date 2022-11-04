@@ -10,7 +10,7 @@ namespace sf::ui {
   
   inline func Touchable::isTouchDown(void) -> unsigned {
     if(!Messagable::getLocked() ||  this->__Self->__ATTRIBUTE__.__ALWAYS_TOUCHABLE__)
-       return TouchEvent::isTouchAt(this->__Self->getRect());
+       return TouchEvent::isDownAt(this->__Self->getRect());
     else return 0;
   }
 }

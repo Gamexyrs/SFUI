@@ -51,8 +51,8 @@ namespace sf::ui {
     Attribute __ATTRIBUTE__;
     
   _func_public:
-    static func align(const Vector2f size, const FloatRect& rect, short align = Align::Center)             -> const Vector2f;
-           func align(short align = Align::Center, const std::optional<FloatRect>& optRect = std::nullopt) -> Vector2f&;
+    func align(short align = Align::Center,
+      const std::optional<FloatRect>& optRect = std::nullopt) -> Vector2f&;
 
     func move(const Vector2f& value) const -> void;
 

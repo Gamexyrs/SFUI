@@ -2,8 +2,7 @@
 
 #pragma once
 
-#include "../Button.hpp"
-#include <utility>
+#include "../Buttons.hpp"
 
 namespace sf::ui {
   typedef struct MessageData {
@@ -17,7 +16,7 @@ namespace sf::ui {
     
   }MsgData;
   
-  typedef class MessageDiv : public TextDiv, public Messagable {
+  typedef class MessageDiv : public TextDiv, public Msgable {
   public:    MessageDiv(unsigned radius = 0,
                         const Vector2f& sizeFactor = {0.7, 0.15},
                         const Align& align = Align::C);
@@ -33,6 +32,8 @@ namespace sf::ui {
     TextDiv __Info;
         Div __Mask;
     
+    Uint8 __MaskTrs = ColorEx_TrsGrey.a;
+    
     bool __MaskVisible = true;
     bool __Pushing     = false;
     
@@ -47,7 +48,7 @@ namespace sf::ui {
     func getMaskVisible(void) const -> bool;
     
     func setMaskColor(const Color& value) -> void;
-    func getMaskColor(void) const -> const Color&;
+    func getMaskColor(void) const -> Color;
     
     func getQueueSize(void) const -> size_t;
     

@@ -3,7 +3,7 @@
 #pragma once
 
 namespace sf::ui {
-  typedef enum Align {
+  typedef enum AlignPosition {
     Center = 0 << 0, C = Center,
     Top    = 1 << 0, T = Top,
     Left   = 1 << 1, L = Left,
@@ -15,6 +15,9 @@ namespace sf::ui {
     RT = (B ^ L), TR = RT,
     RB = (B ^ R), BR = RB,
   }Align;
+  
+  func align(const Vector2f size, const FloatRect& rect,
+         short align = Align::Center) -> const Vector2f;
 }
 
 #include "../../../src/SFUI/System/Align.cpp"

@@ -17,7 +17,7 @@ namespace sf::ui {
     
     virtual func pushQueue(void) -> void = 0;
       
-  }Messagable;
+  }Msgable;
 }
 
 #include "../../../src/SFUI/System/Messagable.cpp"

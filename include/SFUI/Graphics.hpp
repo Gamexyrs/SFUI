@@ -15,12 +15,12 @@
     #include "./Graphics/Touchable.hpp"
   #endif
   
-  #if __has_include("./Graphics/Div.hpp")
-    #include "./Graphics/Div.hpp"
+  #if __has_include("./Graphics/Divs.hpp")
+    #include "./Graphics/Divs.hpp"
   #endif
  
-  #if __has_include("./Graphics/Button.hpp")
-    #include "./Graphics/Button.hpp"
+  #if __has_include("./Graphics/Buttons.hpp")
+    #include "./Graphics/Buttons.hpp"
   #endif
  
   #define __SFUI_INCLUDE_GRAPHICS__ 6

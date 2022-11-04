@@ -1,49 +1,39 @@
-# 2022/10/02
+# 2022/10/30
 
-## SFUI 0.3.6
+## SFUI 0.3.7
+  
+  memory: "59.98KB"(61416) -> "70.20KB"(71885)
+  main_1: h:Inputable as "InputSystem" with "接收用户的输入(包括键盘事件、触控事件)"
+  main_2: c:TextDiv  and c:Textable    with "支持自动换行"
 
 ### General
 
-  Added h:`c:TouchEvent in p:System split-from h:Touchable in p:Graphics
-
-  Used d:__ACTIV_EXIT__ to d:__ANDROID_ACTIVITY_CLOSED__
-  Used d:__PREDEF_ENABLE_UNITYDRAW__ def-is true
+  ... with "优化性能, 删除冗余, 修复漏洞"
   
 ### System
 
-  Added f:unityAdd(*)
-       `f:unityDraw(*)
-       `f:setFont(*)
-       `f:getFont(*) in c:Renderable
+  main_1:
+    Added c:KeyboardEvent as c:KbEvent with "接收用户键盘输入事件"
+    Added f:... in c:TouchEvent with "增加了触控时间和滑动速度获取"
+    Now c:TouchEvent move-to h:Inputable
   
-! Added c:Messagable in h:Messagable.
+  main_2:
+    Added f:... in c:Textable with "对于超出容器宽度的文字插入换行符"
+    Added f:... in c:TextDiv  with "对于超出容器宽度的文字插入换行符的功能开关"
+
+  Added f:draw(*) in c:Renderable with "依次绘画传入的 Drawable* 集合"
+  
+  Added f:... in c:Format with "支持 Time 转字符串"
+  
+  Added v:... in h:Color  with "增加了半透明颜色"
+  
+  Now f:static_align(*) in c:Object move-to h:Align
   
 ### Graphics
   
-  Fixed-warning
-! Fixed-crash as runtime-nullptr in f:... in c:Buildable
+  Added f:... in c:MessageDiv with "增加了 Mask 的颜色设置, 支持动态显示 Mask"
 
-! Added c:MsgDiv as c:MessageDiv with f:... in h:MessageDiv.
-
-  Added f:flash(*)
-       `f:getSubobject(*)
-       `f:delSubobject(*) in c:Buildable
-  Added s:Attribute in h:Object.
-  Added s:Attribute as __ATTRIBUTE__ in c:Object
-  Added f:joinUnity(*) in c:Object
-  
-  Used c:Fm as c:Format
-  Used t:Vector2f& to t:const_Vector2f& in f:align(*) in c:Object
-
-### Doc
-
-doc: s:Attribute
-  ->        __PROTECTED__ as bool def-is false
-    "是否被保护, true 时不能被 Builder 主动解除绑定"
-  -> __IGNORE_PROTECTED__ as bool def-is false
-    "是否无视保护, true 时可以主动解除所有绑定子类"
-  -> __ALWAYS_TOUCHABLE__ as bool def-is false
-    "是否总是可以触控, true 时即使消息推送也可被触控"
+## Doc
 
 doc: "document"
 c: "class"
@@ -53,3 +43,4 @@ h: "header"
 p: "partof"
 s: "struct"
 t: "type"
+v: "var"

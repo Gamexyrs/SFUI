@@ -3,7 +3,12 @@
 namespace sf::ui {
   MsgDiv::MessageDiv(unsigned radius, const Vector2f& sizeFactor, const Align& align)
     : TextDiv({{}, {_RendererSize * sizeFactor}}, radius) {
-    this->__Mask.getBase().setFillColor(ColorEx_TrsGrey);
+    this->__Mask.getBase().setFillColor({
+      ColorEx_TrsGrey.r,
+      ColorEx_TrsGrey.g,
+      ColorEx_TrsGrey.b,
+      0,
+    });
     this->__Mask.getBase().setOutlineThickness(0);
     this->__Mask.setSize(_RendererSize);
     
@@ -16,24 +21,31 @@ namespace sf::ui {
   }
   
   inline func MsgDiv::draw(RenderTarget& target, RenderStates states) const -> void {
-    if(!this->__Pushing) return;
-    
     if(this->__NeedUpdate) {
       this->update();
     }
     if(this->__Visible) {
       if(this->__MaskVisible) {
-        target.draw(this->__Mask, states);
+        if(!this->__Pushing) {
+          if(this->__Mask.getBase().getFillColor().a > 0) {
+           const_cast<Color&>(this->__Mask.getBase().getFillColor()).a -= 10;
+          }
+        }
+        else if(this->__Mask.getBase().getFillColor().a < this->__MaskTrs) {
+          const_cast<Color&>(this->__Mask.getBase().getFillColor()).a += 10;
+        } target.draw(this->__Mask, states);
       }
-      if(this->__BaseVisible) {
-        target.draw(this->__Base, states);
-      }
-      if(this->__TextVisible && !this->__Text.getString().isEmpty()) {
-        target.draw(this->__Info, states);
-        target.draw(this->__Text, states);
-      }
-      for(auto& i : this->__Btn) {
-        target.draw(*i);
+      if(this->__Pushing) {
+        if(this->__BaseVisible) {
+          target.draw(this->__Base, states);
+        }
+        if(this->__TextVisible && !this->__Text.getString().isEmpty()) {
+          target.draw(this->__Info, states);
+          target.draw(this->__Text, states);
+        }
+        for(auto& i : this->__Btn) {
+          target.draw(*i);
+        }
       }
     }
   }
@@ -55,10 +67,21 @@ namespace sf::ui {
   }
   
   inline func MsgDiv::setMaskColor(const Color& value) -> void {
-    this->__Mask.getBase().setFillColor(value);
+    this->__Mask.getBase().setFillColor({
+      value.r,
+      value.g,
+      value.b,
+      this->__Mask.getBase().getFillColor().a,
+    });
+    this->__MaskTrs = value.a;
   }
-  inline func MsgDiv::getMaskColor(void) const -> const Color& {
-    return this->__Mask.getBase().getFillColor();
+  inline func MsgDiv::getMaskColor(void) const -> Color {
+    return {
+      this->__Mask.getBase().getFillColor().r,
+      this->__Mask.getBase().getFillColor().g,
+      this->__Mask.getBase().getFillColor().b,
+      this->__MaskTrs,
+    };
   }
   
   inline func MsgDiv::getQueueSize(void) const -> size_t {

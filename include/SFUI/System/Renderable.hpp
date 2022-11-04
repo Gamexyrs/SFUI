@@ -4,7 +4,9 @@
 
 #include "__Config.hpp"
 #include <optional>
+#include <utility>
 #include <vector>
+#include <deque>
 #include <queue>
 
 #define _RendererRect (static_cast<sf::FloatRect>(sf::IntRect(sf::Renderable::getRenderer().getPosition().x, \
@@ -32,14 +34,16 @@ namespace sf::ui {
       static func setRenderer(const RenderWindow& value) -> void;
       static func getRenderer(void) _____ -> _____ RenderWindow&;
 
-      static func setFont(const Font& value) -> void;
-      static func getFont(void) _____ -> _____ Font&;
+      static func setDefaultFont(const Font& value) -> void;
+      static func getDefaultFont(void) _____ -> _____ Font&;
+      
+      static func draw(std::initializer_list<Drawable*> value) -> void;
 
 #if __PREDEF_ENABLE_UNITYDRAW__
       static func unityAdd(std::initializer_list<Drawable*> value) -> void;
       static func unityDraw(void) -> void;
 #endif
-      
+
   }Renderable;
 }
 

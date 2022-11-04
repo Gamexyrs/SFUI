@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <deque>
-
 namespace sf::ui {
   typedef Vector2f Vector2b;
 

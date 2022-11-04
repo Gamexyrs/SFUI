@@ -4,7 +4,7 @@
 
 #include "Object.hpp"
 
-#define __ADAPT_V2_CHINESE__ {1.0f, 1.25}
+#define __V2CJK__ {1.0f, 1.25}
 
 namespace sf::ui {
   typedef interface class Textable {
@@ -18,9 +18,9 @@ namespace sf::ui {
     
     Vector2f __TextDeviat = {};
     Align    __TextAlign  = Align::TL;
-    Vector2f __TextAdapt  = __ADAPT_V2_CHINESE__;
+    Vector2f __TextAdapt  = __V2CJK__;
     
-    bool __TextVisible = true;
+    func lineBreak(void) const -> String;
     
   _data_public:
     func setText(const String& str, const Font& font, unsigned size = 30) -> void;
@@ -35,13 +35,13 @@ namespace sf::ui {
     func setTextAlign(const Align& value) -> void;
     func getTextAlign(void) const -> const Align&;
     
-    func setTextVisible(bool value) -> void;
-    func getTextVisible(void) const -> bool;
-    
   _func_public:
     func setFont(const Font& font) -> void;
     func getFont(void) const ->const Font*;
-  
+    
+    func setTextColor(const Color& value) -> void;
+    func getTextColor(void) const -> const Color&;
+    
     func setTextString(const String& value) -> void;
     func getTextString(void) const -> const String&;
     

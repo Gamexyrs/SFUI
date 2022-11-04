@@ -52,45 +52,9 @@ namespace sf::ui {
   inline func Obj::getTag(void) const -> const String& {
     return this->__Tag;
   }
-    
-  inline func Obj::align(const Vector2f size, const FloatRect& rect, short align) -> const Vector2f {
-    switch(align) {
-      case(Align::T):
-        return {Obj::align(size, rect).x,
-                 Fm::getPosition(rect).y};
-
-      case(Align::L):
-        return {Fm::getPosition(rect).x,
-               Obj::align(size, rect).y};
-
-      case(Align::R):
-        return {Fm::getRoot(rect).x - size.x,
-                    Obj::align(size, rect).y};
-
-      case(Align::B):
-        return {Obj::align(size, rect).x,
-            Fm::getRoot(rect).y - size.y};
-
-      case(Align::TL):
-        return Fm::getPosition(rect);
-        
-      case(Align::TR):
-        return {Fm::getRoot(rect).x - size.x,
-                     Fm::getPosition(rect).y};
-
-      case(Align::BL):
-        return {Fm::getPosition(rect).x,
-           Fm::getRoot(rect).y - size.y};
-
-      case(Align::BR):
-        return (Fm::getRoot(rect) - size);
-        
-      default: // Center
-        return (Fm::getPosition(rect) + (Fm::getSize(rect) - size) / 2.f);
-    }
-  }
+  
   inline func Obj::align(short align, const std::optional<FloatRect>& optRect) -> Vector2f& {
-    this->setPosition(this->align(this->getSize(), optRect.value_or((this->__Builder != nullptr)
+    this->setPosition(sf::align(this->getSize(), optRect.value_or((this->__Builder != nullptr)
       ? this->__Builder->getRect() : _RendererRect), align)); this->needUpdate(true);
     if(this->__Builder != nullptr) {
       this->__BuildPosition = this->getPosition() - this->__Builder->getPosition();

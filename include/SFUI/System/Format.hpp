@@ -29,6 +29,7 @@ namespace sf::ui {
     static func reverse(const Vector2<Type>& vector2) -> Vector2<Type>;
     
     static func toString(const VideoMode&  videoMode) -> String;
+    static func toString(const Time&            time) -> String;
     template<typename Type>
     static func toString(const Rect   <Type>&   rect) -> String;
     template<typename Type>

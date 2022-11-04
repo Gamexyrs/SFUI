@@ -6,8 +6,8 @@
 
 #define __SFUI_VERSION_MAJOR__ 0
 #define __SFUI_VERSION_MINOR__ 3
-#define __SFUI_VERSION_PATCH__ 6
-#define __SFUI_VERSION__ "0.3.6"
+#define __SFUI_VERSION_PATCH__ 7
+#define __SFUI_VERSION__ "0.3.7"
 #define __SFUI_CONFIG__ true
 
 #define __ACTIV_EXIT__(event)  \
@@ -16,12 +16,16 @@
  || event.type     == sf::Event::LostFocus  \
  || event.type     == sf::Event::Closed)
  
+#define __ACTIV_KEYCHECK__(event)  \
+   (event.type     == sf::Event::KeyPressed \
+ || event.type     == sf::Event::TextEntered)
+ 
 #define _data_public public
 #define _func_public public
 
-#define interface  
+#define nut_ std::nullopt
 
-#define Vdefault std::nullopt
+#define interface  
 
 #define func auto
 

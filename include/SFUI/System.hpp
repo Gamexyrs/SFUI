@@ -15,8 +15,8 @@
     #include "./System/Color.hpp"
   #endif
   
-  #if __has_include("./System/TouchEvent.hpp")
-    #include "./System/TouchEvent.hpp"
+  #if __has_include("./System/Inputable.hpp")
+    #include "./System/Inputable.hpp"
   #endif
   
   #if __has_include("./System/Messagable.hpp")
