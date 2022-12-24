@@ -25,13 +25,14 @@ namespace sf::ui {
     this->__Text.setCharacterSize(size);
     this->__Self->needUpdate();
   }
-  inline func Textable::getText(void) const -> Text& {
-    this->__Self->needUpdate();
+  inline func Textable::getText(bool update) const -> Text& {
+    if(update) this->__Self->needUpdate();
     return this->__Text;
   }
   
   inline func Textable::setTextDeviat(const Vector2f& value) -> void {
     this->__TextDeviat = value;
+    this->__TextUpdate = true;
     this->__Self->needUpdate();
   }
   inline func Textable::getTextDeviat(void) const -> const Vector2f& {
@@ -40,6 +41,7 @@ namespace sf::ui {
 
   inline func Textable::setTextAdapt(const Vector2f& value) -> void {
     this->__TextAdapt = value;
+    this->__TextUpdate = true;
     this->__Self->needUpdate();
   }
   inline func Textable::getTextAdapt(void) const -> const Vector2f& {
@@ -48,6 +50,7 @@ namespace sf::ui {
 
   inline func Textable::setTextAlign(const Align& value) -> void {
     this->__TextAlign = value;
+    this->__TextUpdate = true;
     this->__Self->needUpdate();
   }
   inline func Textable::getTextAlign(void) const -> const Align& {
@@ -56,6 +59,7 @@ namespace sf::ui {
   
   inline func Textable::setFont(const Font& font) -> void {
     this->__Text.setFont(font);
+    this->__TextUpdate = true;
     this->__Self->needUpdate();
   }
   inline func Textable::getFont(void) const ->const Font* {
@@ -72,6 +76,7 @@ namespace sf::ui {
   
   inline func Textable::setTextString(const String& value) -> void {
     this->__Text.setString(value);
+    this->__TextUpdate = true;
     this->__Self->needUpdate();
   }
   inline func Textable::getTextString(void) const -> const String& {

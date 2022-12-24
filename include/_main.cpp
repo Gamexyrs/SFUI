@@ -1,7 +1,8 @@
-// #define __PREDEF_ENABLE_UNITYDRAW__
-// #define __PREDEF_ENABLE_TOUCHDATA__
+// #define __PREDEF_ENABLE_UNITYDRAW__ false
+// #define __PREDEF_ENABLE_TOUCHDATA__ false
+// #define __PREDEF_ENABLE_KB_BUFFER__ false
 
-#include <SFML/Graphics.hpp>
+// #include <SFML/Graphics.hpp>
 #include "SFUI/Graphics.hpp"
 
 int main(void) {
@@ -15,34 +16,36 @@ int main(void) {
   sf::Renderable::setRenderer(window);
   sf::Renderable::setDefaultFont(Font);
 
-  sf::PushBtn Div({{}, {300, 200}}, 10);
+  sf::PushBtn Div({{}, {0, 200}}, 10);
+  Div.setPerWidth("30%");
   Div.setText(L"退出", Font, 100);
-  Div.setTextAlign(sf::Align::LT);
+  Div.setTextAlign(sf::Align::TL);
   Div.setTextDeviat({-10, -5});
   Div.align(sf::Align::C) -= {0, 400};
   Div.setAutoLineBreakEnable(true);
+  Div.joinUnity();
+  
+  sf::ProgressDiv Pgs({{}, {_RendererSize.x, 10}}, 5);
+  Pgs.setProgress(-1);
+  Pgs.joinUnity();
+  
+  sf::TextDiv FPS({{0, 100}, {}}, 0);
+  FPS.setText(L"FPS: ", Font, 100);
+  FPS.joinUnity();
+  
+  sf::Text Note("", Font, 40);
+  Note.setFillColor(sf::Color::Red);
+  sf::Renderable::unityAdd({&Note});
   
   sf::MsgDiv Msg(20);
   Msg.setTitleTextColor(sf::Color::Red);
   Msg.setRounded(false, sf::Align::RB);
-  
-  sf::Div Sub({150, 100}, Div, 10);
-  Sub.align();
-  
-  sf::Text Text(L"FPS: ", Font, 100);
-  Text.setFillColor(sf::Color::Black);
-  Text.setPosition({0, 100});
-  
-  sf::Text Note("", Font, 40);
-  Note.setFillColor(sf::Color::Red);
-  
-  sf::Renderable::unityAdd({&Note, &Text});
-  Div.joinUnity();
   Msg.joinUnity();
+  
   sf::Object::flash();
   
-  sf::KbEvent::setSettings(L"NLSD+");
-  sf::Clock Clock; sf::String MsgReturn;
+  sf::KbEvent::setSettings(L"NLS+-");
+  sf::Clock Clock;
   sf::Event event; unsigned tick = 0;
   while(window.isOpen() && ++tick) {
     Clock.restart();
@@ -54,6 +57,7 @@ int main(void) {
       }
       if(__ACTIV_KEYCHECK__(event)) {
         Div.setTextString(sf::KbEvent::getBufString(false));
+        Note.setString(sf::KbEvent::getBufPwString());
       }
       if(auto r = Msg.pollEvent(event)) {
         if(r > 0) {
@@ -78,7 +82,7 @@ int main(void) {
     
     _Renderer.display();
     if(!(tick % 10) || (tick > 1e5 && (tick = 0))) {
-      Text.setString(L"FPS: " + sf::Format::getFPS(Clock));
+      FPS.setTextString(L"FPS: " + sf::Format::getFPS(Clock));
     } //Note.setString(sf::Fm::toString(sf::TouchEvent::getTouchMove()));
     // Div.movProgress(0.2);
   } return 0;

@@ -11,6 +11,7 @@ namespace sf::ui {
   typedef struct Attribute {
     bool        __PROTECTED__ = false;
     bool __IGNORE_PROTECTED__ = false;
+    bool __IGNORE_ROTATEAGL__ = false;
     bool __ALWAYS_TOUCHABLE__ = false;
     
   }Attribute;
@@ -31,7 +32,7 @@ namespace sf::ui {
     String __Tag = L"";
     
   _data_public:
-    func getBase(void) const -> ConvexShape&;
+    func getBase(bool update = true) const -> ConvexShape&;
 
     func setPosition(const Vector2f& value) const -> void;
     func getPosition(void) const _____ -> const Vector2f&;

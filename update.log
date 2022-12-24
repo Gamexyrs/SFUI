@@ -1,37 +1,26 @@
-# 2022/10/30
+# 2022/11/11
 
-## SFUI 0.3.7
+## SFUI 0.3.8
   
-  memory: "59.98KB"(61416) -> "70.20KB"(71885)
-  main_1: h:Inputable as "InputSystem" with "接收用户的输入(包括键盘事件、触控事件)"
-  main_2: c:TextDiv  and c:Textable    with "支持自动换行"
+  memory: "70.20KB"(71885) -> "75.93K"(77750)
 
 ### General
-
-  ... with "优化性能, 删除冗余, 修复漏洞"
+  
+  Now "修改或重写多余的代码, 尽量减少新增体积大小"
+  Now "圆周率常量使用数学库宏 M_PI，计算更准确"
   
 ### System
 
-  main_1:
-    Added c:KeyboardEvent as c:KbEvent with "接收用户键盘输入事件"
-    Added f:... in c:TouchEvent with "增加了触控时间和滑动速度获取"
-    Now c:TouchEvent move-to h:Inputable
-  
-  main_2:
-    Added f:... in c:Textable with "对于超出容器宽度的文字插入换行符"
-    Added f:... in c:TextDiv  with "对于超出容器宽度的文字插入换行符的功能开关"
-
-  Added f:draw(*) in c:Renderable with "依次绘画传入的 Drawable* 集合"
-  
-  Added f:... in c:Format with "支持 Time 转字符串"
-  
-  Added v:... in h:Color  with "增加了半透明颜色"
-  
-  Now f:static_align(*) in c:Object move-to h:Align
+  Added c:ColorExtern as c:ColorEx in h:Color with "更符合编写规范; 便于添加 makeTrs 函数"
+  Now f:align(*) in h:Align. with "使用新的对齐方法与逻辑"
   
 ### Graphics
-  
-  Added f:... in c:MessageDiv with "增加了 Mask 的颜色设置, 支持动态显示 Mask"
+
+  !Fixed "文字不会跟随其 Obj 的旋转而旋转且旋转后的触控区域不变 (现在为 Base 的外接矩形(平行于xy轴))"
+  !Fixed "开启自动换行时, 更新 TextDiv (子)对象时会导致额外的空行"
+   Fixed in c:MsgDiv with "引入时不再自动引入非必需的 CheckBtn 类"
+   
+  Added f:... in c:Buildable with "可以使用百分比以父类(屏幕)的尺寸比例设置大小"
 
 ## Doc
 
@@ -44,3 +33,16 @@ p: "partof"
 s: "struct"
 t: "type"
 v: "var"
+
+## NewNote
+
+"目前 ProgressDiv 与 MessageDiv 无法(不推荐)使用旋转功能"
+"推荐在刷新循环前的定义就设置好 Obj 的属性, 避免出现累赘的 Obj 刷新"
+
+## NewAttribute
+
+v:__IGNORE_ROTATEAGL__ : bool def-is false with "无视旋转角度"
+
+## NewPre-Define
+
+d:__PREDEF_ENABLE_KB_BUFFER__ with "启用键盘输入缓冲区"

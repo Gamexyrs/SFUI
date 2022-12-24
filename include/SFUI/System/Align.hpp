@@ -10,10 +10,10 @@ namespace sf::ui {
     Right  = 1 << 2, R = Right,
     Bottom = 1 << 3, B = Bottom,
     
-    LT = (T ^ L), TL = LT,
-    LB = (T ^ R), BL = LB,
-    RT = (B ^ L), TR = RT,
-    RB = (B ^ R), BR = RB,
+    LT = (L ^ T), TL = LT,
+    LB = (L ^ B), BL = LB,
+    RT = (R ^ T), TR = RT,
+    RB = (R ^ B), BR = RB,
   }Align;
   
   func align(const Vector2f size, const FloatRect& rect,

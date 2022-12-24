@@ -23,8 +23,6 @@ namespace sf::ui {
   
   inline func PushBtn::update(void) const -> void { this->TextDiv::update();
     switch(this->__State) {
-      case(BtnState::Held):
-        this->__Base.setFillColor(this->__StateColor.__Held   ); break;
       case(BtnState::Pressed):
         this->__Base.setFillColor(this->__StateColor.__Pressed); break;
       default:

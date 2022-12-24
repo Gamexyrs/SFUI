@@ -3,12 +3,7 @@
 namespace sf::ui {
   MsgDiv::MessageDiv(unsigned radius, const Vector2f& sizeFactor, const Align& align)
     : TextDiv({{}, {_RendererSize * sizeFactor}}, radius) {
-    this->__Mask.getBase().setFillColor({
-      ColorEx_TrsGrey.r,
-      ColorEx_TrsGrey.g,
-      ColorEx_TrsGrey.b,
-      0,
-    });
+    this->__Mask.getBase().setFillColor(ColorEx::makeTrs(ColorEx::Grey, 0));
     this->__Mask.getBase().setOutlineThickness(0);
     this->__Mask.setSize(_RendererSize);
     
@@ -18,6 +13,8 @@ namespace sf::ui {
     this->setTextAlign(Align::LT);
     this->setTextDeviat({50, 20});
     this->align(align);
+    
+    this->__ATTRIBUTE__.__IGNORE_ROTATEAGL__ = true;
   }
   
   inline func MsgDiv::draw(RenderTarget& target, RenderStates states) const -> void {
@@ -67,21 +64,12 @@ namespace sf::ui {
   }
   
   inline func MsgDiv::setMaskColor(const Color& value) -> void {
-    this->__Mask.getBase().setFillColor({
-      value.r,
-      value.g,
-      value.b,
-      this->__Mask.getBase().getFillColor().a,
-    });
+    this->__Mask.getBase().setFillColor(ColorEx::makeTrs(value,
+    this->__Mask.getBase().getFillColor().a));
     this->__MaskTrs = value.a;
   }
   inline func MsgDiv::getMaskColor(void) const -> Color {
-    return {
-      this->__Mask.getBase().getFillColor().r,
-      this->__Mask.getBase().getFillColor().g,
-      this->__Mask.getBase().getFillColor().b,
-      this->__MaskTrs,
-    };
+    return ColorEx::makeTrs(this->__Mask.getBase().getFillColor(), this->__MaskTrs);
   }
   
   inline func MsgDiv::getQueueSize(void) const -> size_t {
@@ -138,7 +126,7 @@ namespace sf::ui {
         new_btn->setStateColor(Color::Transparent, BtnState::None);
         new_btn->setSize({new_btn->getTextSize().x + 20, new_btn->getSize().y});
         new_btn->__ATTRIBUTE__.__ALWAYS_TOUCHABLE__ = true;
-        new_btn->__ATTRIBUTE__.__PROTECTED__ = true;
+        new_btn->__ATTRIBUTE__.__PROTECTED__        = true;
         new_btn->setTag(std::to_string(i.second));
         new_btn->getBase().setOutlineThickness(0);
         new_btn->setTextAlign(Align::C);

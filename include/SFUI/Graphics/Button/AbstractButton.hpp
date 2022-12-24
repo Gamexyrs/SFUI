@@ -3,15 +3,16 @@
 #pragma once
 
 #include "../Object.hpp"
+#include "../Touchable.hpp"
 
 namespace sf::ui {
   typedef enum class ButtonEvent {
-    None, Move, Press, Release,
+    None, Pull, Press, Release,
     
   }BtnEvent;
 
   typedef enum class ButtonState {
-    None, Held, Pressed, Checked,
+    None, Pulled, Pressed, Checked,
     
   }BtnState;
 
@@ -24,9 +25,9 @@ namespace sf::ui {
     
     struct {
       Color __None    = Color::White,
-            __Held    = ColorEx_Grey,
-            __Pressed = ColorEx_Grey,
-            __Checked = ColorEx_Grey;
+            __Pulled  = ColorEx::Grey,
+            __Pressed = ColorEx::Grey,
+            __Checked = ColorEx::Grey;
     }__StateColor;
     
     BtnState __State = BtnState::None;

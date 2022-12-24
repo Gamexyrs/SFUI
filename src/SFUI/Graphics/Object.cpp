@@ -6,13 +6,14 @@ namespace sf::ui {
     this->setBuilder(builder, buildPosition, buildAddSize); this->setSize(size);
     this->__Registered_Object__.emplace_back(this);
   }
-  Obj::Object(const Frame& frame) : Buildable(this) {
+  Obj::Object(const Frame& frame)
+    : Buildable(this) {
     this->setPosition(frame.x); this->setSize(frame.y);
     this->__Registered_Object__.emplace_back(this);
   }
   
-  inline func Obj::getBase(void) const -> ConvexShape& {
-    this->needUpdate(true);
+  inline func Obj::getBase(bool update) const -> ConvexShape& {
+    if(update) this->needUpdate(true);
     return this->__Base;
   }
 

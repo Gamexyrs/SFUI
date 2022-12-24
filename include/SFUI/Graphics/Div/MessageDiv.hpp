@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../Buttons.hpp"
+#include "../Button/PushButton.hpp"
 
 namespace sf::ui {
   typedef struct MessageData {
@@ -32,7 +32,7 @@ namespace sf::ui {
     TextDiv __Info;
         Div __Mask;
     
-    Uint8 __MaskTrs = ColorEx_TrsGrey.a;
+    Uint8 __MaskTrs = 155;
     
     bool __MaskVisible = true;
     bool __Pushing     = false;

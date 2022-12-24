@@ -37,7 +37,8 @@ namespace sf::ui {
     func getPointCount(void) const -> unsigned;
     
     func setRadius(unsigned value) const -> void;
-    func getRadius(void) const _____ -> unsigned;
+    func getRadius    (void) const _____ -> unsigned;
+    func getRealRadius(void) const _____ -> unsigned;
     
   _func_public:
     func getMaxRadius(void) const -> unsigned;

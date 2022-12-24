@@ -22,6 +22,8 @@ namespace sf::ui {
     
     mutable bool __NeedUpdate = true;
     
+    func __PercentToFloat(const std::string& percent) -> float;
+    
   _data_public:
     func getSubobject(void) const -> const std::deque<Object*>&;
     func delSubobject(void) -> void;
@@ -38,6 +40,10 @@ namespace sf::ui {
     func delBuilder(void) -> void;
     
   _func_public:
+    func setPerSize  (const std::string& percent = "100%" /* 0~100% */) -> void;
+    func setPerWidth (const std::string& percent = "100%" /* 0~100% */) -> void;
+    func setPerHeight(const std::string& percent = "100%" /* 0~100% */) -> void;
+    
     func needUpdate(bool subobject_needUpdate = false) const -> void;
     
     func build(void) const -> Vector2f;

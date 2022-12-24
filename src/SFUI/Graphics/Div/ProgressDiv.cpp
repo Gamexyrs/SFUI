@@ -4,21 +4,25 @@ namespace sf::ui {
   ProgressDiv::ProgressDiv(const Vector2f& size, const Object& builder, unsigned radius,
                            const Vector2f& buildPosition, const Vector2b& buildAddSize)
     : TextDiv(size, builder, radius, buildPosition, buildAddSize) {
-    this->__Inside.getBase().setFillColor(ColorEx_Grey);
+    this->__Inside.getBase().setFillColor(ColorEx::Grey);
     this->__Inside.getBase().setOutlineThickness(0);
     this->__Inside.setBuilder(*this);
     this->__TextAlign = Align::C;
     
-    this->__Inside.__ATTRIBUTE__.__PROTECTED__ = true;
+    this->__Inside.__ATTRIBUTE__.__PROTECTED__        = true;
+    this->__Inside.__ATTRIBUTE__.__IGNORE_ROTATEAGL__ = true;
+    this->         __ATTRIBUTE__.__IGNORE_ROTATEAGL__ = true;
   }
   ProgressDiv::ProgressDiv(const Frame& frame, unsigned radius)
     : TextDiv(frame, radius) {
-    this->__Inside.getBase().setFillColor(ColorEx_Grey);
+    this->__Inside.getBase().setFillColor(ColorEx::Grey);
     this->__Inside.getBase().setOutlineThickness(0);
     this->__Inside.setBuilder(*this);
     this->__TextAlign = Align::C;
     
-    this->__Inside.__ATTRIBUTE__.__PROTECTED__ = true;
+    this->__Inside.__ATTRIBUTE__.__PROTECTED__        = true;
+    this->__Inside.__ATTRIBUTE__.__IGNORE_ROTATEAGL__ = true;
+    this->         __ATTRIBUTE__.__IGNORE_ROTATEAGL__ = true;
   }
   
   inline func ProgressDiv::draw(RenderTarget& target, RenderStates states) const -> void {
@@ -78,8 +82,8 @@ namespace sf::ui {
     } this->TextDiv::update();
   }
   
-  inline func ProgressDiv::getInside(void) const -> Div& {
-    this->needUpdate();
+  inline func ProgressDiv::getInside(bool update) const -> Div& {
+    if(update) this->needUpdate();
     return this->__Inside;
   }
 

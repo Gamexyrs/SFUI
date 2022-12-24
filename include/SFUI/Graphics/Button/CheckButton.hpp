@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "PushButton.hpp"
+#include "../Div/TextDiv.hpp"
+#include "AbstractButton.hpp"
 
 namespace sf::ui {
   typedef class CheckButton : public AbsBtn, public TextDiv, public Touchable {

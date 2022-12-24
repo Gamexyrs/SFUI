@@ -1,19 +1,19 @@
 //>>> 2021~2022 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  inline func KbEvent::setSettings(const String& str) -> void {
+  inline func KbEvent::setSettings(const String& keystr) -> void {
     KbEvent::__SETTINGS__.__ALLOW_NUMBER__
-      = (str.find("N") != String::InvalidPos);
+      = (keystr.find("N") != String::InvalidPos);
     KbEvent::__SETTINGS__.__ALLOW_LETTER__
-      = (str.find("L") != String::InvalidPos);
+      = (keystr.find("L") != String::InvalidPos);
     KbEvent::__SETTINGS__.__ALLOW_SYMBOL__
-      = (str.find("S") != String::InvalidPos);
+      = (keystr.find("S") != String::InvalidPos);
     KbEvent::__SETTINGS__.__ALLOW_NXLINE__
-      = (str.find("+") != String::InvalidPos);
+      = (keystr.find("+") != String::InvalidPos);
     KbEvent::__SETTINGS__.__ALLOW_DELETE__
-      = (str.find("D") != String::InvalidPos);
+      = (keystr.find("-") != String::InvalidPos);
   }
-  
+#if __PREDEF_ENABLE_KB_BUFFER__
   inline func KbEvent::getBufPwString(bool dLast, wchar_t dChar) -> String {
     if(!KbEvent::__Buffer.isEmpty()) {
       String tmp_str = L"";
@@ -51,7 +51,7 @@ namespace sf::ui {
   inline func KbEvent::pushBack(const String& str) -> void {
     KbEvent::__Buffer += str;
   }
-  
+#endif
   inline func KbEvent::pollEvent(const Event& event, bool inBuf) -> String {
     if(event.type == Event::TextEntered) {
       if(event.text.unicode > 31
@@ -67,16 +67,24 @@ namespace sf::ui {
         std::string str; std::stringstream strsr;
         strsr << tmp_input; strsr >> str;
         if(inBuf) {
+          #if __PREDEF_ENABLE_KB_BUFFER__
           KbEvent::__Buffer += std::to_wstring(str);
+          #endif
         }               return std::to_wstring(str);
       } else if(event.text.unicode == 10
         && KbEvent::__SETTINGS__.__ALLOW_NXLINE__) {
-           KbEvent::nextLine();
+          #if __PREDEF_ENABLE_KB_BUFFER__
+          if(inBuf) KbEvent::nextLine();
+          #endif
+          return L"\n";
       }
     } else if(event.type == Event::KeyPressed) {
       if(event.text.unicode == 59
       && KbEvent::__SETTINGS__.__ALLOW_DELETE__) {
-         KbEvent::backspace();
+        #if __PREDEF_ENABLE_KB_BUFFER__
+        if(inBuf) KbEvent::backspace();
+        #endif
+        return "\b";
       }
     } return "";
   }

@@ -16,6 +16,8 @@ namespace sf::ui {
     
     mutable Text __Text;
     
+    mutable bool __TextUpdate = false;
+    
     Vector2f __TextDeviat = {};
     Align    __TextAlign  = Align::TL;
     Vector2f __TextAdapt  = __V2CJK__;
@@ -24,7 +26,7 @@ namespace sf::ui {
     
   _data_public:
     func setText(const String& str, const Font& font, unsigned size = 30) -> void;
-    func getText(void) const -> Text&;
+    func getText(bool update = true) const -> Text&;
   
     func setTextDeviat(const Vector2f& value) -> void;
     func getTextDeviat(void) const -> const Vector2f&;

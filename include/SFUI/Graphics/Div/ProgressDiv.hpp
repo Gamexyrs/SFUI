@@ -26,7 +26,7 @@ namespace sf::ui {
     mutable Div __Inside;
     
   _data_public:
-    func getInside(void) const -> Div&;
+    func getInside(bool update = true) const -> Div&;
   
     func setProgress(float current, float total) -> void;
     func setProgress(float value) -> void;

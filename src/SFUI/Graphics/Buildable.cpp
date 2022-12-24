@@ -1,6 +1,18 @@
 //>>> 2021~2022 Gamexyrs© & SFML®
 
 namespace sf::ui {
+  inline func Buildable::__PercentToFloat(const std::string& percent) -> float {
+    std::string tmp_str = percent;
+    if(tmp_str.back() == '%') {
+       tmp_str.pop_back();
+    }
+    try {
+      return(std::stof(tmp_str) / 100);
+    } catch( std::invalid_argument) {
+      return 0.0f;
+    }
+  }
+  
   inline func Buildable::getSubobject(void) const -> const std::deque<Object*>& {
     this->needUpdate(true);
     return this->__Subobject;
@@ -55,6 +67,22 @@ namespace sf::ui {
       }
     } this->__Builder = nullptr;
     this->needUpdate(true);
+  }
+  
+  inline func Buildable::setPerSize  (const std::string& percent /* 0~100% */) -> void {
+    this->__Self->setSize(((this->__Builder == nullptr)
+    ? _RendererSize : this->__Builder->getSize())
+    * this->__PercentToFloat(percent));
+  }
+  inline func Buildable::setPerWidth (const std::string& percent /* 0~100% */) -> void {
+    this->__Self->setSize({((this->__Builder == nullptr)
+    ? _RendererSize.x : this->__Builder->getSize().x)
+    * this->__PercentToFloat(percent), this->__Self->getSize().y});
+  }
+  inline func Buildable::setPerHeight(const std::string& percent /* 0~100% */) -> void {
+    this->__Self->setSize({this->__Self->getSize().x, ((this->__Builder == nullptr)
+    ? _RendererSize.y : this->__Builder->getSize().y)
+    * this->__PercentToFloat(percent)});
   }
   
   inline func Buildable::needUpdate(bool subobject_needUpdate) const -> void {

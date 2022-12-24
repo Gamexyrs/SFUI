@@ -6,15 +6,15 @@ namespace sf::ui {
     if(state.has_value()) switch(state.value()) {
       case(BtnState::None):
         this->__StateColor.__None    = value; return;
-      case(BtnState::Held):
-        this->__StateColor.__Held    = value; return;
+      case(BtnState::Pulled):
+        this->__StateColor.__Pulled  = value; return;
       case(BtnState::Pressed):
         this->__StateColor.__Pressed = value; return;
       case(BtnState::Checked):
         this->__StateColor.__Checked = value; return;
     } else {
       this->__StateColor.__None    = value;
-      this->__StateColor.__Held    = value;
+      this->__StateColor.__Pulled  = value;
       this->__StateColor.__Pressed = value;
       this->__StateColor.__Checked = value;
     }
@@ -23,8 +23,8 @@ namespace sf::ui {
     switch(state) {
       case(BtnState::None):
         return this->__StateColor.__None;
-      case(BtnState::Held):
-        return this->__StateColor.__Held;
+      case(BtnState::Pulled):
+        return this->__StateColor.__Pulled;
       case(BtnState::Pressed):
         return this->__StateColor.__Pressed;
       case(BtnState::Checked):
