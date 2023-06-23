@@ -9,7 +9,7 @@ namespace sf::ui {
   protected: Messagable(void) = default;
     virtual ~Messagable(void) = default;
     
-    static inline bool __Locked = false;
+    static inline bool __Locked{false};
     
   _data_public:
     static func setLocked(bool value) -> void;

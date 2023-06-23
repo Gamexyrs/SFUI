@@ -1,26 +1,91 @@
-# 2022/11/11
+# 2023/06/23
 
-## SFUI 0.3.8
+## SFUI 0.4.0
   
-  memory: "70.20KB"(71885) -> "75.93K"(77750)
+  memory: "75.93K"(77750) -> "105.95K"(108492)
 
 ### General
   
-  Now "修改或重写多余的代码, 尽量减少新增体积大小"
-  Now "圆周率常量使用数学库宏 M_PI，计算更准确"
+  Changed with "取消对多个 Obj 对象的 UnityDraw 功能, 保留对多个 Drawable* 对象的 Draw"
+  Changed with "类中的变量使用聚合初始化器进行初始化"
+  Changed with "类中的部分函数声明使用占位参数"
+  Changed with "引入分区头文件时若找不到文件则发出错误"
+  
+  Added t:const-std::vector<int> v:SFUIVersion with "版本号常量化"
+  
+  Fixed with "修复了手动将运行时参数宏定义为真也会禁用该运行选项的问题"
+  
+  Fixed warning in f:__PercentToFloat with "[-Wcatch-value=]"
+ !Fixed crash   in t:static c:MsgDiv  with "[= nullptr]"
+ !Fixed crash   in f:pollEvent in c:TouchEvent with "std::out_of_range: vector"
   
 ### System
 
-  Added c:ColorExtern as c:ColorEx in h:Color with "更符合编写规范; 便于添加 makeTrs 函数"
-  Now f:align(*) in h:Align. with "使用新的对齐方法与逻辑"
+  Changed in f:pollEvent in c:KbEvent with "在不允许换行时输入回车将会关闭键盘并返回换行符"
+  Changed in f:getFPS to f:getFPS_loopEnd<f> with move-to c:Renderable
+    with "内置时钟对象, 现在仅需在循环(开头)条件中使用开始函数并在末尾使用该函数获取帧率即可"
+  Changed t:Frame in-to c:Frame with "可以用 {} 代替 {{}, {}} 来初始化; 便于转移位置与大小"
+  
+  Deleted f:delBufString in KbEvent with "使用 f:setBufString 代替"
+  
+  Added n:geometry with "内置的数学几何算法命名空间(主要供内部图形对象调用)"
+  
+  Added f:overlay in h:Align with "是否完全重叠"
+  Added v:__ALLOW_FLOAT__ in t:__KB_SETTINGS__ def-is true
+    with "开启时即使禁止符号输入也可输入小数点, 且在Buffer内进行单一性检查(浮点数只允许出现一个小数点)"
+  Added f:setBufString in c:KbEvent with "设置缓存字符串内容"
+  Added f:loopBegin in c:Renderable with "调控循环中的数据, 返回值为窗口是否打开"
+  Added f:getViewPosition & f:getViewRect in c:Renderable with "获取视窗数据"
+  Added f:+*  in c:Format with "增加了对 Rect 和 Rect/Type 的加/乘法操作"
+  Added f:abs in c:Format with "增加了对 Vector2 的绝对值操作"
+  
+  Added const-v:Orange in c:ColorEx
+  
+ !Added c:RenderUnity with "可渲染集合"
+ 
+ !Added c:SlidableView with "可滑动视窗"
+  
+  Fixed in f:getPosition in c:TouchEvent with "修复了无法获取触控点的全局坐标的问题"
   
 ### Graphics
 
-  !Fixed "文字不会跟随其 Obj 的旋转而旋转且旋转后的触控区域不变 (现在为 Base 的外接矩形(平行于xy轴))"
-  !Fixed "开启自动换行时, 更新 TextDiv (子)对象时会导致额外的空行"
-   Fixed in c:MsgDiv with "引入时不再自动引入非必需的 CheckBtn 类"
-   
-  Added f:... in c:Buildable with "可以使用百分比以父类(屏幕)的尺寸比例设置大小"
+  Changed in c:Touchable with "__Enable 改名 __TouchEnable, 修复了其数值无用的问题"
+  Changed in c:Textable with "重写自动换行逻辑, 修复了更新物体时会出现额外换行的问题"
+  Changed in f:strProgress in c:ProgressDiv with "可以设置小数精度"
+  Changed in f:setBuilder in c:Buildable with "立刻更新最新位置"
+  Changed in c:MessageDiv with "以{1, 2}缩放每个按钮的触控面积"
+  Changed in c:MessageDiv with "按钮的默认填充颜色改为浅蓝色"
+  Changed in c:TextDiv with "字体为空且默认字体不为空时自动使用默认字体"
+  Changed in c:Obj in v:Tag with "可变类型"
+  Changed in c:... with "所有的 Visible 属性不再由函数设置, 现由标签设置"
+  
+  Deleted f:@Subobject in c:Builable with "剔除关于子对象的函数, 因为这易导致不安全的内存使用"
+  Deleted t:Attribute in c:Object with "转为使用内嵌无名结构体"
+  
+  Added [[nodiscard]] to f:pollEvent in c:MsgDiv
+  
+  Added f:~ in c:Buildable with "自动注销对象"
+  
+  Added f:getLineString    in c:Textable   with "获取自动换行后的字符串(未开启时为原字符串)"
+  Added f:getNextPosition  in c:Textable   with "获取下个字符位置"
+  Added f:v:TouchRectScale in c:Touchable  with "缩放触控面积"
+  Added f:getCenter in c:Object & c:Format with "获取中点位置"
+  Added f:inView    in c:Object with "是否在视窗中"
+  Added v:AlignLock in c:Object with "对称锁, 在更新时对称最新父类(视窗)"
+  Added f:requestUpdate in c:Object with "是否会在下一次绘制时更新"
+  Added f:@Frame        in c:Object with "更快速地转移位置与大小"
+  
+  Added f:setProgress`movProgress in c:ProgressDiv with "可以使用百分数修改进度"
+  
+ !Added c:InputDiv                         with "输入框"
+ !Added c:InputMessageDiv as c:InputMsgDiv with "带有输入框的弹窗"
+  
+  Fixed in c:MsgDiv with "修复了移动视窗时遮罩也会被移动的问题"
+                        `"修复了移动视窗时不会主动对称最新视窗的问题(使用对称锁)"
+  
+  Fixed in c:Buildable "修复了 Object 的 Builder 的 Builder 更新位置时不会自动更新的问题"
+  
+  Fixed crash in f:delBuilder in c:Buildable with "Segmentation fault"
 
 ## Doc
 
@@ -35,14 +100,28 @@ t: "type"
 v: "var"
 
 ## NewNote
-
-"目前 ProgressDiv 与 MessageDiv 无法(不推荐)使用旋转功能"
-"推荐在刷新循环前的定义就设置好 Obj 的属性, 避免出现累赘的 Obj 刷新"
+  "View 和 Viewport 功能暂未适配完毕, 小心使用"
 
 ## NewAttribute
-
-v:__IGNORE_ROTATEAGL__ : bool def-is false with "无视旋转角度"
+  v:__IGNORE_FASTDRAW_SOV__ : t:bool def-to false with "无视 FASTDRAW - SOV"
+  v:__VISIBLE__      : t:bool def-to v:true
+  v:__VISIBLE_BASE__ : t:bool def-to v:true
+  v:__VISIBLE_TEXT__ : t:bool def-to v:true
+  v:__VISIBLE_MASK__ : t:bool def-to v:true
+  v:__VISIBLE_INER__ : t:bool def-to v:true
 
 ## NewPre-Define
+  d:__PREDEF_INLINE_NAMESPACE__    : t:bool def-is v:true  with "允许隐式使用 sf::ui 命名空间"
+  
+  d:__PREDEF_ENABLE_UNITYDRAW__    : t:bool def-to v:false with "弃用"
+  
+  d:__PREDEF_ENABLE_FASTDRAW__     : t:bool def-not        with "控制所有的 FASTDRAW 宏"
+  d:__PREDEF_ENABLE_FASTDRAW_SOV__ : t:bool def-is v:true  with "启用时运行性能提升"
 
-d:__PREDEF_ENABLE_KB_BUFFER__ with "启用键盘输入缓冲区"
+## FastDraw Technology
+  d:__PREDEF_ENABLE_FASTDRAW_SOV__
+  "全称" : "Simplificate objects (that) out of view 简化在视窗外的物体"
+  "原理" : "视窗外的对象在更新时仅计算框架属性并且不绘制"
+  "效果" : "经过压力测试, 相比于未启用时的效率约提升30%"
+  "劣势" : "若视窗移动过快, 对象可能无法及时更新和绘制"
+  "可用" : "对在视窗外的所有对象可用"

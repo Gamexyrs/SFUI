@@ -7,36 +7,36 @@
 
 namespace sf::ui {
   typedef enum class ButtonEvent {
-    None, Pull, Press, Release,
+    None, Press, Release,
     
   }BtnEvent;
 
   typedef enum class ButtonState {
-    None, Pulled, Pressed, Checked,
+    None, Pressed, Checked,
     
   }BtnState;
 
-  typedef class AbstractButton {
+  typedef interface class AbstractButton {
   private:
-    Object* __Self = nullptr;
+    Object* __Self{nullptr};
   
   protected: AbstractButton(Object* self) : __Self(self) {}
     virtual ~AbstractButton(void) = default;
     
     struct {
-      Color __None    = Color::White,
-            __Pulled  = ColorEx::Grey,
-            __Pressed = ColorEx::Grey,
-            __Checked = ColorEx::Grey;
+      Color __None   {Color::White},
+            __Pulled {ColorEx::Grey},
+            __Pressed{ColorEx::Grey},
+            __Checked{ColorEx::Grey};
     }__StateColor;
     
-    BtnState __State = BtnState::None;
+    BtnState __State{BtnState::None};
     
   _data_public:
     func setStateColor(const Color& value, const std::optional<BtnState>& state = std::nullopt) -> void;
     func getStateColor(const BtnState& state) const -> const Color&;
     
-    func setState(const BtnState& value) -> void;
+    func setState(const BtnState&) _____ -> void;
     func getState(void) const -> const BtnState&;
 
   _func_public:

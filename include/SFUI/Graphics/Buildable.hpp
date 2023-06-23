@@ -3,48 +3,48 @@
 #pragma once
 
 namespace sf::ui {
-  typedef Vector2f Vector2b;
+  using Vector2b = Vector2<bool>;
+  using Percent  = String;
 
   class Object;
   typedef interface class Buildable {
   private:
-    Object* __Self = nullptr;
+    Object* __Self{nullptr};
   
-  protected: Buildable(Object* self) : __Self(self) {}
-    virtual ~Buildable(void) = default;
+  protected: Buildable(Object* self);
+    virtual ~Buildable(void);
     
-    static inline std::deque<Object*> __Registered_Object__ = {};
-    std::deque<Object*> __Subobject;
+    static inline std::deque<Object*> __RegisteredObject{};
     
-    mutable Vector2f __BuildPosition = {};
-    mutable Vector2b __BuildAddSize  = {};
-             Object* __Builder = nullptr;
+    mutable Vector2f __BuildPosition{};
+    mutable Vector2b __BuildAddSize {};
     
-    mutable bool __NeedUpdate = true;
+    // std::vector<Object*> __Subobject{};
+                Object*  __Builder{nullptr};
     
-    func __PercentToFloat(const std::string& percent) -> float;
+    mutable bool __NeedUpdate{true};
+    
+    func __PercentToFloat(const Percent&) -> float;
     
   _data_public:
-    func getSubobject(void) const -> const std::deque<Object*>&;
-    func delSubobject(void) -> void;
+    func setBuildPosition_Global(const Vector2f&) const -> void;
+    func setBuildPosition(const Vector2f&) const -> void;
+    func getBuildPosition(void) const -> const Vector2f&;
     
-    func setBuildPosition(const Vector2f& value) const -> void;
-    func getBuildPosition(void) const _____ -> const Vector2f&;
+    func setBuildAddSize(const Vector2b&) const -> void;
+    func getBuildAddSize(void) const -> const Vector2b&;
     
-    func setBuildAddSize(const Vector2b& value) const -> void;
-    func getBuildAddSize(void) const _____ -> const Vector2b&;
-    
-    func setBuilder(const Object& value, const std::optional<Vector2f>& buildPosition = std::nullopt,
-                                         const std::optional<Vector2b>& buildAddSize  = std::nullopt) -> void;
-    func getBuilder(void) const noexcept(false) -> const Object&;
+    func setBuilder(Object& value, const std::optional<Vector2f>& buildPosition = std::nullopt,
+                                   const std::optional<Vector2b>& buildAddSize  = std::nullopt) -> void;
+    func getBuilder(void) const -> Object*;
     func delBuilder(void) -> void;
     
   _func_public:
-    func setPerSize  (const std::string& percent = "100%" /* 0~100% */) -> void;
-    func setPerWidth (const std::string& percent = "100%" /* 0~100% */) -> void;
-    func setPerHeight(const std::string& percent = "100%" /* 0~100% */) -> void;
+    func setPerSize  (const Percent& = "100%") -> void;
+    func setPerWidth (const Percent& = "100%") -> void;
+    func setPerHeight(const Percent& = "100%") -> void;
     
-    func needUpdate(bool subobject_needUpdate = false) const -> void;
+    func needUpdate(void) const -> void;
     
     func build(void) const -> Vector2f;
     

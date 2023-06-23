@@ -7,16 +7,21 @@
 namespace sf::ui {
   typedef interface class Touchable {
   private:
-    Object* __Self = nullptr;
+    Object* __Self{nullptr};
     
   protected: Touchable(Object* self) : __Self(self) {}
     virtual ~Touchable(void) = default;
     
-    static inline bool __Enable = true;
+    bool __TouchEnable{true};
+    
+    Vector2f __TouchRectScale{1, 1};
   
   _data_public:
-    static func setEnable(bool value) -> void;
-    static func getEnable(void) _____ -> bool;
+    func setTouchEnable(bool) _____ -> void;
+    func getTouchEnable(void) const -> bool;
+    
+    func setTouchRectScale(const Vector2f&) _____ -> void;
+    func getTouchRectScale(void) const -> const Vector2f&;
   
   _func_public:
     func isTouchDown(void) -> unsigned;

@@ -3,47 +3,56 @@
 #pragma once
 
 #include "__Config.hpp"
+#if __has_include(<optional>)
 #include <optional>
+#elif __has_include(<experimental/optional>)
+#include <experimental/optional>
+#else
+#error "Unsupport cpp version"
+#endif
 #include <utility>
 #include <vector>
 #include <deque>
 #include <queue>
+#include <cmath>
 
-#define _RendererRect (static_cast<sf::FloatRect>(sf::IntRect(sf::Renderable::getRenderer().getPosition().x, \
-                                                              sf::Renderable::getRenderer().getPosition().y, \
-                                                              sf::Renderable::getRenderer().getSize().x,     \
-                                                              sf::Renderable::getRenderer().getSize().y)))
-#define _RendererSize (static_cast<sf::Vector2f>(sf::Renderable::getRenderer().getSize()))
-#define _Renderer (sf::Renderable::getRenderer())
+#define _RendererRect (::sf::FloatRect(::sf::Vector2f(::sf::ui::Renderable::getRenderer()->getPosition().x, \
+                                                      ::sf::ui::Renderable::getRenderer()->getPosition().y), \
+                                       ::sf::Vector2f(::sf::ui::Renderable::getRenderer()->getView().getSize().x,\
+                                                      ::sf::ui::Renderable::getRenderer()->getView().getSize().y)))
+#define _RendererSize (static_cast<::sf::Vector2f>(::sf::ui::Renderable::getRenderer()->getView().getSize()))
+#define _Renderer (*::sf::ui::Renderable::getRenderer())
 
 namespace sf::ui {
   typedef interface class Renderable {
-    protected: Renderable(void) = default;
-      virtual ~Renderable(void) = default;
+  private:
+    static inline RenderWindow* Renderer{nullptr};
+    static inline Clock __fps_clock{};
+  
+  protected: Renderable(void) = default;
+    virtual ~Renderable(void) = default;
 
-#if __PREDEF_ENABLE_UNITYDRAW__
-      static inline std::queue<Drawable*> __Unity;
-#endif
-      
-      static inline RenderWindow* Renderer = nullptr;
-      static inline Font*    __DefaultFont = nullptr;
-      
-      static func __rendererCheck(void) -> bool;
-      
-    _data_public:
-      static func setRenderer(const RenderWindow& value) -> void;
-      static func getRenderer(void) _____ -> _____ RenderWindow&;
+    static inline Font* __DefaultFont{nullptr};
+    
+    static func __rendererCheck(void) -> bool;
+    
+  _data_public:
+    static func setRenderer(const RenderWindow&) -> void;
+    static func getRenderer(void) -> _____ RenderWindow*;
 
-      static func setDefaultFont(const Font& value) -> void;
-      static func getDefaultFont(void) _____ -> _____ Font&;
-      
-      static func draw(std::initializer_list<Drawable*> value) -> void;
-
-#if __PREDEF_ENABLE_UNITYDRAW__
-      static func unityAdd(std::initializer_list<Drawable*> value) -> void;
-      static func unityDraw(void) -> void;
-#endif
-
+    static func setDefaultFont(const Font&) -> void;
+    static func getDefaultFont(void) -> _____ Font&;
+    
+    static func loopBegin(const Color& clear = Color::White) -> bool;
+    static func getFPS_loopEnd (void) -> String;
+    static func getFPS_loopEndf(void) -> float;
+    
+    static func getViewPosition(void) -> Vector2f;
+    static func getViewRect    (void) -> FloatRect;
+    
+    static func draw     (const std::initializer_list<Drawable*>&) -> void;
+    static func draw_fast(const std::initializer_list<Drawable*>&) -> void;
+    
   }Renderable;
 }
 

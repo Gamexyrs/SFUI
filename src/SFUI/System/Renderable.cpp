@@ -11,42 +11,54 @@ namespace sf::ui {
   inline func Renderable::setRenderer(const RenderWindow& value) -> void {
     Renderable::Renderer = const_cast<RenderWindow*>(&value);
   }
-  inline func Renderable::getRenderer(void) _____ -> _____ RenderWindow& {
-    if(!Renderable::__rendererCheck()) throw nullptr;
-    return *Renderable::Renderer;
+  inline func Renderable::getRenderer(void) -> RenderWindow* {
+    return Renderable::Renderer;
   }
   
   inline func Renderable::setDefaultFont(const Font& value) -> void {
     Renderable::__DefaultFont = const_cast<Font*>(&value);
   }
-  inline func Renderable::getDefaultFont(void) _____ -> _____ Font& {
+  inline func Renderable::getDefaultFont(void) -> Font& {
     if(Renderable::__DefaultFont == nullptr) {
       err() << "Undefined to defaultFont [= nullptr]" << std::endl;
       throw nullptr;
     } return *Renderable::__DefaultFont;
   }
   
-  inline func Renderable::draw(std::initializer_list<Drawable*> value) -> void {
+  inline func Renderable::loopBegin(const Color& clear) -> bool {
+    if(Renderable::Renderer->isOpen()) {
+       Renderable::__fps_clock.restart();
+       Renderable::Renderer->clear(clear);
+      return true;
+    } return false;
+  }
+  inline func Renderable::getFPS_loopEnd(void) -> String {
+    return String(std::to_wstring((static_cast<unsigned>(std::ceil(Renderable::getFPS_loopEndf())))));
+  }
+  inline func Renderable::getFPS_loopEndf(void) -> float {
+    return 1.0f / Renderable::__fps_clock.getElapsedTime().asSeconds();
+  }
+  
+  inline func Renderable::getViewPosition(void) -> Vector2f {
+    return(Renderable::Renderer->getView().getCenter()
+         - Renderable::Renderer->getView().getSize() / 2.0f);
+  }
+  inline func Renderable::getViewRect(void) -> FloatRect {
+    return FloatRect{
+      {Renderable::getViewPosition().x,
+       Renderable::getViewPosition().y},
+      {Renderable::Renderer->getView().getSize().x,
+       Renderable::Renderer->getView().getSize().y}};
+  }
+  
+  inline func Renderable::draw(const std::initializer_list<Drawable*>& value) -> void {
     for(auto& i : value) {
       if(i != nullptr) Renderable::Renderer->draw(*i);
     }
   }
-  
-#if __PREDEF_ENABLE_UNITYDRAW__
-  inline func Renderable::unityAdd(std::initializer_list<Drawable*> value) -> void {
+  inline func Renderable::draw_fast(const std::initializer_list<Drawable*>& value) -> void {
     for(auto& i : value) {
-      if(i != nullptr) Renderable::__Unity.push(i);
+      Renderable::Renderer->draw(*i);
     }
   }
-  inline func Renderable::unityDraw(void) -> void {
-    std::queue<Drawable*> new_unity;
-    while(!Renderable::__Unity.empty()) {
-      if(Renderable::__Unity.front() != nullptr) {
-        Renderable::Renderer->draw(*Renderable::__Unity.front());
-        new_unity.push(Renderable::__Unity.front());
-        Renderable::__Unity.pop();
-      }
-    } Renderable::__Unity = new_unity;
-  }
-#endif
 }

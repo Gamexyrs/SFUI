@@ -10,23 +10,16 @@ namespace sf::ui {
   public:    TextDiv(const Vector2f& size, const Object& builder, unsigned radius = 0,
                      const Vector2f& buildPosition = {},
                      const Vector2b& buildAddSize  = {});
-             TextDiv(const Frame& frame = {{}, {}}, unsigned radius = 0);
+             TextDiv(const Frame& frame = {}, unsigned radius = 0);
     virtual ~TextDiv(void) = default;
     
   protected:
-    virtual func draw(RenderTarget& target, RenderStates states) const -> void;
-    virtual func update(void) const -> void;
-    
-    bool __TextVisible = true;
-    
-    bool __Enable_AutoLineBreak = false;
+    virtual func draw(RenderTarget& target, const RenderStates& states) const -> void;
+    virtual func update_text(void) const -> void;
+    virtual func update     (void) const -> void;
     
   _data_public:
-    func setTextVisible(bool value) -> void;
-    func getTextVisible(void) const -> bool;
-    
-    func setAutoLineBreakEnable(bool value) -> void;
-    func getAutoLineBreakEnable(void) const -> bool;
+    virtual func inView(void) const -> bool;
     
   _func_public:
     func resize(void) -> void;

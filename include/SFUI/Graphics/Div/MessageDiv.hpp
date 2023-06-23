@@ -6,13 +6,15 @@
 
 namespace sf::ui {
   typedef struct MessageData {
-    String title = "";
-    String info  = "";
+    String title{""};
+    String info {""};
     
-    Font* font = nullptr;
+    Font* font{nullptr};
     
     std::vector<std::pair<String, int>>
-      btn = {{"OK", 1}};
+      btn{{L"确定", 1}};
+      
+    size_t btnTextSize{35};
     
   }MsgData;
   
@@ -23,42 +25,49 @@ namespace sf::ui {
     virtual ~MessageDiv(void) = default;
     
   protected:
-    virtual func draw(RenderTarget& target, RenderStates states) const -> void;
+    virtual func draw(RenderTarget& target, const RenderStates& states) const -> void;
     virtual func update(void) const -> void;
     
-    std::vector<std::unique_ptr<PushBtn>> __Btn;
-    std::queue <MsgData> __Msg;
+    std::vector<std::unique_ptr<PushBtn>> __Btn{};
+    std::queue <MsgData> __Msg{};
     
-    TextDiv __Info;
-        Div __Mask;
+    TextDiv __Info{};
+        Div __Mask{};
     
-    Uint8 __MaskTrs = 155;
+    uint8_t __MaskTrs{155};
     
-    bool __MaskVisible = true;
-    bool __Pushing     = false;
+    bool __Pushing{false};
     
   _data_public:
-    func setTitleTextColor(const Color& value) -> void;
+    func setTitleTextColor(const Color&) _____ -> void;
     func getTitleTextColor(void) const -> const Color&;
     
-    func setInfoTextColor(const Color& value) -> void;
+    func setInfoTextColor(const Color&) _____ -> void;
     func getInfoTextColor(void) const -> const Color&;
     
-    func setMaskVisible(bool value) -> void;
-    func getMaskVisible(void) const -> bool;
+    func getInfo(bool update = true) const -> TextDiv&;
     
-    func setMaskColor(const Color& value) -> void;
+    func setMaskColor(const Color&) _____ -> void;
     func getMaskColor(void) const -> Color;
     
     func getQueueSize(void) const -> size_t;
     
   _func_public:
+#if   (__cplusplus >= 202002L)
+    [[nodiscard("Must use such 'auto r = <name>.pollEvent(*)' to get the result code")]]
+#elif (__cplusplus >= 201703L)
+    [[nodiscard]]
+#endif
     virtual func pollEvent(const Event& event) -> std::optional<int>;
     
+    func buttonIsDown(void) const -> std::optional<int>;
+    
     func stopPushing(bool delMsg = true) -> void;
+    func isPushing  (void) const -> bool;
     
     func launchQueue(const MsgData& msg, bool push = false) -> size_t;
     func  clearQueue(void) -> void;
+    
     virtual func pushQueue(void) -> void;
     
   }MsgDiv;

@@ -25,18 +25,17 @@ namespace sf::ui {
     this->         __ATTRIBUTE__.__IGNORE_ROTATEAGL__ = true;
   }
   
-  inline func ProgressDiv::draw(RenderTarget& target, RenderStates states) const -> void {
-    if(this->__NeedUpdate || (this->__Progress < 0 && this->__Busy.__Running)) {
-      this->update();
-    }
-    if(this->__Visible) {
-      if(this->__BaseVisible) {
+  inline func ProgressDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
+    if(this->requestUpdate() || (this->__Progress < 0 && this->__Busy.__Running)) this->update();
+    if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
+                                       || !(__PREDEF_ENABLE_FASTDRAW_SOV__
+                                       && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
+      if(this->__ATTRIBUTE__.__VISIBLE_BASE__)
         target.draw(this->__Base, states);
-      }
-      target.draw(this->__Inside, states);
-      if(this->__TextVisible && !this->__Text.getString().isEmpty()) {
+      if(this->__ATTRIBUTE__.__VISIBLE_INER__)
+        target.draw(this->__Inside, states);
+      if(this->__ATTRIBUTE__.__VISIBLE_TEXT__ && !this->__Text.getString().isEmpty())
         target.draw(this->__Text, states);
-      }
     }
   }
   
@@ -76,7 +75,7 @@ namespace sf::ui {
     }
     else {
       this->__Inside.setBuildPosition({});
-      this->__Inside.setSize({this->getSize().x * (this->__Progress / 100), this->getSize().y});
+      this->__Inside.setSize({this->getSize().x * (this->__Progress), this->getSize().y});
       this->__Inside.setRounded(!(this->__Inside.getSize().x > this->__Border.__Radius
                                && this->__Inside.getSize().x < this->getSize().x - this->__Border.__Radius), Align::R);
     } this->TextDiv::update();
@@ -88,11 +87,14 @@ namespace sf::ui {
   }
 
   inline func ProgressDiv::setProgress(float current, float total) -> void {
-    this->__Progress = ((current >= total) ? 100 : (current / total * 100));
+    this->__Progress = ((current >= total) ? 1 : (current / total));
   }
   inline func ProgressDiv::setProgress(float value) -> void {
-    this->__Progress = ((value >= 100) ? 100 : value);
+    this->__Progress = ((value >= 1) ? 1 : value);
     this->needUpdate();
+  }
+  inline func ProgressDiv::setProgress(Percent value) -> void {
+    this->setProgress(this->__PercentToFloat(value));
   }
   inline func ProgressDiv::getProgress(void) const -> float {
     return this->__Progress;
@@ -117,7 +119,19 @@ namespace sf::ui {
   inline func ProgressDiv::movProgress(float value) -> void {
     this->setProgress(this->__Progress + value);
   }
-  inline func ProgressDiv::strProgress(void) const -> String {
-    return String(std::to_wstring(static_cast<int>(this->__Progress)) + L"%");
+  inline func ProgressDiv::movProgress(Percent value) -> void {
+    this->movProgress(this->__PercentToFloat(value));
+  }
+  inline func ProgressDiv::strProgress(size_t precision) const -> String {
+    if(!this->__Progress)      return L"0%";
+    if( this->__Progress == 1) return L"100%";
+    if(!precision) return String(
+      std::to_wstring(static_cast<int>(this->__Progress)) + L"%");
+    else {    std::wstringstream sstr;
+      sstr << std::setiosflags(std::ios::fixed)
+           << std::setprecision(precision) 
+           << (this->__Progress * 100);
+      return String(sstr.str() + L"%");
+    }
   }
 }

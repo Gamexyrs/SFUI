@@ -8,6 +8,9 @@ namespace sf::ui {
       = (keystr.find("L") != String::InvalidPos);
     KbEvent::__SETTINGS__.__ALLOW_SYMBOL__
       = (keystr.find("S") != String::InvalidPos);
+    KbEvent::__SETTINGS__.__ALLOW_FLOAT__
+      = (keystr.find(".") != String::InvalidPos);
+      
     KbEvent::__SETTINGS__.__ALLOW_NXLINE__
       = (keystr.find("+") != String::InvalidPos);
     KbEvent::__SETTINGS__.__ALLOW_DELETE__
@@ -28,12 +31,13 @@ namespace sf::ui {
     if(!KbEvent::__Buffer.isEmpty()) {
       String tmp_buf = KbEvent::__Buffer;
       if(reset) {
-        KbEvent::delBufString();
-      } return tmp_buf;
+        KbEvent::setBufString();
+      } return String(tmp_buf);
     }   return L"";
   }
-  inline func KbEvent::delBufString(void) -> void {
-    KbEvent::__Buffer = L"";
+  
+  inline func KbEvent::setBufString(const String& value) -> void {
+    KbEvent::__Buffer = value;
   }
   
   inline func KbEvent::getBufSize(void) -> size_t {
@@ -42,7 +46,8 @@ namespace sf::ui {
   
   inline func KbEvent::backspace(void) -> void {
     if(!KbEvent::__Buffer.isEmpty()) {
-      KbEvent::__Buffer.erase(KbEvent::__Buffer.getSize() - 1);
+        KbEvent::__Buffer.erase(
+        KbEvent::__Buffer.getSize() - 1);
     }
   }
   inline func KbEvent::nextLine(void) -> void {
@@ -52,31 +57,48 @@ namespace sf::ui {
     KbEvent::__Buffer += str;
   }
 #endif
+  inline func KbEvent::isDown(const Event& event, uint32_t key) -> bool {
+    return(event.type == Event::TextEntered && event.text.unicode == key);
+  }
+
   inline func KbEvent::pollEvent(const Event& event, bool inBuf) -> String {
     if(event.type == Event::TextEntered) {
       if(event.text.unicode > 31
       && event.text.unicode < 126) {
         // Check Settings
-        char tmp_input = static_cast<char>(event.text.unicode);
-        if(!(KbEvent::__SETTINGS__.__ALLOW_NUMBER__ || !std::isdigit(tmp_input))
-        || !(KbEvent::__SETTINGS__.__ALLOW_LETTER__ || !std::isalpha(tmp_input))
-        || !(KbEvent::__SETTINGS__.__ALLOW_SYMBOL__ ||  std::isdigit(tmp_input)
-                                                    ||  std::isalpha(tmp_input)))
+        char __tmp_input = static_cast<char>(event.text.unicode);
+        if(__tmp_input == 46 && (KbEvent::__SETTINGS__.__ALLOW_SYMBOL__
+                             ||  KbEvent::__SETTINGS__.__ALLOW_FLOAT__)) {
+          #if __PREDEF_ENABLE_KB_BUFFER__
+          if(KbEvent::__SETTINGS__.__ALLOW_FLOAT__
+          && KbEvent::__Buffer.find(".") == String::InvalidPos) {
+             KbEvent::__Buffer += std::to_wstring(".");
+          #endif
+             return L".";
+          #if __PREDEF_ENABLE_KB_BUFFER__
+          }
+          #endif
+        }
+        if(!(KbEvent::__SETTINGS__.__ALLOW_NUMBER__ || !std::isdigit(__tmp_input))
+        || !(KbEvent::__SETTINGS__.__ALLOW_LETTER__ || !std::isalpha(__tmp_input))
+        || !(KbEvent::__SETTINGS__.__ALLOW_SYMBOL__ ||  std::isdigit(__tmp_input)
+                                                    ||  std::isalpha(__tmp_input)))
         return L"";
         // Codecvt
         std::string str; std::stringstream strsr;
-        strsr << tmp_input; strsr >> str;
+        strsr << __tmp_input; strsr >> str;
         if(inBuf) {
           #if __PREDEF_ENABLE_KB_BUFFER__
           KbEvent::__Buffer += std::to_wstring(str);
           #endif
         }               return std::to_wstring(str);
-      } else if(event.text.unicode == 10
-        && KbEvent::__SETTINGS__.__ALLOW_NXLINE__) {
+      } else if(event.text.unicode == 10) {
+        if(KbEvent::__SETTINGS__.__ALLOW_NXLINE__) {
           #if __PREDEF_ENABLE_KB_BUFFER__
           if(inBuf) KbEvent::nextLine();
           #endif
-          return L"\n";
+        } else sf::Keyboard::setVirtualKeyboardVisible(false);
+        return L"\n";
       }
     } else if(event.type == Event::KeyPressed) {
       if(event.text.unicode == 59
@@ -118,14 +140,14 @@ namespace sf::ui {
   inline func TouchEvent::getTouchTime(unsigned index) -> Time {
     if(Touch::isDown(index)) {
       return TouchEvent::__TouchData.at(index).second.getElapsedTime();
-    } else return Time::Zero;
+    } return Time::Zero;
   }
 
   inline func TouchEvent::pollEvent(const Event& event) -> void {
     for(unsigned i = 0; i < TouchEvent::__FingerMaxNum; ++i) {
       if(!Touch::isDown(i)) {
         if(event.type == Event::TouchBegan) {
-          TouchEvent::__TouchData.at(i - 1).second.restart();
+          TouchEvent::__TouchData.at(i).second.restart();
         } for(; i < TouchEvent::__FingerMaxNum; ++i) {
           TouchEvent::__TouchData.at(i).first = {};
         } return;
@@ -136,9 +158,10 @@ namespace sf::ui {
     }
   }
 #endif 
-  inline func TouchEvent::getPosition(unsigned index) -> Vector2f {
+  inline func TouchEvent::getPosition(unsigned index, bool global) -> Vector2f {
     if(Touch::isDown(index)) {
-      return static_cast<Vector2f>(Touch::getPosition(index, _Renderer));
+      return (static_cast<Vector2f>(Touch::getPosition(index, _Renderer))
+        + (global ? (Renderable::getViewPosition()) : Vector2f{}));
     } else return Vector2f();
   }
 

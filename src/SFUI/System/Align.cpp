@@ -3,9 +3,9 @@
 namespace sf::ui {
   inline func align(const Vector2f size, const FloatRect& rect, short _align) -> const Vector2f {
     if(!_align)
-      return(Fm::getPosition(rect) + (Fm::getSize(rect) - size) / 2.f);
+      return(Fm::getPosition(rect) + (Fm::getSize(rect) - size) / 2.0f);
       
-    Vector2f tmp_v2 = {};
+    Vector2f tmp_v2{};
            if(_align & Align::L) {
       tmp_v2.x = rect.left;
     } else if(_align & Align::R) {
@@ -20,5 +20,18 @@ namespace sf::ui {
     } else {
       tmp_v2.y = align(size, rect).y;
     } return tmp_v2;
+  }
+  
+  inline func align_toRect(const Vector2f size, const FloatRect& rect, short _align) -> const FloatRect {
+    const Vector2f& __tmp{align(size, rect, _align)};
+    return {__tmp.x - rect.left, __tmp.y - rect.top, size.x, size.y};
+  }
+  
+  template<typename type>
+  inline func overlay(const Rect<type>& left, const Rect<type>& right) -> bool {
+    Rect<type> __inter{};
+    return(left.intersects(right, __inter)
+    && (__inter == left
+    ||  __inter == right));
   }
 }

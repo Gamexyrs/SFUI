@@ -7,17 +7,15 @@ namespace sf::ui {
   PushBtn::PushButton(const Frame& frame, unsigned radius)
     : AbsBtn(this), TextDiv(frame, radius), Touchable(this) {}
   
-  inline func PushBtn::draw(RenderTarget& target, RenderStates states) const -> void {
-    if(this->__NeedUpdate) {
-      this->update();
-    }
-    if(this->__Visible) {
-      if(this->__BaseVisible) {
+  inline func PushBtn::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
+    if(this->requestUpdate()) this->update();
+    if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
+                                       || !(__PREDEF_ENABLE_FASTDRAW_SOV__
+                                       && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
+      if(this->__ATTRIBUTE__.__VISIBLE_BASE__)
         target.draw(this->__Base, states);
-      }
-      if(this->__TextVisible && !this->__Text.getString().isEmpty()) {
+      if(this->__ATTRIBUTE__.__VISIBLE_TEXT__ && !this->__Text.getString().isEmpty())
         target.draw(this->__Text, states);
-      }
     }
   }
   

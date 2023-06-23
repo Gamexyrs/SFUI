@@ -2,9 +2,9 @@
 
 #pragma once
 
+#include "Frame.hpp"
 #include <codecvt>
 #include <string>
-#include <cmath>
 
 namespace sf::ui {
   typedef class Format {
@@ -12,40 +12,44 @@ namespace sf::ui {
     virtual ~Format(void) = default;
     
   _func_public:
-    template<typename Type>
-    static func getPosition(const Rect<Type>& rect) -> Vector2<Type>;
-    template<typename Type>
-    static func getSize    (const Rect<Type>& rect) -> Vector2<Type>;
-    template<typename Type>
-    static func getRoot    (const Rect<Type>& rect) -> Vector2<Type>;
+    template<typename type>
+    static func getPosition(const Rect<type>&) -> Vector2<type>;
+    template<typename type>
+    static func getSize    (const Rect<type>&) -> Vector2<type>;
+    template<typename type>
+    static func getRoot    (const Rect<type>&) -> Vector2<type>;
+    template<typename type>
+    static func getCenter  (const Rect<type>&) -> Vector2<type>;
     
-    static func getSize(const Sprite& target) -> Vector2f;
-    static func getSize(const Shape&  target) -> Vector2f;
-    static func getSize(const Text&   target) -> Vector2f;
+    static func getCenter(const Sprite&       ) -> Vector2f;
+    static func getCenter(const Shape&        ) -> Vector2f;
+    static func getCenter(const Text&         ) -> Vector2f;
     
-    static func getFPS(const Clock& clock) -> String;
+    static func getSize(const Sprite&       ) -> Vector2f;
+    static func getSize(const Shape&        ) -> Vector2f;
+    static func getSize(const Text&         ) -> Vector2f;
     
-    template<typename Type>
-    static func reverse(const Vector2<Type>& vector2) -> Vector2<Type>;
+    template<typename type>
+    static func reverse(const Vector2<type>&) -> Vector2<type>;
+    template<typename type>
+    static func abs    (const Vector2<type>&) -> Vector2<type>;
     
-    static func toString(const VideoMode&  videoMode) -> String;
-    static func toString(const Time&            time) -> String;
-    template<typename Type>
-    static func toString(const Rect   <Type>&   rect) -> String;
-    template<typename Type>
-    static func toString(const Vector2<Type>& vector2) -> String;
-    template<typename Type>
-    static func toString(const Vector3<Type>& vector3) -> String;
+    static func toString(const Color&, bool out_a = true) -> String;
+    static func toString(const Frame&) -> String;
+    static func toString(const Time& ) -> String;
+    template<typename type>
+    static func toString(const Rect   <type>&) -> String;
+    template<typename type>
+    static func toString(const Vector2<type>&) -> String;
+    template<typename type>
+    static func toString(const Vector3<type>&) -> String;
     
   }Fm;
-  
-  template<typename Type>
-  func operator* (const Vector2<Type>& left, const Vector2<Type>& right) -> Vector2<Type>;
 }
 
 namespace std {
-  func to_wstring(const  string&  str) -> wstring;
-  func to_string (const wstring& wstr) ->  string;
+  func to_wstring(const  string&) -> wstring;
+  func to_string (const wstring&) ->  string;
 }
 
 #include "../../../src/SFUI/System/Format.cpp"

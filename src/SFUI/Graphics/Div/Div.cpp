@@ -17,23 +17,24 @@ namespace sf::ui {
     this->setRadius(radius);
   }
 
-  inline func Div::draw(RenderTarget& target, RenderStates states) const -> void { this->__rendererCheck();
-    if(this->__NeedUpdate) {
-      this->update();
-    }
-    if(this->__Visible) {
-      if(this->__BaseVisible) {
+  inline func Div::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
+    if(this->requestUpdate()) this->update();
+    if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
+                                       || !(__PREDEF_ENABLE_FASTDRAW_SOV__
+                                       && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
+      if(this->__ATTRIBUTE__.__VISIBLE_BASE__)
         target.draw(this->__Base, states);
-      }
     }
   }
   
   inline func Div::update(void) const -> void {
-    if(this->__ATTRIBUTE__.__IGNORE_ROTATEAGL__
-    && this->__Base.getRotation()) {
-      this->__Base.setRotation(0);
-    } this->__Base.setPosition(this->build());
+    if(this->__ATTRIBUTE__.__IGNORE_ROTATEAGL__) {
+       this->__Base.setRotation(0);
+    }  this->setPosition(this->build());
     if(this->__Border.__PointCount == 4
+       || (!this->inView()
+       && (__PREDEF_ENABLE_FASTDRAW_SOV__
+       && ! this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))
        || ! this->__Border.__Radius
        || !(this->__Border.__Rounded_RT
        ||   this->__Border.__Rounded_RB
@@ -48,7 +49,7 @@ namespace sf::ui {
       unsigned ori_radius = this->__Border.__Radius;
                             this->__Border.__Radius = std::fmin(this->__Border.__Radius, this->getMaxRadius());
       this->__Base.setPointCount(this->__Border.__PointCount);
-      double angleprec = M_PI*2 / this->__Border.__PointCount;
+      double angleprec = M_PI*2 /this->__Border.__PointCount;
       for(size_t i = 0; i < this->__Base.getPointCount(); ++i) {
         if(i <= this->__Base.getPointCount()*0.25) {
           if(!this->__Border.__Rounded_RT)
@@ -83,70 +84,45 @@ namespace sf::ui {
           }
         }
       } this->__Border.__Radius = ori_radius;
+    } if(this->__AlignLock.has_value()) {
+         this->align(this->__AlignLock.value());
     } this->__NeedUpdate = false;
   }
   
-  inline func Div::setRounded(bool value, const std::optional<Align>& corner) const -> void {
+  inline func Div::setRounded(bool value, const Align& corner) const -> void {
     this->needUpdate();
-    if(corner.has_value()) switch(corner.value()) {
-      case(Align::C):
+    switch(corner) {
+      case(Align::L):  this->__Border.__Rounded_LT = value;
+                       this->__Border.__Rounded_LB = value; return;
+      case(Align::R):  this->__Border.__Rounded_RT = value;
+                       this->__Border.__Rounded_RB = value; return;
+      case(Align::T):  this->__Border.__Rounded_LT = value;
+                       this->__Border.__Rounded_RT = value; return;
+      case(Align::B):  this->__Border.__Rounded_LB = value;
+                       this->__Border.__Rounded_RB = value; return;
+      case(Align::LT): this->__Border.__Rounded_LT = value; return;
+      case(Align::LB): this->__Border.__Rounded_LB = value; return;
+      case(Align::RT): this->__Border.__Rounded_RT = value; return;
+      case(Align::RB): this->__Border.__Rounded_RB = value; return;
+      default:
         this->__Border.__Rounded_LT = value;
         this->__Border.__Rounded_LB = value;
         this->__Border.__Rounded_RT = value;
         this->__Border.__Rounded_RB = value;
-        return;
-      case(Align::L):
-        this->__Border.__Rounded_LT = value;
-        this->__Border.__Rounded_LB = value;
-        return;
-      case(Align::R):
-        this->__Border.__Rounded_RT = value;
-        this->__Border.__Rounded_RB = value;
-        return;
-      case(Align::T):
-        this->__Border.__Rounded_LT = value;
-        this->__Border.__Rounded_RT = value;
-        return;
-      case(Align::B):
-        this->__Border.__Rounded_LB = value;
-        this->__Border.__Rounded_RB = value;
-        return;
-      case(Align::LT):
-        this->__Border.__Rounded_LT = value; return;
-      case(Align::LB):
-        this->__Border.__Rounded_LB = value; return;
-      case(Align::RT):
-        this->__Border.__Rounded_RT = value; return;
-      case(Align::RB):
-        this->__Border.__Rounded_RB = value; return;
-    } else {
-      this->__Border.__Rounded_LT = value;
-      this->__Border.__Rounded_LB = value;
-      this->__Border.__Rounded_RT = value;
-      this->__Border.__Rounded_RB = value;
     }
   }
   inline func Div::getRounded(const Align& corner) const -> bool {
     switch(corner) {
-      case(Align::C):
-        return this->__Border.__Rounded_LT && this->__Border.__Rounded_LB
-            && this->__Border.__Rounded_LB && this->__Border.__Rounded_RB;
-      case(Align::L):
-        return this->__Border.__Rounded_LT && this->__Border.__Rounded_LB;
-      case(Align::R):
-        return this->__Border.__Rounded_RT && this->__Border.__Rounded_RB;
-      case(Align::T):
-        return this->__Border.__Rounded_LT && this->__Border.__Rounded_RT;
-      case(Align::B):
-        return this->__Border.__Rounded_LB && this->__Border.__Rounded_RB;
-      case(Align::LT):
-        return this->__Border.__Rounded_LT;
-      case(Align::LB):
-        return this->__Border.__Rounded_LB;
-      case(Align::RT):
-        return this->__Border.__Rounded_RT;
-      case(Align::RB):
-        return this->__Border.__Rounded_RB;
+      case(Align::C):  return this->__Border.__Rounded_LT && this->__Border.__Rounded_LB
+                           && this->__Border.__Rounded_LB && this->__Border.__Rounded_RB;
+      case(Align::L):  return this->__Border.__Rounded_LT && this->__Border.__Rounded_LB;
+      case(Align::R):  return this->__Border.__Rounded_RT && this->__Border.__Rounded_RB;
+      case(Align::T):  return this->__Border.__Rounded_LT && this->__Border.__Rounded_RT;
+      case(Align::B):  return this->__Border.__Rounded_LB && this->__Border.__Rounded_RB;
+      case(Align::LT): return this->__Border.__Rounded_LT;
+      case(Align::LB): return this->__Border.__Rounded_LB;
+      case(Align::RT): return this->__Border.__Rounded_RT;
+      case(Align::RB): return this->__Border.__Rounded_RB;
     }
   }
   
@@ -165,11 +141,11 @@ namespace sf::ui {
   inline func Div::getRadius(void) const -> unsigned {
     return this->__Border.__Radius;
   }
+  
   inline func Div::getRealRadius(void) const -> unsigned {
     return std::fmin(this->__Border.__Radius, this->getMaxRadius());
   }
-  
   inline func Div::getMaxRadius(void) const -> unsigned {
-    return static_cast<unsigned>(fmin(this->getSize().x, this->getSize().y)/2);
+    return static_cast<unsigned>(std::fmin(this->getSize().x, this->getSize().y)/2);
   }
 }
