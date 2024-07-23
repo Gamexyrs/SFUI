@@ -2,6 +2,14 @@
 a Simple and Fast User Interface as a SFML2.5.1 extension.
 Especially support Android.
 
+# Feature
+  * Convenient Buttons.
+  * Convenient-Build Divs.
+  * Convenient Text Edition.
+  * Convenient Event Input.
+  * Smooth Movement.
+  * Aim to Android.
+
 # Include
   Obviously, following **the same way how to use SFML** in your code is correct.
 
