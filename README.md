@@ -1,5 +1,6 @@
 # SFUI
 a Simple and Fast User Interface as a SFML2.5.1 extension.
+Especially support Android.
 
 # Include
   Obviously, following **the same way how to use SFML** in your code is correct.
