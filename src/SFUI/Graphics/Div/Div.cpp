@@ -40,7 +40,7 @@ namespace sf::ui {
        || !(this->__Border.__Rounded_RT
        ||   this->__Border.__Rounded_RB
        ||   this->__Border.__Rounded_LB
-       ||   this->__Border.__Rounded_RB)) {
+       ||   this->__Border.__Rounded_LT)) {
       this->__Base.setPointCount(4);
       this->__Base.setPoint(0, {});
       this->__Base.setPoint(2, this->getSize());
