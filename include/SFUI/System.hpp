@@ -43,10 +43,10 @@
   
   #ifdef __PREDEF_ENABLE_TOUCHDATA__
   #if    __PREDEF_ENABLE_TOUCHDATA__
-    #if __has_include("./System/SlidableView.hpp")
-      #include "./System/SlidableView.hpp"
+    #if __has_include("./System/ScrollableView.hpp")
+      #include "./System/ScrollableView.hpp"
     #else
-      #error "No such file: SFUI/System/SlidableView.hpp"
+      #error "No such file: SFUI/System/ScrollableView.hpp"
     #endif
   #endif
   #endif

@@ -11,6 +11,18 @@
     #error "No such file: SFUI/Graphics/Buildable.hpp"
   #endif
   
+  #if __has_include("./Graphics/MoveMethod.hpp")
+    #include "./Graphics/MoveMethod.hpp"
+  #else
+    #error "No such file: SFUI/Graphics/MoveMethod.hpp"
+  #endif
+  
+  #if __has_include("./Graphics/Movable.hpp")
+    #include "./Graphics/Movable.hpp"
+  #else
+    #error "No such file: SFUI/Graphics/Movable.hpp"
+  #endif
+  
   #if __has_include("./Graphics/Textable.hpp")
     #include "./Graphics/Textable.hpp"
   #else
@@ -65,6 +77,24 @@
     #error "No such file: SFUI/Graphics/CheckButton.hpp"
   #endif
   
+  #if __has_include("./Graphics/Button/AbstractList_CheckButtons.hpp")
+    #include "./Graphics/Button/AbstractList_CheckButtons.hpp"
+  #else
+    #error "No such file: SFUI/Graphics/AbstractList_CheckButtons.hpp"
+  #endif
+  
+  #if __has_include("./Graphics/Button/List_RadioButtons.hpp")
+    #include "./Graphics/Button/List_RadioButtons.hpp"
+  #else
+    #error "No such file: SFUI/Graphics/List_RadioButtons.hpp"
+  #endif
+  
+  #if __has_include("./Graphics/Button/List_CheckButtons.hpp")
+    #include "./Graphics/Button/List_CheckButtons.hpp"
+  #else
+    #error "No such file: SFUI/Graphics/List_CheckButtons.hpp"
+  #endif
+  
   #if __has_include("./Graphics/Button/InputDiv.hpp")
     #include "./Graphics/Button/InputDiv.hpp"
   #else
@@ -77,5 +107,5 @@
     #error "No such file: SFUI/Graphics/InputMessageDiv.hpp"
   #endif
   
-  #define __SFUI_INCLUDE_GRAPHICS__ 13
+  #define __SFUI_INCLUDE_GRAPHICS__ 18
 #endif

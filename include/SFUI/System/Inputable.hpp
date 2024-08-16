@@ -17,14 +17,18 @@ namespace sf::ui {
   _data_public:
     static inline struct __KB_SETTINGS__ {
       bool __ALLOW_NUMBER__, // 'N' (identifiers, etc.)
+      
            __ALLOW_LETTER__, // 'L'
+             __ONLY_UPPER__, // 'A'
+             __ONLY_LOWER__, // 'a'
+             
            __ALLOW_SYMBOL__, // 'S'
            __ALLOW_FLOAT__,  // '.'
            
            __ALLOW_NXLINE__, // '+'
            __ALLOW_DELETE__; // '-'
       
-    }__SETTINGS__{true, true, true, true, true, true};
+    }__SETTINGS__{true, true, false, false, true, true, true, true};
     
     // if str includes corresponding identifiers means those settings turn to true
     static func setSettings(const String& keystr = "NLS.+-") -> void;

@@ -15,7 +15,7 @@ namespace sf::ui {
     try {
       return(std::stof(tmp) / 100);
     } catch(...) {
-      err() << "SFUI_CATCH: Input a unresolvable percent string\n";
+      err() << "SFUI_CATCH: Input an unresolvable percent string\n";
       return 0.0f;
     }
   }

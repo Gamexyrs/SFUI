@@ -18,8 +18,8 @@ namespace sf::ui {
   }
   
   inline func InputDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
-    if(this->requestUpdate() || this->getChecked())
-       this->update();
+    if(this->requestUpdate() || this->getChecked()) this->update();
+    if(this->mov.getAuto()) this->mov.next();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {

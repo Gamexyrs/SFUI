@@ -4,6 +4,7 @@ namespace sf::ui::geometry {
   inline func parse_circle_point(const CircleBuilder& cir, const PointBuilder& pt) -> parse_data_type {
     float v_atan = std::atan((cir._center.y - pt.y)
                            / (cir._center.x - pt.x));
+    
     /* [: */
     parse_data.v_Angle = ((cir._center.x < pt.x) ? 0.0f : 180.0f) + v_atan * (180.0f / M_PI);
     /* [: */

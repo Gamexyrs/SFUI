@@ -4,7 +4,7 @@
 
 #include "Object.hpp"
 
-#define __V2CJK__ 1.0f, 1.25
+#define __V2CJK__ 1.0f, 1.25f
 
 namespace sf::ui {
   typedef interface class Textable {
@@ -35,7 +35,7 @@ namespace sf::ui {
     func setTextAdapt(const Vector2f&) _____ -> void;
     func getTextAdapt(void) const -> const Vector2f&;
 
-    func setTextAlign(const Align&) _____ -> void;
+    func setTextAlign(const Align&)  -> Vector2f&;
     func getTextAlign(void) const -> const Align&;
     
     func setAutoLineBreakEnable(bool) _____ -> void;
@@ -59,5 +59,7 @@ namespace sf::ui {
     
   }Textable;
 }
+
+#undef __V2CJK__
 
 #include "../../../src/SFUI/Graphics/Textable.cpp"

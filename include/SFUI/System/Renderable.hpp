@@ -24,6 +24,9 @@
 #define _Renderer (*::sf::ui::Renderable::getRenderer())
 
 namespace sf::ui {
+  using Vector2b = Vector2<bool>;
+  using Percent  = String;
+  
   typedef interface class Renderable {
   private:
     static inline RenderWindow* Renderer{nullptr};
@@ -38,10 +41,10 @@ namespace sf::ui {
     
   _data_public:
     static func setRenderer(const RenderWindow&) -> void;
-    static func getRenderer(void) -> _____ RenderWindow*;
+    static func getRenderer(void) -> RenderWindow*;
 
     static func setDefaultFont(const Font&) -> void;
-    static func getDefaultFont(void) -> _____ Font&;
+    static func getDefaultFont(void) -> Font&;
     
     static func loopBegin(const Color& clear = Color::White) -> bool;
     static func getFPS_loopEnd (void) -> String;

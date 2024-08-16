@@ -2,11 +2,11 @@
 
 namespace sf::ui {
   Obj::Object(const Vector2f& size, const Object& builder, const Vector2f& buildPosition, const Vector2b& buildAddSize)
-    : Buildable(this) {
+    : Buildable(this), Movable(this) {
     this->setBuilder(const_cast<Object&>(builder), buildPosition, buildAddSize); this->setSize(size);
   }
   Obj::Object(const Frame& frame)
-    : Buildable(this) {
+    : Buildable(this), Movable(this) {
     this->setPosition(frame.pos); this->setSize(frame.size);
   }
   
@@ -15,11 +15,35 @@ namespace sf::ui {
     return this->__Base;
   }
 
+  inline func Obj::setOutlineThickness(float value) const -> void {
+    this->__Base.setOutlineThickness(value);
+    this->needUpdate();
+  }
+  inline func Obj::getOutlineThickness(void) const -> float {
+    return this->__Base.getOutlineThickness();
+  }
+    
+  inline func Obj::setOutlineColor(const Color& value) const -> void {
+    this->__Base.setOutlineColor(value);
+    this->needUpdate();
+  }
+  inline func Obj::getOutlineColor(void) const -> const Color& {
+    return this->__Base.getOutlineColor();
+  }
+    
+  inline func Obj::setFillColor(const Color& value) const -> void {
+    this->__Base.setFillColor(value);
+    this->needUpdate();
+  }
+  inline func Obj::getFillColor(void) const -> const Color& {
+    return this->__Base.getFillColor();
+  }
+
   inline func Obj::setPosition(const Vector2f& value) const -> void {
     this->__Base.setPosition(value);
     this->needUpdate();
   }
-  inline func Obj::getPosition(void) const _____ -> const Vector2f& {
+  inline func Obj::getPosition(void) const -> const Vector2f& {
     return this->__Base.getPosition();
   }
 
@@ -27,7 +51,7 @@ namespace sf::ui {
     this->__Size = value;
     this->needUpdate();
   }
-  inline func Obj::getSize(void) const _____ -> const Vector2f& {
+  inline func Obj::getSize(void) const -> const Vector2f& {
     return this->__Size;
   }
 
@@ -67,6 +91,10 @@ namespace sf::ui {
     }  this->__Base.move(value);
     this->needUpdate();
   }
+  inline func Obj::zoom(const Vector2f& value) const -> void {
+    const Vector2f& __ct_pos{this->getCenter()};
+    this->setSize(value); this->setCenter(__ct_pos);
+  }
 
   inline func Obj::getRect(void) const -> FloatRect {
     return{this->getPosition(), this->getSize()};
@@ -91,12 +119,13 @@ namespace sf::ui {
   }
   
   inline func Obj::requestUpdate(void) const -> bool {
-    return((SlidableView::getAutoSliding() && this->inView())
+    return((ScrollableView::getAutoSliding() && this->inView())
          || this->build() != this->getPosition()
          || this->__NeedUpdate);
   }
   
   inline func Obj::inView(void) const -> bool {
-    return (this->getRect() + FloatRect({}, {1, 1})).intersects(this->getViewRect());
+    return (this->getRect() + FloatRect{{}, {1, 1}}).intersects(this->getViewRect());
   }
+  
 }

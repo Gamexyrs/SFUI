@@ -9,6 +9,7 @@ namespace sf::ui {
   
   inline func PushBtn::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
     if(this->requestUpdate()) this->update();
+    if(this->mov.getAuto()) this->mov.next();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
@@ -22,9 +23,8 @@ namespace sf::ui {
   inline func PushBtn::update(void) const -> void { this->TextDiv::update();
     switch(this->__State) {
       case(BtnState::Pressed):
-        this->__Base.setFillColor(this->__StateColor.__Pressed); break;
-      default:
-        this->__Base.setFillColor(this->__StateColor.__None);
+               this->__Base.setFillColor(this->__StateColor.__Pressed); break;
+      default: this->__Base.setFillColor(this->__StateColor.__None);
     }
   }
 

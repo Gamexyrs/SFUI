@@ -13,7 +13,7 @@ namespace sf::ui {
     
   _data_public:
     static func setLocked(bool value) -> void;
-    static func getLocked(void) _____ -> bool;
+    static func getLocked(void) -> bool;
     
     virtual func pushQueue(void) -> void = 0;
       

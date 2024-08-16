@@ -4,7 +4,7 @@ namespace sf::ui {
   inline func Msgable::setLocked(bool value) -> void {
     Msgable::__Locked = value;
   }
-  inline func Msgable::getLocked(void) _____ -> bool {
+  inline func Msgable::getLocked(void) -> bool {
     return Msgable::__Locked;
   }
 }

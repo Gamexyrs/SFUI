@@ -18,16 +18,17 @@ namespace sf::ui {
     static func getSize    (const Rect<type>&) -> Vector2<type>;
     template<typename type>
     static func getRoot    (const Rect<type>&) -> Vector2<type>;
+    static func getRoot    (const Sprite&) -> Vector2f;
     template<typename type>
     static func getCenter  (const Rect<type>&) -> Vector2<type>;
     
-    static func getCenter(const Sprite&       ) -> Vector2f;
-    static func getCenter(const Shape&        ) -> Vector2f;
-    static func getCenter(const Text&         ) -> Vector2f;
+    static func getCenter(const Sprite&) -> Vector2f;
+    static func getCenter(const Shape& ) -> Vector2f;
+    static func getCenter(const Text&  ) -> Vector2f;
     
-    static func getSize(const Sprite&       ) -> Vector2f;
-    static func getSize(const Shape&        ) -> Vector2f;
-    static func getSize(const Text&         ) -> Vector2f;
+    static func getSize(const Sprite&) -> Vector2f;
+    static func getSize(const Shape& ) -> Vector2f;
+    static func getSize(const Text&  ) -> Vector2f;
     
     template<typename type>
     static func reverse(const Vector2<type>&) -> Vector2<type>;

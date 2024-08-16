@@ -2,7 +2,7 @@
 
 namespace sf::ui {
   RenderUnity::RenderUnity(const std::initializer_list<Drawable*>& value) {
-    this->push_back(value);
+    this->push_unity(value);
   }
   
   inline func RenderUnity::draw(RenderTarget& target, const RenderStates& states) const -> void {
@@ -10,7 +10,7 @@ namespace sf::ui {
       target.draw(*i, states);
   }
   
-  inline func RenderUnity::push_back(const std::initializer_list<Drawable*>& value) -> void {
+  inline func RenderUnity::push_unity(const std::initializer_list<Drawable*>& value) -> void {
     for(auto& i : value)
       if(i != nullptr) this->__Unity.emplace_back(i);
   }

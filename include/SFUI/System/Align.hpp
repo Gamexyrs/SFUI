@@ -17,9 +17,9 @@ namespace sf::ui {
   }Align;
   
   func align(const Vector2f size, const FloatRect& rect,
-         short align = Align::Center) -> const Vector2f;
+         short align = Align::Center) -> Vector2f;
   func align_toRect(const Vector2f size, const FloatRect& rect,
-         short align = Align::Center) -> const FloatRect;
+         short align = Align::Center) -> FloatRect;
   
   template<typename type>
   func overlay(const Rect<type>&, const Rect<type>&) -> bool;

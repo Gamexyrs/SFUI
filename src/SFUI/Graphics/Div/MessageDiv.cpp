@@ -24,6 +24,7 @@ namespace sf::ui {
   
   inline func MsgDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
     if(this->requestUpdate()) this->update();
+    if(this->mov.getAuto()) this->mov.next();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
@@ -68,6 +69,14 @@ namespace sf::ui {
   inline func MsgDiv::getInfoTextColor(void) const -> const Color& {
     return this->__Info.getText().getFillColor();
   }
+  
+  inline func MsgDiv::setSize(const Vector2f& value, bool reset_InfoDiv) -> void {
+    this->TextDiv::setSize(value);
+    if(reset_InfoDiv)
+      this->__Info.setSize({this->getSize().x
+      - this->__Info.getBuildPosition().x * 2.0f, 0.0f});
+  }
+  
   inline func MsgDiv::getInfo(bool update) const -> TextDiv& {
     if(update) this->needUpdate();
     return const_cast<TextDiv&>(this->__Info);

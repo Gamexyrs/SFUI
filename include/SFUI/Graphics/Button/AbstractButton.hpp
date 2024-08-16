@@ -40,7 +40,6 @@ namespace sf::ui {
     func getState(void) const -> const BtnState&;
 
   _func_public:
-  
     
   }AbsBtn;
 }

@@ -29,7 +29,7 @@
   #define __PREDEF_ENABLE_KB_BUFFER__ true
 #endif
 
-// if false, you need to use sf::ui::<sfui_type> instead of sf::<sfui_type> [ sfui_type | class ]
+// if false, you need to use sf::ui::<sfui_type>:: instead of sf::<sfui_type> [ sfui_type | class ]
 #ifndef   __PREDEF_INLINE_NAMESPACE__
   #define __PREDEF_INLINE_NAMESPACE__ true
 #endif

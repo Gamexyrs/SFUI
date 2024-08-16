@@ -27,6 +27,7 @@ namespace sf::ui {
   
   inline func ProgressDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
     if(this->requestUpdate() || (this->__Progress < 0 && this->__Busy.__Running)) this->update();
+    if(this->mov.getAuto()) this->mov.next();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
@@ -43,34 +44,31 @@ namespace sf::ui {
     this->__Inside.setRadius(this->__Border.__Radius);
     
     // 繁忙
-    if(this->__Progress < 0) {
-      // 运行
-      if(this->__Busy.__Running) {
-        // 出现
-        if(this->__Inside.getBuildPosition() == Vector2f()) {
-          if(this->__Inside.getSize().x >= this->getSize().x * 0.2) {
-            this->__Inside.move({this->__Busy.__RunSpeed, 0});
-          } else {
-            this->__Inside.setSize({this->__Inside.getSize().x + this->__Busy.__RunSpeed, this->getSize().y});
-            this->__Inside.setRounded(true, Align::L);
-          }
-        }
-        // 消失
-        else if(this->__Inside.getRoot().x >= this->getRoot().x) {
-          // 重启
-          if(this->__Inside.getPosition().x >= (this->getRoot().x - this->__Border.__Radius)) {
-            this->__Inside.setRounded(false, Align::R);
-            this->__Inside.setBuildPosition({});
-            this->__Inside.setSize({});
-          } else {
-            this->__Inside.setRounded(true, Align::R);
-            this->__Inside.move({this->__Busy.__RunSpeed, 0});
-            this->__Inside.setSize({this->__Inside.getSize().x - this->__Busy.__RunSpeed, this->getSize().y});
-          }
-        } else {
-          this->__Inside.setRounded(false);
+    if(this->__Progress < 0 && this->__Busy.__Running) {
+      // 出现
+      if(this->__Inside.getBuildPosition() == Vector2f()) {
+        if(this->__Inside.getSize().x >= this->getSize().x * 0.2) {
           this->__Inside.move({this->__Busy.__RunSpeed, 0});
+        } else {
+          this->__Inside.setSize({this->__Inside.getSize().x + this->__Busy.__RunSpeed, this->getSize().y});
+          this->__Inside.setRounded(true, Align::L);
         }
+      }
+      // 消失
+      else if(this->__Inside.getRoot().x >= this->getRoot().x) {
+        // 重启
+        if(this->__Inside.getPosition().x >= (this->getRoot().x - this->__Border.__Radius)) {
+          this->__Inside.setRounded(false, Align::R);
+          this->__Inside.setBuildPosition({});
+          this->__Inside.setSize({});
+        } else {
+          this->__Inside.setRounded(true, Align::R);
+          this->__Inside.move({this->__Busy.__RunSpeed, 0});
+          this->__Inside.setSize({this->__Inside.getSize().x - this->__Busy.__RunSpeed, this->getSize().y});
+        }
+      } else {
+        this->__Inside.setRounded(false);
+        this->__Inside.move({this->__Busy.__RunSpeed, 0});
       }
     }
     else {
@@ -88,6 +86,7 @@ namespace sf::ui {
 
   inline func ProgressDiv::setProgress(float current, float total) -> void {
     this->__Progress = ((current >= total) ? 1 : (current / total));
+    this->needUpdate();
   }
   inline func ProgressDiv::setProgress(float value) -> void {
     this->__Progress = ((value >= 1) ? 1 : value);
@@ -125,13 +124,13 @@ namespace sf::ui {
   inline func ProgressDiv::strProgress(size_t precision) const -> String {
     if(!this->__Progress)      return L"0%";
     if( this->__Progress == 1) return L"100%";
-    if(!precision) return String(
-      std::to_wstring(static_cast<int>(this->__Progress)) + L"%");
+    if(!precision) return String{
+      std::to_wstring(static_cast<int>(this->__Progress)) + L"%"};
     else {    std::wstringstream sstr;
       sstr << std::setiosflags(std::ios::fixed)
            << std::setprecision(precision) 
            << (this->__Progress * 100);
-      return String(sstr.str() + L"%");
+      return String{sstr.str() + L"%"};
     }
   }
 }

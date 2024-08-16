@@ -19,9 +19,11 @@ namespace sf::ui {
     Renderable::__DefaultFont = const_cast<Font*>(&value);
   }
   inline func Renderable::getDefaultFont(void) -> Font& {
+    static Font __tmp_f{};
     if(Renderable::__DefaultFont == nullptr) {
-      err() << "Undefined to defaultFont [= nullptr]" << std::endl;
-      throw nullptr;
+      err() << "Undefined to defaultFont [= nullptr]\n\n";
+             __tmp_f.loadFromFile("/system/fonts/NotoSansCJK-Regular.ttc");
+      return __tmp_f;
     } return *Renderable::__DefaultFont;
   }
   

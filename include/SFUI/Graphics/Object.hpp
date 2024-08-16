@@ -4,10 +4,12 @@
 
 #include "../System.hpp"
 #include "Buildable.hpp"
+#include "Movable.hpp"
+
 #include <any>
 
 namespace sf::ui {
-  typedef class Object : public Renderable, public Buildable {
+  typedef class Object : public Renderable, public Buildable, public Movable {
   protected: Object(const Vector2f& size, const Object& builder,
                     const Vector2f& buildPosition = {},
                     const Vector2b& buildAddSize  = {});
@@ -24,9 +26,18 @@ namespace sf::ui {
   _data_public:
     func getBase(bool update = true) const -> ConvexShape&;
 
+    func setOutlineThickness(float) const -> void;
+    func getOutlineThickness(void) const -> float;
+    
+    func setOutlineColor(const Color&) const -> void;
+    func getOutlineColor(void) const -> const Color&;
+    
+    func setFillColor(const Color&) const -> void;
+    func getFillColor(void) const -> const Color&;
+    
     func setPosition(const Vector2f&) const -> void;
     func getPosition(void) const -> const Vector2f&;
-
+    
     func setSize(const Vector2f&) const -> void;
     func getSize(void) const -> const Vector2f&;
 
@@ -60,6 +71,7 @@ namespace sf::ui {
       const std::optional<FloatRect>& optRect = std::nullopt) const -> Vector2f&;
 
     func move(const Vector2f&) const -> void;
+    func zoom(const Vector2f&) const -> void; // center in situ
 
     func getRect(void) const -> FloatRect;
     func getRoot(void) const -> Vector2f;
@@ -78,6 +90,8 @@ namespace sf::ui {
 }
 
 #include "../../../src/SFUI/Graphics/Object.cpp"
+
 #include "../../../src/SFUI/Graphics/Buildable.cpp"
+#include "../../../src/SFUI/Graphics/Movable.cpp"
 
 #define __SFUI_OBJECT__ 

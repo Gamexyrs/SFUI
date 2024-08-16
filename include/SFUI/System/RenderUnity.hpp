@@ -5,8 +5,8 @@
 #include "Renderable.hpp"
 
 namespace sf::ui {
-  typedef class RenderUnity : Drawable {
-  public:    RenderUnity(const std::initializer_list<Drawable*>&);
+  typedef class RenderUnity : public Drawable {
+  public:    RenderUnity(const std::initializer_list<Drawable*>& = {});
     virtual ~RenderUnity(void) = default;
     
   protected:
@@ -15,7 +15,7 @@ namespace sf::ui {
     virtual func draw(RenderTarget& target, const RenderStates& states) const -> void;
   
   _func_public:
-    func push_back(const std::initializer_list<Drawable*>&) -> void;
+    func push_unity(const std::initializer_list<Drawable*>&) -> void;
     
     func clear(void) -> void;
     

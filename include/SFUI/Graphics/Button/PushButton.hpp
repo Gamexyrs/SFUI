@@ -19,7 +19,6 @@ namespace sf::ui {
     
   _data_public:
 
-
   _func_public:
     virtual func pollEvent_if(const Event& event, const BtnEvent& target = BtnEvent::Release) -> bool;
     virtual func pollEvent   (const Event&) -> BtnEvent;

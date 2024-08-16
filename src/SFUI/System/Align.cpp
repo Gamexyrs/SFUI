@@ -1,7 +1,7 @@
 //>>> 2021~2022 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  inline func align(const Vector2f size, const FloatRect& rect, short _align) -> const Vector2f {
+  inline func align(const Vector2f size, const FloatRect& rect, short _align) -> Vector2f {
     if(!_align)
       return(Fm::getPosition(rect) + (Fm::getSize(rect) - size) / 2.0f);
       
@@ -22,7 +22,7 @@ namespace sf::ui {
     } return tmp_v2;
   }
   
-  inline func align_toRect(const Vector2f size, const FloatRect& rect, short _align) -> const FloatRect {
+  inline func align_toRect(const Vector2f size, const FloatRect& rect, short _align) -> FloatRect {
     const Vector2f& __tmp{align(size, rect, _align)};
     return {__tmp.x - rect.left, __tmp.y - rect.top, size.x, size.y};
   }

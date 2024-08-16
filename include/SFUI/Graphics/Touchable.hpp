@@ -14,7 +14,8 @@ namespace sf::ui {
     
     bool __TouchEnable{true};
     
-    Vector2f __TouchRectScale{1, 1};
+    Vector2f __TouchRectScale {1, 1};
+    Vector2f __TouchRectDeviat{};
   
   _data_public:
     func setTouchEnable(bool) _____ -> void;
@@ -22,6 +23,9 @@ namespace sf::ui {
     
     func setTouchRectScale(const Vector2f&) _____ -> void;
     func getTouchRectScale(void) const -> const Vector2f&;
+  
+    func setTouchRectDeviat(const Vector2f&) _____ -> void;
+    func getTouchRectDeviat(void) const -> const Vector2f&;
   
   _func_public:
     func isTouchDown(void) -> unsigned;

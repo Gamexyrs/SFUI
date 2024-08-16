@@ -4,8 +4,14 @@ namespace sf::ui {
   inline func KbEvent::setSettings(const String& keystr) -> void {
     KbEvent::__SETTINGS__.__ALLOW_NUMBER__
       = (keystr.find("N") != String::InvalidPos);
+      
     KbEvent::__SETTINGS__.__ALLOW_LETTER__
       = (keystr.find("L") != String::InvalidPos);
+    KbEvent::__SETTINGS__.__ONLY_UPPER__
+      = (keystr.find("A") != String::InvalidPos);
+    KbEvent::__SETTINGS__.__ONLY_LOWER__
+      = (keystr.find("a") != String::InvalidPos);
+      
     KbEvent::__SETTINGS__.__ALLOW_SYMBOL__
       = (keystr.find("S") != String::InvalidPos);
     KbEvent::__SETTINGS__.__ALLOW_FLOAT__
@@ -87,6 +93,14 @@ namespace sf::ui {
         // Codecvt
         std::string str; std::stringstream strsr;
         strsr << __tmp_input; strsr >> str;
+        if(std::isalpha(__tmp_input)) {
+          if(KbEvent::__SETTINGS__.__ONLY_UPPER__
+          && KbEvent::__SETTINGS__.__ONLY_LOWER__) return "";
+          else if(KbEvent::__SETTINGS__.__ONLY_UPPER__)
+            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+          else if(KbEvent::__SETTINGS__.__ONLY_LOWER__)
+            std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+        }
         if(inBuf) {
           #if __PREDEF_ENABLE_KB_BUFFER__
           KbEvent::__Buffer += std::to_wstring(str);

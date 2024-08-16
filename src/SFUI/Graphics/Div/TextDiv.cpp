@@ -13,6 +13,7 @@ namespace sf::ui {
   
   inline func TextDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
     if(this->requestUpdate()) this->update();
+    if(this->mov.getAuto()) this->mov.next();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
@@ -52,8 +53,8 @@ namespace sf::ui {
   }
   
   inline func TextDiv::inView(void) const -> bool {
-    return (this->getRect()                + FloatRect({}, {1, 1})).intersects(this->getViewRect())
-        || (this->__Text.getGlobalBounds() + FloatRect({}, {1, 1})).intersects(this->getViewRect())
+    return (this->getRect()                + FloatRect{{}, {1, 1}}).intersects(this->getViewRect())
+        || (this->__Text.getGlobalBounds() + FloatRect{{}, {1, 1}}).intersects(this->getViewRect())
         ||  this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__;
   }
 }

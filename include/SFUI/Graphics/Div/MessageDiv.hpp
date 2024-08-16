@@ -45,6 +45,8 @@ namespace sf::ui {
     func setInfoTextColor(const Color&) _____ -> void;
     func getInfoTextColor(void) const -> const Color&;
     
+    func setSize(const Vector2f&, bool reset_InfoDiv = false) -> void;
+    
     func getInfo(bool update = true) const -> TextDiv&;
     
     func setMaskColor(const Color&) _____ -> void;

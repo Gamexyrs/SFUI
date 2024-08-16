@@ -16,6 +16,13 @@ namespace sf::ui {
     return this->__TouchRectScale;
   }
   
+  inline func Touchable::setTouchRectDeviat(const Vector2f& value) -> void {
+    this->__TouchRectDeviat = value;
+  }
+  inline func Touchable::getTouchRectDeviat(void) const -> const Vector2f& {
+    return this->__TouchRectDeviat;
+  }
+  
   inline func Touchable::isTouchDown(void) -> unsigned {
     unsigned tmp_r = 0;
     if(this->__TouchEnable && (!Msgable::getLocked() || this->__Self->__ATTRIBUTE__.__ALWAYS_TOUCHABLE__)) {
@@ -23,6 +30,7 @@ namespace sf::ui {
                tmp_size  =  this->__Self->getSize();
       this->__Self->setSize(this->__Self->getSize() * this->__TouchRectScale);
       this->__Self->setCenter(tmp_cent);
+      this->__Self->move(this->__TouchRectDeviat);
       tmp_r = TouchEvent::isDownAt((!this->__Self->getBase(false).getRotation()) ? this->__Self->getRect()
                                    : this->__Self->getBase(false).getGlobalBounds());
       this->__Self->setSize  (tmp_size);

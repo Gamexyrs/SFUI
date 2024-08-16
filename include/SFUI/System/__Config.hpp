@@ -6,9 +6,9 @@
 
 #define __SFUI_VERSION_MAJOR__ 0
 #define __SFUI_VERSION_MINOR__ 4
-#define __SFUI_VERSION_PATCH__ 0
-#define __SFUI_VERSION__ "0.4.0"
-#define __SFUI_DEV__ false
+#define __SFUI_VERSION_PATCH__ 1
+#define __SFUI_VERSION__ "0.4.1"
+#define __SFUI_DEV__ true
 
 #define __ACTIV_EXIT__(event)     \
   ((event.type     == sf::Event::KeyPressed \

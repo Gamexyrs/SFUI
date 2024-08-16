@@ -13,6 +13,9 @@ namespace sf::ui {
   inline func Fm::getRoot(const Rect<type>& rect) -> Vector2<type> {
     return{rect.left + rect.width, rect.top + rect.height};
   }
+  inline func Fm::getRoot(const Sprite& target) -> Vector2f {
+    return Fm::getRoot(target.getGlobalBounds());
+  }
   template<typename type>
   inline func Fm::getCenter(const Rect<type>& rect) -> Vector2<type> {
     return{rect.left + rect.width / 2.0f, rect.top + rect.height / 2.0f};

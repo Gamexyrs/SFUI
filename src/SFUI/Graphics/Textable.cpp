@@ -47,9 +47,10 @@ namespace sf::ui {
     return this->__TextAdapt;
   }
 
-  inline func Textable::setTextAlign(const Align& value) -> void {
+  inline func Textable::setTextAlign(const Align& value) -> Vector2f& {
     this->__TextAlign = value;
     this->__Self->needUpdate();
+    return this->__TextDeviat;
   }
   inline func Textable::getTextAlign(void) const -> const Align& {
     return this->__TextAlign;
@@ -68,7 +69,7 @@ namespace sf::ui {
     this->__Text.setFont(font);
     this->__Self->needUpdate();
   }
-  inline func Textable::getFont(void) const ->const Font* {
+  inline func Textable::getFont(void) const -> const Font* {
     return this->__Text.getFont();
   }
   
@@ -98,15 +99,15 @@ namespace sf::ui {
   }
   
   inline func Textable::getNextPosition(void) const -> Vector2f {
-    const size_t __tmp_lastpos = this->__Text.getString().getSize() - 1;
+    const size_t __tmp_lastpos{this->__Text.getString().getSize() - 1};
     if(!this->__Text.getString().isEmpty()) {
       return      this->__Text.findCharacterPos(__tmp_lastpos)
-       + Vector2f(this->__Text.getFont()->getGlyph(this->__Text.getString()[__tmp_lastpos],
+       + Vector2f{this->__Text.getFont()->getGlyph(this->__Text.getString()[__tmp_lastpos],
                   this->__Text.getCharacterSize(), this->__Text.getStyle() & Text::Bold,
                   this->__Text.getOutlineThickness())
        .advance + this->__Text.getLetterSpacing(),
-                  this->__Text.getLineSpacing());
+                  this->__Text.getLineSpacing()};
     } else return this->__Text.getPosition()
-       + Vector2f(this->__Text.getLetterSpacing(), 0);
+       + Vector2f{this->__Text.getLetterSpacing(), 0};
   }
 }

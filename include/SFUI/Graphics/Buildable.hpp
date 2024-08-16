@@ -3,9 +3,6 @@
 #pragma once
 
 namespace sf::ui {
-  using Vector2b = Vector2<bool>;
-  using Percent  = String;
-
   class Object;
   typedef interface class Buildable {
   private:
@@ -19,7 +16,7 @@ namespace sf::ui {
     mutable Vector2f __BuildPosition{};
     mutable Vector2b __BuildAddSize {};
     
-    // std::vector<Object*> __Subobject{};
+ // std::vector<Object*> __Subobject{};
                 Object*  __Builder{nullptr};
     
     mutable bool __NeedUpdate{true};

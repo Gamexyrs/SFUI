@@ -30,6 +30,8 @@ namespace sf::ui {
     }__Border;
     
   _data_public:
+    func setRounded_List(const std::vector<bool>&) const -> void;
+    func getRounded_List(void) const -> std::vector<bool>;
     func setRounded(bool value, const Align& corner = Align::C) const -> void;
     func getRounded(const Align& corner) const -> bool;
     
