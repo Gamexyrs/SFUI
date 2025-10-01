@@ -1,6 +1,18 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
+  inline func __PercentToFloat(const Percent& percent) -> float {
+    std::string tmp{percent.toAnsiString()};
+    if(tmp.back() == '%')
+       tmp.pop_back();
+    try {
+      return(std::stof(tmp) / 100);
+    } catch(...) {
+      err() << "SFUI_CATCH: Input an unresolvable percent string\n";
+      return 0.0f;
+    }
+  }
+  
   inline func Renderable::__rendererCheck(void) -> bool {
     if(Renderable::Renderer == nullptr) {
       err() << "Undefined to renderer [= nullptr]" << std::endl;
@@ -53,14 +65,28 @@ namespace sf::ui {
        Renderable::Renderer->getView().getSize().y}};
   }
   
-  inline func Renderable::draw(const std::initializer_list<Drawable*>& value) -> void {
-    for(auto& i : value) {
-      if(i != nullptr) Renderable::Renderer->draw(*i);
-    }
+  inline func Renderable::capture(void) -> Image {
+    if(!Renderable::__rendererCheck()) return Image{};
+    
+    Texture tex{};
+    tex.create(static_cast<unsigned>(_RendererSize.x),
+               static_cast<unsigned>(_RendererSize.y));
+    tex.update(*Renderable::Renderer);
+    
+    Image img{tex.copyToImage()};
+          img.flipVertically();
+    
+    return img;
   }
-  inline func Renderable::draw_fast(const std::initializer_list<Drawable*>& value) -> void {
-    for(auto& i : value) {
-      Renderable::Renderer->draw(*i);
-    }
+  
+  template<typename T, typename... Args>
+  inline func Renderable::draw(T&& first, Args&&... args) -> void {
+          Renderable::Renderer->draw(std::forward<Drawable>(first));
+    (..., Renderable::Renderer->draw(std::forward<Drawable>(args)));
+  }
+  template<typename T, typename... Args>
+  inline func Renderable::destroy(T&& first, Args&&... args) -> void {
+          std::destroy_at(&first);
+    (..., std::destroy_at(&args));
   }
 }

@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
@@ -18,8 +18,8 @@ namespace sf::ui {
     
   }MsgData;
   
-  typedef class MessageDiv : public TextDiv, public Msgable {
-  public:    MessageDiv(unsigned radius = 0,
+  typedef class MessageDiv : public TexDiv, public Msgable {
+  public:    MessageDiv(int radius = 0,
                         const Vector2f& sizeFactor = {0.7, 0.15},
                         const Align& align = Align::C);
     virtual ~MessageDiv(void) = default;

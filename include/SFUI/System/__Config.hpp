@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
@@ -6,8 +6,8 @@
 
 #define __SFUI_VERSION_MAJOR__ 0
 #define __SFUI_VERSION_MINOR__ 4
-#define __SFUI_VERSION_PATCH__ 1
-#define __SFUI_VERSION__ "0.4.1"
+#define __SFUI_VERSION_PATCH__ 2
+#define __SFUI_VERSION__ "0.4.2"
 #define __SFUI_DEV__ true
 
 #define __ACTIV_EXIT__(event)     \
@@ -28,6 +28,5 @@
 #define func auto
 
 #define _____
-
 
 #include "../../../src/SFUI/System/__Config.cpp"

@@ -1,14 +1,14 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  MsgDiv::MessageDiv(unsigned radius, const Vector2f& sizeFactor, const Align& align)
-    : TextDiv({{}, {_RendererSize * sizeFactor}}, radius) {
-    this->__Mask.getBase().setFillColor(ColorEx::makeTrs(ColorEx::Grey, 0));
-    this->__Mask.getBase().setOutlineThickness(0);
+  MsgDiv::MessageDiv(int radius, const Vector2f& sizeFactor, const Align& align)
+    : TexDiv({{}, {_RendererSize * sizeFactor}}, radius) {
+    this->__Mask.setFillColor(ColorEx::makeTrs(ColorEx::Grey, 0));
+    this->__Mask.setOutlineThickness(0);
     
     this->__Info.setBuilder(*this, Vector2f(50, 110));
     this->__Info.__ATTRIBUTE__.__PROTECTED__ = true;
-    this->__Info.getBase().setOutlineThickness(0);
+    this->__Info.setOutlineThickness(0);
     this->__Info.setSize({this->getSize().x
     - this->__Info.getBuildPosition().x * 2.0f, 0.0f});
     
@@ -23,8 +23,8 @@ namespace sf::ui {
   }
   
   inline func MsgDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
-    if(this->requestUpdate()) this->update();
     if(this->mov.getAuto()) this->mov.next();
+    if(this->requestUpdate()) this->update();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
@@ -41,6 +41,8 @@ namespace sf::ui {
       if(this->__Pushing) {
         if(this->__ATTRIBUTE__.__VISIBLE_BASE__)
           target.draw(this->__Base, states);
+        if(this->__ATTRIBUTE__.__VISIBLE_TEX__ && this->isTexVisible())
+          target.draw(this->__Tex_spr, states);
         if(this->__ATTRIBUTE__.__VISIBLE_TEXT__ && !this->__Text.getString().isEmpty()) {
           target.draw(this->__Info, states);
           target.draw(this->__Text, states);
@@ -51,7 +53,7 @@ namespace sf::ui {
       }
     }
   }
-  inline func MsgDiv::update(void) const -> void { this->TextDiv::update();
+  inline func MsgDiv::update(void) const -> void { this->TexDiv::update();
     this->__Mask.setSize  (_RendererSize);
     this->__Mask.setCenter(_Renderer.getView().getCenter());
   }
@@ -98,7 +100,7 @@ namespace sf::ui {
   inline func MsgDiv::pollEvent(const Event& event) -> std::optional<int> {
     if(this->__Pushing) for(auto& i : this->__Btn) {
       if(i->pollEvent_if(event)) {
-        this->stopPushing(); return std::stoi(i->getTag());
+        this->stopPushing(); return std::stoi(i->getLabel().toAnsiString());
       }
     } return std::nullopt;
   }
@@ -106,7 +108,7 @@ namespace sf::ui {
   inline func MsgDiv::buttonIsDown(void) const -> std::optional<int> {
     if(this->__Pushing) for(auto& i : this->__Btn) {
       if(i->getState() == sf::BtnState::Pressed)
-        return std::stoi(i->getTag());
+        return std::stoi(i->getLabel().toAnsiString());
     } return std::nullopt;
   }
   
@@ -162,7 +164,7 @@ namespace sf::ui {
       new_btn->__ATTRIBUTE__.__ALWAYS_TOUCHABLE__ = true;
       new_btn->__ATTRIBUTE__.__PROTECTED__        = true;
       new_btn->setTextColor(Color{125, 144, 169});
-      new_btn->setTag(std::to_string(i.second));
+      new_btn->setLabel(std::to_string(i.second));
       new_btn->getBase().setOutlineThickness(0);
       new_btn->setTouchRectScale({1, 2});
       new_btn->setTextAlign(Align::C);

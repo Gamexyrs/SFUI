@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   inline func KbEvent::setSettings(const String& keystr) -> void {
@@ -122,7 +122,11 @@ namespace sf::ui {
         #endif
         return "\b";
       }
-    } return "";
+    }
+    
+    for(const auto& i : KbEvent::__supportKeyboard) i(event);
+    
+    return "";
   }
 
 // ▲ class KeyboardEvent
@@ -135,9 +139,17 @@ namespace sf::ui {
 #endif
     TouchEvent::__FingerMaxNum = value;
   }
-  inline func TouchEvent::getFingerMaxNum(void) _____ -> unsigned {
+  inline func TouchEvent::getFingerMaxNum(void) -> unsigned {
     return TouchEvent::__FingerMaxNum;
   }
+  
+  inline func TouchEvent::setTouchPosDeviat(const Vector2f& value) -> void {
+    TouchEvent::__TouchPosDeviat = value;
+  }
+  inline func TouchEvent::getTouchPosDeviat(void) -> const Vector2f& {
+    return TouchEvent::__TouchPosDeviat;
+  }
+  
 #if __PREDEF_ENABLE_TOUCHDATA__
   inline func TouchEvent::getTouchMove(void) -> Vector2f {
     return (TouchEvent::__TouchData.at(0).first == Vector2f())
@@ -175,7 +187,8 @@ namespace sf::ui {
   inline func TouchEvent::getPosition(unsigned index, bool global) -> Vector2f {
     if(Touch::isDown(index)) {
       return (static_cast<Vector2f>(Touch::getPosition(index, _Renderer))
-        + (global ? (Renderable::getViewPosition()) : Vector2f{}));
+        + (global ? (Renderable::getViewPosition()) : Vector2f{}))
+        + TouchEvent::__TouchPosDeviat;
     } else return Vector2f();
   }
 

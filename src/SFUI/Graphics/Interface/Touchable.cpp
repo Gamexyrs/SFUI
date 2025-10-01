@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   inline func Touchable::setTouchEnable(bool value) -> void {
@@ -26,15 +26,20 @@ namespace sf::ui {
   inline func Touchable::isTouchDown(void) -> unsigned {
     unsigned tmp_r = 0;
     if(this->__TouchEnable && (!Msgable::getLocked() || this->__Self->__ATTRIBUTE__.__ALWAYS_TOUCHABLE__)) {
-      Vector2f tmp_cent  =  this->__Self->getCenter(),
-               tmp_size  =  this->__Self->getSize();
-      this->__Self->setSize(this->__Self->getSize() * this->__TouchRectScale);
-      this->__Self->setCenter(tmp_cent);
-      this->__Self->move(this->__TouchRectDeviat);
-      tmp_r = TouchEvent::isDownAt((!this->__Self->getBase(false).getRotation()) ? this->__Self->getRect()
-                                   : this->__Self->getBase(false).getGlobalBounds());
-      this->__Self->setSize  (tmp_size);
-      this->__Self->setCenter(tmp_cent);
+      if(__TouchRectDeviat != Vector2f{} || __TouchRectScale != Vector2f{1, 1}) {
+        Vector2f tmp_cent  =  this->__Self->getCenter(),
+                 tmp_size  =  this->__Self->getSize();
+        this->__Self->setSize(this->__Self->getSize() * this->__TouchRectScale);
+        this->__Self->setCenter(tmp_cent);
+        tmp_r = TouchEvent::isDownAt(((!this->__Self->getBase(false).getRotation()) ? this->__Self->getRect()
+                                      : this->__Self->getBase(false).getGlobalBounds())
+                                      + FloatRect{this->__TouchRectDeviat.x, this->__TouchRectDeviat.y, 0, 0});
+        this->__Self->setSize  (tmp_size);
+        this->__Self->setCenter(tmp_cent);
+      } else {
+        tmp_r = TouchEvent::isDownAt(((!this->__Self->getBase(false).getRotation()) ? this->__Self->getRect()
+                                      : this->__Self->getBase(false).getGlobalBounds()));
+      }
     } return tmp_r;
   }
 }

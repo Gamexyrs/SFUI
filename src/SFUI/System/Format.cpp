@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   template<typename type>
@@ -42,13 +42,21 @@ namespace sf::ui {
   }
   
   template<typename type>
+  inline func Fm::make_pair(const Vector2<type>& vector2) -> std::pair<type, type> {
+    return std::make_pair<type, type>(vector2.x, vector2.y);
+  }
+  template<typename type>
   inline func Fm::reverse(const Vector2<type>& vector2) -> Vector2<type> {
     return{vector2.y, vector2.x};
   }
   template<typename type>
+  inline func Fm::length(const Vector2<type>& vector2) -> float {
+    return std::sqrt(vector2.x * vector2.x + vector2.y * vector2.y);
+  }
+  template<typename type>
   inline func Fm::abs(const Vector2<type>& vector2) -> Vector2<type> {
-    return{static_cast<type>(std::fabs(vector2.y)),
-           static_cast<type>(std::fabs(vector2.x))};
+    return{static_cast<type>(std::fabs(vector2.x)),
+           static_cast<type>(std::fabs(vector2.y))};
   }
   
   inline func Fm::toString(const Color& color, bool out_a) -> String {
@@ -78,16 +86,37 @@ namespace sf::ui {
     return String(L"[x:" + std::to_wstring(vector3.x) + L", y:" + std::to_wstring(vector3.y)
       + L", z:" + std::to_wstring(vector3.z) + L"]");
   }
+  inline func Fm::toString(float value, size_t precision) -> String {
+    std::wstringstream sstr;
+    sstr << std::setiosflags(std::ios::fixed)
+         << std::setprecision(precision)
+         << value;
+    return String{sstr.str()};
+  }
+  
+  inline func Fm::imageCopyToHorizontal(Image img) -> Image {
+    img.flipHorizontally(); return img;
+  }
+  inline func Fm::imageCopyToVertical(Image img) -> Image {
+    img.flipVertically(); return img;
+  }
+  
+  inline func operator- (const String& value) -> std::wstring {
+    return std::to_wstring(value.toAnsiString());
+  }
+  inline func operator--(const String& value) -> std::string {
+    return value.toAnsiString();
+  }
 }
 
 namespace std {
   inline func to_wstring(const string& str) -> wstring try {
   	wstring_convert<codecvt_utf8<wchar_t>> converter;
   	return converter.from_bytes(str);
-  } catch(...) { return L""; }
+  } catch(...) { return L"cvtErr"; }
   
   inline func to_string(const wstring& wstr) -> string try {
   	wstring_convert<codecvt_utf8<wchar_t>> converter;
   	return converter.to_bytes(wstr);
-  } catch(...) { return ""; }
+  } catch(...) { return "cvtErr"; }
 }

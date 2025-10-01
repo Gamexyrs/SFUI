@@ -1,16 +1,16 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
 #include "Div.hpp"
-#include "../Textable.hpp"
+#include "../Interface/Textable.hpp"
 
 namespace sf::ui {
   typedef class TextDiv : public Div, public Textable {
-  public:    TextDiv(const Vector2f& size, const Object& builder, unsigned radius = 0,
+  public:    TextDiv(const Vector2f& size, const Object& builder, int radius = 0,
                      const Vector2f& buildPosition = {},
                      const Vector2b& buildAddSize  = {});
-             TextDiv(const Frame& frame = {}, unsigned radius = 0);
+             TextDiv(const Frame& frame = {}, int radius = 0);
     virtual ~TextDiv(void) = default;
     
   protected:
@@ -19,10 +19,11 @@ namespace sf::ui {
     virtual func update     (void) const -> void;
     
   _data_public:
-    virtual func inView(void) const -> bool;
     
   _func_public:
-    func resize(void) -> void;
+    virtual func inView(void) const -> bool;
+    
+    func resizeByText(void) -> void;
     
   }TextDiv;
 }

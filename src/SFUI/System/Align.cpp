@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   inline func align(const Vector2f size, const FloatRect& rect, short _align) -> Vector2f {

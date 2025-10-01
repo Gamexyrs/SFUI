@@ -1,8 +1,8 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
-#include "Object.hpp"
+#include "../Object.hpp"
 
 namespace sf::ui {
   typedef interface class Touchable {
@@ -14,17 +14,17 @@ namespace sf::ui {
     
     bool __TouchEnable{true};
     
-    Vector2f __TouchRectScale {1, 1};
+    Vector2f __TouchRectScale{1, 1};
     Vector2f __TouchRectDeviat{};
-  
+    
   _data_public:
-    func setTouchEnable(bool) _____ -> void;
+    func setTouchEnable(bool) -> void;
     func getTouchEnable(void) const -> bool;
     
-    func setTouchRectScale(const Vector2f&) _____ -> void;
+    func setTouchRectScale(const Vector2f&) -> void;
     func getTouchRectScale(void) const -> const Vector2f&;
   
-    func setTouchRectDeviat(const Vector2f&) _____ -> void;
+    func setTouchRectDeviat(const Vector2f&) -> void;
     func getTouchRectDeviat(void) const -> const Vector2f&;
   
   _func_public:
@@ -33,4 +33,4 @@ namespace sf::ui {
   }Touchable;
 }
 
-#include "../../../src/SFUI/Graphics/Touchable.cpp"
+#include "../../../../src/SFUI/Graphics/Interface/Touchable.cpp"

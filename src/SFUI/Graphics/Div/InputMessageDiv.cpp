@@ -1,7 +1,7 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  InputMsgDiv::InputMessageDiv(unsigned radius, const Vector2f& sizeFactor, const Align& align)
+  InputMsgDiv::InputMessageDiv(int radius, const Vector2f& sizeFactor, const Align& align)
     : MsgDiv(radius, sizeFactor, align) {
     this->__Input.setBuilder(*this);
     this->__Input.setPerHeight("40%");
@@ -12,24 +12,26 @@ namespace sf::ui {
   }
   
   inline func InputMsgDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
-    if(this->requestUpdate()) this->update();
     if(this->mov.getAuto()) this->mov.next();
+    if(this->requestUpdate()) this->update();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
       if(this->__ATTRIBUTE__.__VISIBLE_MASK__) {
         if(!this->__Pushing) {
-          if(this->__Mask.getBase().getFillColor().a > 0) {
-           const_cast<Color&>(this->__Mask.getBase().getFillColor()).a -= 10;
+          if(this->__Mask.getFillColor().a > 0) {
+           const_cast<Color&>(this->__Mask.getFillColor()).a -= 10;
           }
         }
         else if(this->__Mask.getBase().getFillColor().a < this->__MaskTrs) {
-          const_cast<Color&>(this->__Mask.getBase().getFillColor()).a += 10;
+          const_cast<Color&>(this->__Mask.getFillColor()).a += 10;
         } target.draw(this->__Mask, states);
       }
       if(this->__Pushing) {
         if(this->__ATTRIBUTE__.__VISIBLE_BASE__)
           target.draw(this->__Base, states);
+        if(this->__ATTRIBUTE__.__VISIBLE_TEX__ && this->isTexVisible())
+          target.draw(this->__Tex_spr, states);
         if(this->__ATTRIBUTE__.__VISIBLE_TEXT__ && !this->__Text.getString().isEmpty()) {
           target.draw(this->__Info, states);
           target.draw(this->__Text, states);
@@ -55,7 +57,7 @@ namespace sf::ui {
       this->__Input.pollEvent(event);
       for(auto& i : this->__Btn) {
         if(i->pollEvent_if(event))
-          return std::stoi(i->getTag());
+          return std::stoi(i->getLabel().toAnsiString());
       }
     }     return std::nullopt;
   }

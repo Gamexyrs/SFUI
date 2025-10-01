@@ -1,26 +1,28 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  PushBtn::PushButton(const Vector2f& size, const Object& builder, unsigned radius,
+  PushBtn::PushButton(const Vector2f& size, const Object& builder, int radius,
                       const Vector2f& buildPosition, const Vector2b& buildAddSize)
-    : AbsBtn(this), TextDiv(size, builder, radius, buildPosition, buildAddSize), Touchable(this) {}
-  PushBtn::PushButton(const Frame& frame, unsigned radius)
-    : AbsBtn(this), TextDiv(frame, radius), Touchable(this) {}
+    : AbsBtn(this), TexDiv(size, builder, radius, buildPosition, buildAddSize), Touchable(this) {}
+  PushBtn::PushButton(const Frame& frame, int radius)
+    : AbsBtn(this), TexDiv(frame, radius), Touchable(this) {}
   
   inline func PushBtn::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
-    if(this->requestUpdate()) this->update();
     if(this->mov.getAuto()) this->mov.next();
+    if(this->requestUpdate()) this->update();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
       if(this->__ATTRIBUTE__.__VISIBLE_BASE__)
         target.draw(this->__Base, states);
+      if(this->__ATTRIBUTE__.__VISIBLE_TEX__ && this->isTexVisible())
+        target.draw(this->__Tex_spr, states);
       if(this->__ATTRIBUTE__.__VISIBLE_TEXT__ && !this->__Text.getString().isEmpty())
         target.draw(this->__Text, states);
     }
   }
   
-  inline func PushBtn::update(void) const -> void { this->TextDiv::update();
+  inline func PushBtn::update(void) const -> void { this->TexDiv::update();
     switch(this->__State) {
       case(BtnState::Pressed):
                this->__Base.setFillColor(this->__StateColor.__Pressed); break;
@@ -43,5 +45,9 @@ namespace sf::ui {
     } else if(event.type == Event::TouchBegan) {
       this->setState(BtnState::Pressed); return BtnEvent::Press;
     } return BtnEvent::None;
+  }
+  
+  inline func PushBtn::setFillColor(const Color& value) const -> void {
+    this->setStateColor(value, std::nullopt);
   }
 }

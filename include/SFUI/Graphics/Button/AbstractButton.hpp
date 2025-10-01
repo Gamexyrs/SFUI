@@ -1,9 +1,9 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
 #include "../Object.hpp"
-#include "../Touchable.hpp"
+#include "../Interface/Touchable.hpp"
 
 namespace sf::ui {
   typedef enum class ButtonEvent {
@@ -23,7 +23,7 @@ namespace sf::ui {
   protected: AbstractButton(Object* self) : __Self(self) {}
     virtual ~AbstractButton(void) = default;
     
-    struct {
+    mutable struct {
       Color __None   {Color::White},
             __Pulled {ColorEx::Grey},
             __Pressed{ColorEx::Grey},
@@ -33,10 +33,10 @@ namespace sf::ui {
     BtnState __State{BtnState::None};
     
   _data_public:
-    func setStateColor(const Color& value, const std::optional<BtnState>& state = std::nullopt) -> void;
-    func getStateColor(const BtnState& state) const -> const Color&;
+    func setStateColor(const Color&, const std::optional<BtnState>& = std::nullopt) const -> void;
+    func getStateColor(const BtnState&) const -> const Color&;
     
-    func setState(const BtnState&) _____ -> void;
+    func setState(const BtnState&) -> void;
     func getState(void) const -> const BtnState&;
 
   _func_public:

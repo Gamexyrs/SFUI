@@ -1,19 +1,19 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  TextDiv::TextDiv(const Vector2f& size, const Object& builder, unsigned radius,
+  TextDiv::TextDiv(const Vector2f& size, const Object& builder, int radius,
                    const Vector2f& buildPosition, const Vector2b& buildAddSize)
     : Div(size, builder, radius, buildPosition, buildAddSize), Textable(this) {
     this->__Text.setFillColor(Color::Black);
   }
-  TextDiv::TextDiv(const Frame& frame, unsigned radius)
+  TextDiv::TextDiv(const Frame& frame, int radius)
     : Div(frame, radius), Textable(this) {
     this->__Text.setFillColor(Color::Black);
   }
   
   inline func TextDiv::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
-    if(this->requestUpdate()) this->update();
     if(this->mov.getAuto()) this->mov.next();
+    if(this->requestUpdate()) this->update();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
@@ -30,6 +30,7 @@ namespace sf::ui {
     if(!this->__Text.getString().isEmpty()) {
       this->__Text.setRotation(this->__ATTRIBUTE__.__IGNORE_ROTATEAGL__ ? 0 : this->__Base.getRotation());
       this->__Text.setPosition(::sf::ui::align(this->getTextSize(true), this->getRect(), this->__TextAlign));
+      this->__RadiusProtect = this->__Border.__Radius;
       if(this->__Border.__Radius) {
         switch(this->__TextAlign) {
         case(Align::TL): case(Align::BL): case(Align::L):
@@ -47,7 +48,7 @@ namespace sf::ui {
     this->update_text();
   }
   
-  inline func TextDiv::resize(void) -> void {
+  inline func TextDiv::resizeByText(void) -> void {
     this->setSize(this->getTextSize());
     this->needUpdate();
   }

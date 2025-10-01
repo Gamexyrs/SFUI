@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   inline func ColorEx::makeTrs(Color rgb, uint8_t alpha) -> Color {
@@ -8,5 +8,9 @@ namespace sf::ui {
       rgb.b,
       alpha,
     };
+  }
+  
+  inline func operator| (Color rgb, uint8_t alpha) -> Color {
+    return ColorEx::makeTrs(rgb, alpha);
   }
 }

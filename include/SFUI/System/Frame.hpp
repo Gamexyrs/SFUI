@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
@@ -25,16 +25,24 @@ namespace sf::ui {
   }Frame;
   
   template<typename type, typename type_2>
-  func operator+ (const Rect<type>&, const Rect<type_2>&) -> Rect<type>;
+  func operator+ (Rect<type>, Rect<type_2>) -> Rect<type>;
   
   template<typename type, typename type_2>
-  func operator+ (const Vector2<type>&, const         type_2 &) -> Vector2<type>;
+  func operator+ (Vector2<type>,         type_2) -> Vector2<type>;
   template<typename type, typename type_2>
-  func operator+ (const Vector2<type>&, const Vector2<type_2>&) -> Vector2<type>;
+  func operator+ (Vector2<type>, Vector2<type_2>) -> Vector2<type>;
   template<typename type, typename type_2>
-  func operator* (const Vector2<type>&, const         type_2 &) -> Vector2<type>;
+  func operator- (Vector2<type>,         type_2) -> Vector2<type>;
   template<typename type, typename type_2>
-  func operator* (const Vector2<type>&, const Vector2<type_2>&) -> Vector2<type>;
+  func operator- (Vector2<type>, Vector2<type_2>) -> Vector2<type>;
+  template<typename type, typename type_2>
+  func operator* (Vector2<type>,         type_2) -> Vector2<type>;
+  template<typename type, typename type_2>
+  func operator* (Vector2<type>, Vector2<type_2>) -> Vector2<type>;
+  template<typename type, typename type_2>
+  func operator/ (Vector2<type>,         type_2) -> Vector2<type>;
+  template<typename type, typename type_2>
+  func operator/ (Vector2<type>, Vector2<type_2>) -> Vector2<type>;
 }
 
 #include "../../../src/SFUI/System/Frame.cpp"

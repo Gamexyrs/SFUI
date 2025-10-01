@@ -1,8 +1,8 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
-#include "MoveMethod.hpp"
+#include "../MoveMethod.hpp"
 
 namespace sf::ui {
   class Object;
@@ -39,5 +39,5 @@ namespace sf::ui {
 }
 
 #ifdef __SFUI_OBJECT__
-  #include "../../../src/SFUI/Graphics/Movable.cpp"
+  #include "../../../../src/SFUI/Graphics/Interface/Movable.cpp"
 #endif

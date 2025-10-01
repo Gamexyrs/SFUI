@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   inline func Textable::__lineBreak(void) const -> String {
@@ -6,17 +6,17 @@ namespace sf::ui {
        this->__Text.setFont(Renderable::getDefaultFont());
     if(!this->__Text.getString().isEmpty()
     &&  this->__Text.getFont() != nullptr) {
-      const String ori_str = this->__Text.getString();
-            String tmp_str = this->__Text.getString();
+      const String ori_str{this->__Text.getString()};
+            String tmp_str{this->__Text.getString()};
       for(size_t i = 0; i < tmp_str.getSize(); ++i) {
         if(this->__Text.getFont()->getGlyph(this->__Text.getString()[i],
            this->__Text.getCharacterSize(), this->__Text.getStyle() & Text::Bold,
            this->__Text.getOutlineThickness())
         .advance + this->__Text.findCharacterPos(i).x - this->__Text.getPosition().x
-        >=  this->__Self->getSize().x) {
+        + this->__RadiusProtect >= this->__Self->getSize().x) {
           tmp_str.insert(i++, L"\n"); this->__Text.setString(tmp_str);
         }
-      } this->__Text.setString(ori_str); return String(tmp_str);
+      } this->__Text.setString(ori_str); return String{tmp_str};
     }                                    return L"";
   }
   
@@ -73,6 +73,14 @@ namespace sf::ui {
     return this->__Text.getFont();
   }
   
+  inline func Textable::setCharSize(size_t value) -> void {
+    this->__Text.setCharacterSize(value);
+    this->__Self->needUpdate();
+  }
+  inline func Textable::getCharSize(void) const -> size_t {
+    return this->__Text.getCharacterSize();
+  }
+  
   inline func Textable::setTextColor(const Color& value) -> void {
     this->__Text.setFillColor(value);
     this->__Self->needUpdate();
@@ -95,10 +103,14 @@ namespace sf::ui {
   }
   
   inline func Textable::getTextSize(bool adaptedSize) const -> Vector2f {
-    return Fm::getSize(this->__Text.getGlobalBounds()) * (adaptedSize ? this->__TextAdapt : Vector2f(1, 1));
+    if(!this->getTextString().isEmpty())
+         return Fm::getSize(this->__Text) * (adaptedSize ? this->__TextAdapt : Vector2f{1, 1});
+    else return{};
   }
   
   inline func Textable::getNextPosition(void) const -> Vector2f {
+    if(this->__Text.getString().isEmpty()) return {};
+  
     const size_t __tmp_lastpos{this->__Text.getString().getSize() - 1};
     if(!this->__Text.getString().isEmpty()) {
       return      this->__Text.findCharacterPos(__tmp_lastpos)

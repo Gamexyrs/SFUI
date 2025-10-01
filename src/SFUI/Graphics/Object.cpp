@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   Obj::Object(const Vector2f& size, const Object& builder, const Vector2f& buildPosition, const Vector2b& buildAddSize)
@@ -63,18 +63,6 @@ namespace sf::ui {
     return this->__AlignLock;
   }
 
-  template<typename type>
-  inline func Obj::setTag(const type& value) -> void {
-    this->__Tag = std::make_any<type>(value);
-  }
-  template<typename type>
-  inline func Obj::getTag(void) const -> type {
-    return this->hasTag() ? std::any_cast<type>(this->__Tag) : type{};
-  }
-  inline func Obj::hasTag(void) const -> bool {
-    return this->__Tag.has_value();
-  }
-  
   inline func Obj::align(short align, const std::optional<FloatRect>& optRect) const -> Vector2f& {
     this->setPosition(::sf::ui::align(this->getSize(), optRect.value_or((this->__Builder != nullptr)
       ? this->__Builder->getRect() : this->getViewRect()), align)); this->needUpdate();
@@ -96,14 +84,21 @@ namespace sf::ui {
     this->setSize(value); this->setCenter(__ct_pos);
   }
 
+  inline func Obj::setRect(const FloatRect& value) const -> void {
+    this->setFrame({{value.left, value.top}, {value.width, value.height}});
+  }
   inline func Obj::getRect(void) const -> FloatRect {
     return{this->getPosition(), this->getSize()};
+  }
+  
+  inline func Obj::setRoot(const Vector2f& value) const -> void {
+    this->setPosition(value - this->getSize());
   }
   inline func Obj::getRoot(void) const -> Vector2f {
     return this->getPosition() + this->getSize();
   }
   
-  inline func Obj::setFrame(const Frame& value) -> void {
+  inline func Obj::setFrame(const Frame& value) const -> void {
     this->setPosition(value.pos);
     this->setSize    (value.size);
   }

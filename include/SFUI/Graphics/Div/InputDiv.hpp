@@ -1,18 +1,18 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
 #ifdef __PREDEF_ENABLE_KB_BUFFER__
 #if    __PREDEF_ENABLE_KB_BUFFER__
 
-#include "CheckButton.hpp"
+#include "../Button/CheckButton.hpp"
 
 namespace sf::ui {
   typedef class InputDiv : public CheckBtn {
-  public:    InputDiv(const Vector2f& size, const Object& builder, unsigned radius = 0,
+  public:    InputDiv(const Vector2f& size, const Object& builder, int radius = 0,
                       const Vector2f& buildPosition = {},
                       const Vector2b& buildAddSize  = {});
-             InputDiv(const Frame& frame = {}, unsigned radius = 0);
+             InputDiv(const Frame& frame = {}, int radius = 0);
     virtual ~InputDiv(void) = default;
     
   protected:
@@ -23,22 +23,27 @@ namespace sf::ui {
     mutable Clock __FlashClock{};
              Time __FlashItval{milliseconds(600)};
     
+    std::function<void(void)> __KeyboardCallMethod{ [](void) -> void {::sf::Keyboard::setVirtualKeyboardVisible(true);} };
+    std::function<void(void)> __KeyboardCallbackMethod{ [](void) -> void {::sf::Keyboard::setVirtualKeyboardVisible(false);} };
+    
   _data_public:
     func getFlasher(bool update = true) const -> Div&;
     
-    func setFlashInterval(const Time&) _____ -> void;
+    func setFlashInterval(const Time&) -> void;
     func getFlashInterval(void) const -> const Time&;
     
   _func_public:
     virtual func pollEvent(const Event&) -> bool;
     
-    virtual func setChecked(bool) _____ -> void;
+    func setKeyboardMethod(std::pair<std::function<void(void)>, std::function<void(void)>> __f_calls) -> void;
+    
+    virtual func setChecked(bool) -> void;
     virtual func getChecked(void) const -> bool;
     
-  }InputDiv;
+  } InputDiv;
 }
 
-#include "../../../../src/SFUI/Graphics/Button/InputDiv.cpp"
+#include "../../../../src/SFUI/Graphics/Div/InputDiv.cpp"
 
 #endif
 #endif

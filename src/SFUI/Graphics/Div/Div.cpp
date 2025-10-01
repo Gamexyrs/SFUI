@@ -1,7 +1,7 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  Div::Div(const Vector2f& size, const Object& builder, unsigned radius,
+  Div::Div(const Vector2f& size, const Object& builder, int radius,
            const Vector2f& buildPosition, const Vector2b& buildAddSize)
     : Obj(size, builder, buildPosition, buildAddSize) {
     this->__Base.setOutlineColor(Color::Black);
@@ -9,7 +9,7 @@ namespace sf::ui {
     this->__Base.setOutlineThickness(1);
     this->setRadius(radius);
   }
-  Div::Div(const Frame& frame, unsigned radius)
+  Div::Div(const Frame& frame, int radius)
     : Obj(frame) {
     this->__Base.setOutlineColor(Color::Black);
     this->__Base.setFillColor(Color::White);
@@ -18,8 +18,8 @@ namespace sf::ui {
   }
 
   inline func Div::draw(RenderTarget& target, const RenderStates& states) const -> void { this->__rendererCheck();
-    if(this->requestUpdate()) this->update();
     if(this->mov.getAuto()) this->mov.next();
+    if(this->requestUpdate()) this->update();
     if(this->__ATTRIBUTE__.__VISIBLE__ && (this->inView()
                                        || !(__PREDEF_ENABLE_FASTDRAW_SOV__
                                        && !this->__ATTRIBUTE__.__IGNORE_FASTDRAW_SOV__))) {
@@ -29,6 +29,8 @@ namespace sf::ui {
   }
   
   inline func Div::update(void) const -> void {
+    constexpr float M_PI_D2{M_PI / 2.0f};
+    
     if(this->__ATTRIBUTE__.__IGNORE_ROTATEAGL__) {
        this->__Base.setRotation(0);
     }  this->setPosition(this->build());
@@ -47,45 +49,43 @@ namespace sf::ui {
       this->__Base.setPoint(1, {this->getSize().x, 0});
       this->__Base.setPoint(3, {0, this->getSize().y});
     } else if(this->getMaxRadius() != 0) {
-      unsigned ori_radius{this->__Border.__Radius};
-                          this->__Border.__Radius = std::fmin(this->__Border.__Radius, this->getMaxRadius());
       this->__Base.setPointCount(this->__Border.__PointCount);
       float angleprec{static_cast<float>(M_PI * 2 / this->__Border.__PointCount)};
       for(size_t i{0}; i < this->__Base.getPointCount(); ++i) {
-        if(i <= this->__Base.getPointCount() * 0.25f) {
+        if(i < this->__Base.getPointCount() * 0.25f) {
           if(!this->__Border.__Rounded_RT)
             this->__Base.setPoint(i, Vector2f{this->getRoot().x, this->getPosition().y} - this->getPosition());
           else {
-            float angle{static_cast<float>(i * angleprec - M_PI/2)};
-            this->__Base.setPoint(i, Vector2f{this->getSize().x - this->__Border.__Radius * 2.0f + this->__Border.__Radius * (std::cos(angle) + 1.0f),
-                                              this->__Border.__Radius * (std::sin(angle) + 1.0f)});
+            float angle{static_cast<float>(i * angleprec - M_PI_D2)};
+            this->__Base.setPoint(i, Vector2f{this->getSize().x - this->getRealRadius() * 2.0f + this->getRealRadius() * (std::cos(angle) + 1.0f),
+                                              this->getRealRadius() * (std::sin(angle) + 1.0f)});
           }
-        } else if(i <= this->__Base.getPointCount()*0.50) {
+        } else if(i <= this->__Base.getPointCount() * 0.50f) {
           if(!this->__Border.__Rounded_RB)
             this->__Base.setPoint(i, this->getRoot() - this->getPosition());
           else {
-            float angle{static_cast<float>(i * angleprec - M_PI/2)};
-            this->__Base.setPoint(i, Vector2f{this->getSize().x - this->__Border.__Radius * 2 + this->__Border.__Radius * (std::cos(angle) + 1.0f),
-                                              this->getSize().y - this->__Border.__Radius * 2 + this->__Border.__Radius * (std::sin(angle) + 1.0f)});
+            float angle{static_cast<float>(i * angleprec - M_PI_D2)};
+            this->__Base.setPoint(i, Vector2f{this->getSize().x - this->getRealRadius() * 2 + this->getRealRadius() * (std::cos(angle) + 1.0f),
+                                              this->getSize().y - this->getRealRadius() * 2 + this->getRealRadius() * (std::sin(angle) + 1.0f)});
           }
-        } else if(i <= this->__Base.getPointCount()*0.75) {
+        } else if(i < this->__Base.getPointCount() * 0.75f) {
           if(!this->__Border.__Rounded_LB)
             this->__Base.setPoint(i, Vector2f(this->getPosition().x, this->getRoot().y) - this->getPosition());
           else {
-            float angle{static_cast<float>(i * angleprec - M_PI/2)};
-            this->__Base.setPoint(i,                   Vector2f{this->__Border.__Radius * (std::cos(angle) + 1.0f),
-              this->getSize().y - this->__Border.__Radius * 2 + this->__Border.__Radius * (std::sin(angle) + 1.0f)});
+            float angle{static_cast<float>(i * angleprec - M_PI_D2)};
+            this->__Base.setPoint(i,                 Vector2f{this->getRealRadius() * (std::cos(angle) + 1.0f),
+              this->getSize().y - this->getRealRadius() * 2 + this->getRealRadius() * (std::sin(angle) + 1.0f)});
           }
-        } else if(i <= this->__Base.getPointCount()*1.00) {
+        } else if(i <= this->__Base.getPointCount() * 1.00f) {
           if(!this->__Border.__Rounded_LT)
             this->__Base.setPoint(i, {});
           else {
-            float angle{static_cast<float>(i * angleprec - M_PI/2)};
-            this->__Base.setPoint(i, Vector2f{this->__Border.__Radius * (std::cos(angle) + 1.0f),
-                                              this->__Border.__Radius * (std::sin(angle) + 1.0f)});
+            float angle{static_cast<float>(i * angleprec - M_PI_D2)};
+            this->__Base.setPoint(i, Vector2f{this->getRealRadius() * (std::cos(angle) + 1.0f),
+                                              this->getRealRadius() * (std::sin(angle) + 1.0f)});
           }
         }
-      } this->__Border.__Radius = ori_radius;
+      }
     } if(this->__AlignLock.has_value()) {
          this->align(this->__AlignLock.value());
     } this->__NeedUpdate = false;
@@ -128,7 +128,7 @@ namespace sf::ui {
   }
   inline func Div::getRounded(const Align& corner) const -> bool {
     switch(corner) {
-      case(Align::C):  return this->__Border.__Rounded_LT && this->__Border.__Rounded_LB
+      case(Align::C):  return this->__Border.__Rounded_LT && this->__Border.__Rounded_RT
                            && this->__Border.__Rounded_LB && this->__Border.__Rounded_RB;
       case(Align::L):  return this->__Border.__Rounded_LT && this->__Border.__Rounded_LB;
       case(Align::R):  return this->__Border.__Rounded_RT && this->__Border.__Rounded_RB;
@@ -149,18 +149,18 @@ namespace sf::ui {
     return this->__Border.__PointCount;
   }
   
-  inline func Div::setRadius(unsigned value) const -> void {
+  inline func Div::setRadius(int value) const -> void {
     this->__Border.__Radius = value;
     this->needUpdate();
   }
-  inline func Div::getRadius(void) const -> unsigned {
+  inline func Div::getRadius(void) const -> int {
     return this->__Border.__Radius;
   }
   
   inline func Div::getRealRadius(void) const -> unsigned {
-    return std::fmin(this->__Border.__Radius, this->getMaxRadius());
+    return (this->__Border.__Radius < 0) ? this->getMaxRadius() : std::fmin(this->__Border.__Radius, this->getMaxRadius());
   }
   inline func Div::getMaxRadius(void) const -> unsigned {
-    return static_cast<unsigned>(std::fmin(this->getSize().x, this->getSize().y)/2);
+    return static_cast<unsigned>(std::fmin(this->getSize().x, this->getSize().y)/2.0f);
   }
 }

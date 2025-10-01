@@ -1,16 +1,16 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
-#include "../Div/TextDiv.hpp"
+#include "../Div/TextureDiv.hpp"
 #include "AbstractButton.hpp"
 
 namespace sf::ui {
-  typedef class PushButton : public AbsBtn, public TextDiv, public Touchable {
-  public:    PushButton(const Vector2f& size, const Object& builder, unsigned radius = 0,
+  typedef class PushButton : public AbsBtn, public TexDiv, public Touchable {
+  public:    PushButton(const Vector2f& size, const Object& builder, int radius = 0,
                         const Vector2f& buildPosition = {},
                         const Vector2b& buildAddSize  = {});
-             PushButton(const Frame& frame = {}, unsigned radius = 0);
+             PushButton(const Frame& frame = {}, int radius = 0);
     virtual ~PushButton(void) = default;
     
   protected:
@@ -22,6 +22,8 @@ namespace sf::ui {
   _func_public:
     virtual func pollEvent_if(const Event& event, const BtnEvent& target = BtnEvent::Release) -> bool;
     virtual func pollEvent   (const Event&) -> BtnEvent;
+    
+    virtual func setFillColor(const Color&) const -> void override;
     
   }PushBtn;
 }

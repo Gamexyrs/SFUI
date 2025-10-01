@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   Buildable::Buildable(Object* self) : __Self(self) {
@@ -6,18 +6,6 @@ namespace sf::ui {
   }
   Buildable::~Buildable(void) {
     this->delBuilder();
-  }
-  
-  inline func Buildable::__PercentToFloat(const Percent& percent) -> float {
-    std::string tmp = percent.toAnsiString();
-    if(tmp.back() == '%')
-       tmp.pop_back();
-    try {
-      return(std::stof(tmp) / 100);
-    } catch(...) {
-      err() << "SFUI_CATCH: Input an unresolvable percent string\n";
-      return 0.0f;
-    }
   }
   
   inline func Buildable::setBuildPosition_Global(const Vector2f& value) const -> void {
@@ -28,7 +16,7 @@ namespace sf::ui {
     this->__BuildPosition = value;
     this->needUpdate();
   }
-  inline func Buildable::getBuildPosition(void) const _____ -> const Vector2f& {
+  inline func Buildable::getBuildPosition(void) const -> const Vector2f& {
     return this->__BuildPosition;
   }
   
@@ -36,7 +24,7 @@ namespace sf::ui {
     this->__BuildAddSize = value;
     this->needUpdate();
   }
-  inline func Buildable::getBuildAddSize(void) const _____ -> const Vector2b& {
+  inline func Buildable::getBuildAddSize(void) const -> const Vector2b& {
     return this->__BuildAddSize;
   }
   
@@ -62,17 +50,17 @@ namespace sf::ui {
   inline func Buildable::setPerSize  (const Percent& percent) -> void {
     this->__Self->setSize(((this->__Builder == nullptr)
     ? _RendererSize : this->__Builder->getSize())
-    * this->__PercentToFloat(percent));
+    * __PercentToFloat(percent));
   }
   inline func Buildable::setPerWidth (const Percent& percent) -> void {
     this->__Self->setSize({((this->__Builder == nullptr)
     ? _RendererSize.x : this->__Builder->getSize().x)
-    * this->__PercentToFloat(percent), this->__Self->getSize().y});
+    * __PercentToFloat(percent), this->__Self->getSize().y});
   }
   inline func Buildable::setPerHeight(const Percent& percent) -> void {
     this->__Self->setSize({this->__Self->getSize().x, ((this->__Builder == nullptr)
     ? _RendererSize.y : this->__Builder->getSize().y)
-    * this->__PercentToFloat(percent)});
+    * __PercentToFloat(percent)});
   }
   
   inline func Buildable::needUpdate(void) const -> void {

@@ -1,8 +1,8 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
   template<typename type>
-  inline func operator+ (const Rect<type>& left, const Rect<type>& right) -> Rect<type> {
+  inline func operator+ (Rect<type> left, Rect<type> right) -> Rect<type> {
     return{{left.left   + right.left,
             left.top    + right.top},
            {left.width  + right.width,
@@ -10,19 +10,35 @@ namespace sf::ui {
   }
   
   template<typename type ,typename type_2>
-  inline func operator+ (const Vector2<type>& left, const type_2& right) -> Vector2<type> {
+  inline func operator+ (Vector2<type> left, type_2 right) -> Vector2<type> {
     return{left.x + static_cast<type>(right), left.y + static_cast<type>(right)};
   }
   template<typename type, typename type_2>
-  inline func operator+ (const Vector2<type>& left, const Vector2<type_2>& right) -> Vector2<type> {
+  inline func operator+ (Vector2<type> left, Vector2<type_2> right) -> Vector2<type> {
     return{left.x + static_cast<type>(right.x), left.y + static_cast<type>(right.y)};
   }
   template<typename type ,typename type_2>
-  inline func operator* (const Vector2<type>& left, const type_2& right) -> Vector2<type> {
+  inline func operator- (Vector2<type> left, type_2 right) -> Vector2<type> {
+    return{left.x - static_cast<type>(right), left.y - static_cast<type>(right)};
+  }
+  template<typename type, typename type_2>
+  inline func operator- (Vector2<type> left, Vector2<type_2> right) -> Vector2<type> {
+    return{left.x - static_cast<type>(right.x), left.y - static_cast<type>(right.y)};
+  }
+  template<typename type ,typename type_2>
+  inline func operator* (Vector2<type> left, type_2 right) -> Vector2<type> {
     return{left.x * static_cast<type>(right),   left.y * static_cast<type>(right)};
   }
   template<typename type, typename type_2>
-  inline func operator* (const Vector2<type>& left, const Vector2<type_2>& right) -> Vector2<type> {
+  inline func operator* (Vector2<type> left, Vector2<type_2> right) -> Vector2<type> {
     return{left.x * static_cast<type>(right.x), left.y * static_cast<type>(right.y)};
+  }
+  template<typename type ,typename type_2>
+  inline func operator/ (Vector2<type> left, type_2 right) -> Vector2<type> {
+    return{left.x / static_cast<type>(right),   left.y / static_cast<type>(right)};
+  }
+  template<typename type, typename type_2>
+  inline func operator/ (Vector2<type> left, Vector2<type_2> right) -> Vector2<type> {
+    return{left.x / static_cast<type>(right.x), left.y / static_cast<type>(right.y)};
   }
 }

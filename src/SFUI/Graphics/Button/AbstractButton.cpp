@@ -1,7 +1,7 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 namespace sf::ui {
-  inline func AbsBtn::setStateColor(const Color& value, const std::optional<BtnState>& state) -> void {
+  inline func AbsBtn::setStateColor(const Color& value, const std::optional<BtnState>& state) const -> void {
     this->__Self->needUpdate();
     if(state.has_value()) switch(state.value()) {
       case(BtnState::None):    this->__StateColor.__None    = value; return;

@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
@@ -20,8 +20,6 @@ namespace sf::ui {
                 Object*  __Builder{nullptr};
     
     mutable bool __NeedUpdate{true};
-    
-    func __PercentToFloat(const Percent&) -> float;
     
   _data_public:
     func setBuildPosition_Global(const Vector2f&) const -> void;
@@ -51,6 +49,6 @@ namespace sf::ui {
 }
 
 #ifdef __SFUI_OBJECT__
-  #include "../../../src/SFUI/Graphics/Buildable.cpp"
+  #include "../../../../src/SFUI/Graphics/Interface/Buildable.cpp"
 #endif
 

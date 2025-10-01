@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
@@ -29,6 +29,8 @@ namespace sf::ui {
            __ALLOW_DELETE__; // '-'
       
     }__SETTINGS__{true, true, false, false, true, true, true, true};
+    
+    static inline std::vector<std::function<bool(const Event&)>> __supportKeyboard{};
     
     // if str includes corresponding identifiers means those settings turn to true
     static func setSettings(const String& keystr = "NLS.+-") -> void;
@@ -64,10 +66,14 @@ namespace sf::ui {
     static inline Vector2f __TouchMove{};
 #endif
     static inline unsigned __FingerMaxNum{11};
+    static inline Vector2f __TouchPosDeviat{};
   
   _data_public:
     static func setFingerMaxNum(unsigned) -> void;
     static func getFingerMaxNum(void) -> unsigned;
+
+    static func setTouchPosDeviat(const Vector2f&) -> void;
+    static func getTouchPosDeviat(void) -> const Vector2f&;
 
 #if __PREDEF_ENABLE_TOUCHDATA__
     static func getTouchMove(void) -> Vector2f;
@@ -80,6 +86,7 @@ namespace sf::ui {
 #if __PREDEF_ENABLE_TOUCHDATA__
     static func pollEvent(const Event& event) -> void;
 #endif
+
     static func getPosition(unsigned index = 0, bool global = true) -> Vector2f;
     static func isDownAt(const std::optional<FloatRect>& optRect = std::nullopt) -> unsigned;
     

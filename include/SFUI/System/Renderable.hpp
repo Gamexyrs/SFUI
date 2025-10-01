@@ -1,4 +1,4 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
@@ -27,6 +27,8 @@ namespace sf::ui {
   using Vector2b = Vector2<bool>;
   using Percent  = String;
   
+  func __PercentToFloat(const Percent&) -> float;
+  
   typedef interface class Renderable {
   private:
     static inline RenderWindow* Renderer{nullptr};
@@ -53,8 +55,13 @@ namespace sf::ui {
     static func getViewPosition(void) -> Vector2f;
     static func getViewRect    (void) -> FloatRect;
     
-    static func draw     (const std::initializer_list<Drawable*>&) -> void;
-    static func draw_fast(const std::initializer_list<Drawable*>&) -> void;
+    static func capture(void) -> Image;
+    
+    template<typename T, typename... Args>
+    static func draw(T&&, Args&&...) -> void;
+    
+    template<typename T, typename... Args>
+    static func destroy(T&&, Args&&...) -> void;
     
   }Renderable;
 }

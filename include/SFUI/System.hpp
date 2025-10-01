@@ -5,10 +5,10 @@
     #error "No such file: SFUI/System/Renderable.hpp"
   #endif
   
-  #if __has_include("./System/RenderUnity.hpp")
-    #include "./System/RenderUnity.hpp"
+  #if __has_include("./System/RenderVector.hpp")
+    #include "./System/RenderVector.hpp"
   #else
-    #error "No such file: SFUI/System/RenderUnity.hpp"
+    #error "No such file: SFUI/System/RenderVector.hpp"
   #endif
   
   #if __has_include("./System/Format.hpp")
@@ -63,5 +63,11 @@
     #error "No such file: SFUI/System/Frame.hpp"
   #endif
   
-  #define __SFUI_INCLUDE_SYSTEM__ 9
+  #if __has_include("./System/Timer.hpp")
+    #include "./System/Timer.hpp"
+  #else
+    #error "No such file: SFUI/System/Timer.hpp"
+  #endif
+  
+  #define __SFUI_INCLUDE_SYSTEM__ 10
 #endif

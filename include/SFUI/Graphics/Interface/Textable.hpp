@@ -1,8 +1,8 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
-#include "Object.hpp"
+#include "../Object.hpp"
 
 #define __V2CJK__ 1.0f, 1.25f
 
@@ -14,7 +14,8 @@ namespace sf::ui {
   protected: Textable(Object* self) : __Self(self) {}
     virtual ~Textable(void) = default;
     
-    mutable Text   __Text{};
+    mutable Text  __Text{};
+    mutable float __RadiusProtect{};
     mutable String __OriginString{};
     
     mutable bool __Enable_AutoLineBreak{false};
@@ -26,26 +27,29 @@ namespace sf::ui {
     func __lineBreak(void) const -> String;
     
   _data_public:
-    func setText(const String& str, const Font& font, unsigned size = 30) -> void;
+    func setText(const String&, const Font&, unsigned size = 30) -> void;
     func getText(bool update = true) const -> Text&;
   
-    func setTextDeviat(const Vector2f&) _____ -> void;
+    func setTextDeviat(const Vector2f&) -> void;
     func getTextDeviat(void) const -> const Vector2f&;
 
-    func setTextAdapt(const Vector2f&) _____ -> void;
+    func setTextAdapt(const Vector2f&) -> void;
     func getTextAdapt(void) const -> const Vector2f&;
 
-    func setTextAlign(const Align&)  -> Vector2f&;
+    func setTextAlign(const Align&) -> Vector2f&;
     func getTextAlign(void) const -> const Align&;
     
-    func setAutoLineBreakEnable(bool) _____ -> void;
+    func setAutoLineBreakEnable(bool) -> void;
     func getAutoLineBreakEnable(void) const -> bool;
 
   _func_public:
-    func setFont(const Font&) _____ -> void;
+    func setFont(const Font&) -> void;
     func getFont(void) const -> const Font*;
     
-    func setTextColor(const Color&) _____ -> void;
+    func setCharSize(size_t) -> void;
+    func getCharSize(void) const -> size_t;
+
+    func setTextColor(const Color&) -> void;
     func getTextColor(void) const -> const Color&;
 
     func setTextString(const String&) const -> void;
@@ -57,9 +61,9 @@ namespace sf::ui {
     //-- Get/Guess the next character position
     func getNextPosition(void) const -> Vector2f;
     
-  }Textable;
+  } Textable;
 }
 
 #undef __V2CJK__
 
-#include "../../../src/SFUI/Graphics/Textable.cpp"
+#include "../../../../src/SFUI/Graphics/Interface/Textable.cpp"

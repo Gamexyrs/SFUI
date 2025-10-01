@@ -1,16 +1,16 @@
-//>>> 2021~2022 Gamexyrs© & SFML®
+//>>> 2021~2025 Gamexyrs© & SFML®
 
 #pragma once
 
-#include "../Div/TextDiv.hpp"
+#include "../Div/TextureDiv.hpp"
 #include "AbstractButton.hpp"
 
 namespace sf::ui {
-  typedef class CheckButton : public AbsBtn, public TextDiv, public Touchable {
-  public:    CheckButton(const Vector2f& size, const Object& builder, unsigned radius = 0,
+  typedef class CheckButton : public AbsBtn, public TexDiv, public Touchable {
+  public:    CheckButton(const Vector2f& size, const Object& builder, int radius = 0,
                          const Vector2f& buildPosition = {},
                          const Vector2b& buildAddSize  = {});
-             CheckButton(const Frame& frame = {}, unsigned radius = 0);
+             CheckButton(const Frame& frame = {}, int radius = 0);
     virtual ~CheckButton(void) = default;
     
   protected:
@@ -26,6 +26,8 @@ namespace sf::ui {
   _func_public:
     virtual func pollEvent(const Event&) -> bool;
     
+    virtual func setFillColor(const Color&) const -> void override;
+        
     virtual func setChecked(bool) -> void;
     virtual func getChecked(void) const -> bool;
 
