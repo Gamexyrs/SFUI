@@ -4,6 +4,11 @@ a Simple and Fast User Interface as a SFML2.5.1 extension running on Android dev
 
 手机上可以用的轻量化的图像界面库，基于魔改版 SFML2.5.1。
 
+## 特点
+  1. 包含常见控件如按钮、进度条、输入框等。
+  2. 包含常用功能如滑动、自动换行、辅助对齐等。
+  3. 包含虚拟输入如摇杆、键盘等。
+
 ## 使用方法（C4Droid）
   1. 首先下载 Release 中的 SFUI源码 和 SFML_Support，解压到你的工程目录。
   2. 在编译选项中添加（请确保 -std≥c++17）：
